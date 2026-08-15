@@ -1,0 +1,228 @@
+{% comment %}
+  Header — ANIA Navbar ("Navigation Bar 3" in Figma).
+  Rebuild of src astro/components/Navbar.astro (pixel-by-pixel).
+{% endcomment %}
+{%- liquid
+  assign announcement_text = section.settings.announcement_text
+  assign announcement_label = section.settings.announcement_link_label
+  assign announcement_href = section.settings.announcement_link | default: routes.root_url
+-%}
+
+<header data-navbar class="sticky top-0 z-50 w-full bg-[#FDF6F1]">
+  {% comment %} Announcement bar {% endcomment %}
+  <div class="flex h-[35px] items-center justify-center gap-3 bg-[#BBCCBF] px-4">
+    <p class="whitespace-nowrap text-sm text-[#FAFAF2]">{{ announcement_text }}</p>
+    <a
+      href="{{ announcement_href }}#occasions"
+      class="flex h-6 shrink-0 items-center gap-1.5 rounded-full bg-[#FDF6F1] pl-3 pr-2 text-sm font-semibold leading-none text-[#BBCCBF] transition-opacity duration-200 hover:opacity-85"
+    >
+      {{ announcement_label }}
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+        <path d="M3 1l4 4-4 4" stroke="#BBCCBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </div>
+
+  <nav
+    class="mx-auto grid h-[84px] w-full max-w-[1440px] grid-cols-[auto_1fr_auto] items-center gap-4 px-4 sm:px-6 lg:h-[109px] lg:grid-cols-[1fr_auto_1fr] lg:px-[36px]"
+    aria-label="Navigasi utama"
+  >
+    {% comment %} Kolom kiri: hamburger (mobile) + menu kiri (desktop) {% endcomment %}
+    <div class="flex items-center justify-start gap-6">
+      <button
+        data-nav-toggle
+        type="button"
+        class="relative flex h-9 w-9 cursor-pointer items-center justify-center border-0 bg-transparent p-0 lg:hidden"
+        aria-label="Buka menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        <span class="absolute h-0.5 w-6 -translate-y-[7px] rounded-full bg-[#3D3B2F] transition-all duration-300 ease-out data-[open=true]:translate-y-0 data-[open=true]:rotate-45"></span>
+        <span class="absolute h-0.5 w-6 rounded-full bg-[#3D3B2F] transition-all duration-300 ease-out data-[open=true]:opacity-0"></span>
+        <span class="absolute h-0.5 w-6 translate-y-[7px] rounded-full bg-[#3D3B2F] transition-all duration-300 ease-out data-[open=true]:translate-y-0 data-[open=true]:-rotate-45"></span>
+      </button>
+
+      {% if section.settings.menu_left.links.size > 0 %}
+        <ul class="hidden items-center gap-[42px] lg:flex">
+          {% for link in section.settings.menu_left.links %}
+            <li>
+              <a href="{{ link.url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <ul class="hidden items-center gap-[42px] lg:flex">
+          <li>
+            <a href="{{ routes.all_products_collection_url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Shop</a>
+          </li>
+          <li>
+            <a href="{{ routes.root_url }}#occasions" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">For Occasions</a>
+          </li>
+        </ul>
+      {% endif %}
+    </div>
+
+    {% comment %} Logo tengah {% endcomment %}
+    <a href="{{ routes.root_url }}" class="flex items-center justify-center" aria-label="ANIA — Beranda">
+      {% if section.settings.logo != blank %}
+        {{ section.settings.logo | image_url: width: 220 | image_tag: alt: 'ANIA', class: 'h-[52px] w-auto object-contain lg:h-[71px]', loading: 'eager' }}
+      {% else %}
+        <img src="{{ 'logo-aina.svg' | asset_url }}" alt="ANIA" width="100" height="71" class="h-[52px] w-auto object-contain lg:h-[71px]" loading="eager">
+      {% endif %}
+    </a>
+
+    {% comment %} Kolom kanan: menu kanan + ikon {% endcomment %}
+    <div class="flex items-center justify-end gap-4 sm:gap-6">
+      {% if section.settings.menu_right.links.size > 0 %}
+        <ul class="hidden items-center gap-[42px] lg:flex">
+          {% for link in section.settings.menu_right.links %}
+            <li>
+              <a href="{{ link.url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <ul class="hidden items-center gap-[42px] lg:flex">
+          <li>
+            <a href="{{ pages.about.url | default: '/pages/about' }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">About Us</a>
+          </li>
+          <li>
+            <a href="{{ routes.root_url }}#contact" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Contact</a>
+          </li>
+        </ul>
+      {% endif %}
+
+      <a
+        href="{{ routes.search_url }}"
+        aria-label="Cari"
+        class="hidden h-9 w-9 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70 sm:flex"
+      >
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <circle cx="7.75" cy="7.75" r="5.5" stroke="currentColor" stroke-width="1.5" />
+          <line x1="11.8" y1="11.8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </a>
+
+      <div class="hidden sm:block">
+        {% render 'language-toggle', lang: 'en' %}
+      </div>
+
+      {% render 'cart-button', tone: 'dark' %}
+    </div>
+  </nav>
+
+  {% comment %} Panel menu mobile {% endcomment %}
+  <div
+    id="mobile-menu"
+    data-nav-menu
+    data-open="false"
+    class="max-h-0 overflow-hidden border-t border-[#3D3B2F]/10 bg-[#FDF6F1]/95 opacity-0 backdrop-blur transition-[max-height,opacity] duration-300 ease-out data-[open=true]:max-h-[560px] data-[open=true]:opacity-100 lg:hidden"
+  >
+    <ul class="px-6 py-2">
+      {% if section.settings.menu_left.links.size > 0 %}
+        {% for link in section.settings.menu_left.links %}
+          <li>
+            <a href="{{ link.url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li>
+          <a href="{{ routes.all_products_collection_url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Shop</a>
+        </li>
+        <li>
+          <a href="{{ routes.root_url }}#occasions" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">For Occasions</a>
+        </li>
+      {% endif %}
+
+      {% if section.settings.menu_right.links.size > 0 %}
+        {% for link in section.settings.menu_right.links %}
+          <li>
+            <a href="{{ link.url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li>
+          <a href="{{ pages.about.url | default: '/pages/about' }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">About Us</a>
+        </li>
+        <li>
+          <a href="{{ routes.root_url }}#contact" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Contact</a>
+        </li>
+      {% endif %}
+      <li class="py-4 sm:hidden">
+        {% render 'language-toggle', lang: 'en' %}
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  (() => {
+    const navbar = document.querySelector('[data-navbar]');
+    if (!navbar) return;
+    const toggle = navbar.querySelector('[data-nav-toggle]');
+    const menu = navbar.querySelector('[data-nav-menu]');
+
+    const setOpen = (open) => {
+      if (!toggle || !menu) return;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+      menu.dataset.open = String(open);
+    };
+
+    toggle?.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+
+    document.addEventListener('click', (e) => {
+      if (!navbar.contains(e.target)) setOpen(false);
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header (ANIA Navbar)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Mother's Day Graduation Sale"
+    },
+    {
+      "type": "text",
+      "id": "announcement_link_label",
+      "label": "Announcement link label",
+      "default": "25% Off! Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement link"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_left",
+      "label": "Left menu",
+      "info": "Falls back to SHOP / FOR OCCASIONS when empty."
+    },
+    {
+      "type": "link_list",
+      "id": "menu_right",
+      "label": "Right menu",
+      "info": "Falls back to ABOUT US / CONTACT when empty."
+    }
+  ]
+}
+{% endschema %}
+

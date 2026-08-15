@@ -1,0 +1,71 @@
+{% comment %}
+  ProductCard — ANIA product card (Figma "Most Popular").
+  Rebuild of src astro/components/sections/ProductCard.astro (pixel-by-pixel).
+  Params: product (Product object), alt (optional)
+{% endcomment %}
+{%- liquid
+  assign card_badge = ''
+  if product.compare_at_price > product.price
+    assign card_badge = 'Sale'
+  elsif product.available == false
+    assign card_badge = 'Sold Out'
+  endif
+  assign card_alt = alt | default: product.title
+-%}
+
+<div class="flex flex-col gap-3">
+  <a
+    href="{{ product.url }}"
+    class="group relative block overflow-hidden rounded-lg bg-white"
+    aria-label="{{ card_alt | escape }}"
+  >
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 640 | image_tag: class: 'aspect-[320/406] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]', loading: 'lazy', alt: card_alt | escape }}
+    {% else %}
+      <span class="aspect-[320/406] block w-full bg-[#EAE8E8]"></span>
+    {% endif %}
+    {% if card_badge != blank %}
+      <span class="absolute left-4 top-4 rounded-full border border-[#6D6D6D] bg-white px-4 py-1 text-xs font-normal leading-5 text-[#6D6D6D]">
+        {{ card_badge }}
+      </span>
+    {% endif %}
+  </a>
+
+  <div class="flex flex-col items-center gap-3">
+    <a
+      href="{{ product.url }}"
+      class="rounded-full border border-[#EAE8E8] px-4 py-1 text-xs font-normal text-black transition-colors duration-200 hover:border-[#899B7A] hover:text-[#4C5F45]"
+    >
+      {{ product.type | default: 'Flowers' }}
+    </a>
+
+    <a href="{{ product.url }}" class="flex flex-col items-center gap-1 transition-opacity duration-200 hover:opacity-80">
+      <h3 class="text-center font-['Crimson_Text'] text-xl font-normal text-[#1E2934]">{{ product.title }}</h3>
+      <p class="text-xs font-normal text-[#1E2934]">
+        {% if product.compare_at_price > product.price %}
+          <span class="mr-1 text-[#B5B1AF] line-through">{{ product.compare_at_price | money }}</span>
+        {% endif %}
+        <span>{{ product.price | money }}</span>
+      </p>
+    </a>
+
+    {% if product.variants.size > 1 %}
+      <div class="mt-1 flex items-start gap-4">
+        {% for variant in product.variants limit: 2 %}
+          <a href="{{ variant.url }}" class="group flex w-[46px] cursor-pointer flex-col items-center gap-1 border-0 bg-transparent p-0">
+            <span class="relative flex h-[38px] w-[38px] items-center justify-center rounded-full border border-black">
+              {% if variant.featured_image %}
+                {{ variant.featured_image | image_url: width: 64 | image_tag: class: 'h-8 w-8 rounded-full object-cover', alt: '' }}
+              {% elsif product.featured_image %}
+                {{ product.featured_image | image_url: width: 64 | image_tag: class: 'h-8 w-8 rounded-full object-cover', alt: '' }}
+              {% endif %}
+            </span>
+            <span class="{% if forloop.first %}text-[10px] font-bold text-[#1E2934]{% else %}text-[10px] font-normal text-[#6D6D6D]{% endif %}">
+              {{ variant.title }}
+            </span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>

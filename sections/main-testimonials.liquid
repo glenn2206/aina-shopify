@@ -1,0 +1,96 @@
+{% comment %}
+  Testimonials — "What Client Say About Us" (bg #FDF6F1).
+  Rebuild of src astro/components/sections/Testimonials.astro (pixel-by-pixel).
+{% endcomment %}
+
+<section class="bg-[#FDF6F1] pb-[70px] pt-[50px] lg:pb-[90px]">
+  <div class="mx-auto w-full max-w-[1440px]">
+    <h2 class="text-center font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">What Client Say About Us</h2>
+
+    <div data-testi-scroll class="mt-10 flex gap-3 overflow-x-auto px-4 pb-4 sm:px-6 lg:px-[70px]" style="scrollbar-width:none">
+      <article class="flex w-[366px] shrink-0 snap-start flex-col justify-between rounded-[6px] border border-[#CCC8A8] bg-[#FDF6F1] p-6">
+        <p class="text-sm font-normal leading-relaxed text-[#3D3B2F]" style="font-family:'Mulish',sans-serif">ANIA Flower Boutique truly helped me express feelings that were difficult to put into words. The flowers were fresh, the arrangements were absolutely beautiful, and the delivery was right on time. Highly recommended for special moments.</p>
+        <div class="mt-6 flex items-center gap-2">
+          <img src="{{ 'avatar-claudia.png' | asset_url }}" alt="Claudia S" width="48" height="48" class="h-12 w-12 shrink-0 rounded-full object-cover" loading="lazy">
+          <div class="ml-1 flex flex-col gap-0.5">
+            <span class="text-sm font-semibold tracking-[-0.6px] text-[#3D3B2F]">Claudia S</span>
+            <span class="text-xs font-normal text-[#3D3B2F]/50">Jakarta Utara</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="flex w-[366px] shrink-0 snap-start flex-col justify-between rounded-[6px] border border-[#CCC8A8] bg-[#FDF6F1] p-6">
+        <p class="text-sm font-normal leading-relaxed text-[#3D3B2F]" style="font-family:'Mulish',sans-serif">I ordered for an anniversary, and the result exceeded my expectations. The design was elegant, looked premium, and my partner absolutely loved it. The ordering process was also easy, and the response was quick.</p>
+        <div class="mt-6 flex items-center gap-2">
+          <img src="{{ 'avatar-daniel.png' | asset_url }}" alt="Daniel K" width="48" height="48" class="h-12 w-12 shrink-0 rounded-full object-cover" loading="lazy">
+          <div class="ml-1 flex flex-col gap-0.5">
+            <span class="text-sm font-semibold tracking-[-0.6px] text-[#3D3B2F]">Daniel K</span>
+            <span class="text-xs font-normal text-[#3D3B2F]/50">Tangerang</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="flex w-[366px] shrink-0 snap-start flex-col justify-between rounded-[6px] border border-[#CCC8A8] bg-[#FDF6F1] p-6">
+        <p class="text-sm font-normal leading-relaxed text-[#3D3B2F]" style="font-family:'Mulish',sans-serif">The service was outstanding. I ordered a standing flower arrangement for a congratulatory message, and the result was very neat and classy. ANIA truly understands how to convey messages through flowers.</p>
+        <div class="mt-6 flex items-center gap-2">
+          <img src="{{ 'avatar-michelle.png' | asset_url }}" alt="Michelle T" width="48" height="48" class="h-12 w-12 shrink-0 rounded-full object-cover" loading="lazy">
+          <div class="ml-1 flex flex-col gap-0.5">
+            <span class="text-sm font-semibold tracking-[-0.6px] text-[#3D3B2F]">Michelle T</span>
+            <span class="text-xs font-normal text-[#3D3B2F]/50">Bekasi</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="flex w-[366px] shrink-0 snap-start flex-col justify-between rounded-[6px] border border-[#CCC8A8] bg-[#FDF6F1] p-6">
+        <p class="text-sm font-normal leading-relaxed text-[#3D3B2F]" style="font-family:'Mulish',sans-serif">ANIA Flower Boutique truly helped me express feelings that were difficult to put into words. The flowers were fresh, the arrangements were absolutely beautiful, and the delivery was right on time. Highly recommended for special moments.</p>
+        <div class="mt-6 flex items-center gap-2">
+          <img src="{{ 'avatar-claudia.png' | asset_url }}" alt="Claudia S" width="48" height="48" class="h-12 w-12 shrink-0 rounded-full object-cover" loading="lazy">
+          <div class="ml-1 flex flex-col gap-0.5">
+            <span class="text-sm font-semibold tracking-[-0.6px] text-[#3D3B2F]">Claudia S</span>
+            <span class="text-xs font-normal text-[#3D3B2F]/50">Jakarta Utara</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="mt-6 flex items-center justify-center gap-4">
+      <button data-testi-prev type="button" aria-label="Testimoni sebelumnya" class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#899B7A] text-[#899B7A] transition-colors duration-200 hover:bg-[#899B7A] hover:text-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button data-testi-next type="button" aria-label="Testimoni berikutnya" class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#899B7A] text-[#899B7A] transition-colors duration-200 hover:bg-[#899B7A] hover:text-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const track = document.querySelector('[data-testi-scroll]');
+    const prev = document.querySelector('[data-testi-prev]');
+    const next = document.querySelector('[data-testi-next]');
+    if (!track) return;
+
+    const step = () => 378;
+    prev?.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next?.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials (ANIA)",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Testimonials (ANIA)",
+      "category": "ANIA"
+    }
+  ]
+}
+{% endschema %}
+

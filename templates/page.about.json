@@ -1,0 +1,18 @@
+/*
+ * ------------------------------------------------------------------
+ * About page template — ANIA "About Us Ver 2 Desktop" rebuild.
+ * Assign this template to the "about" page in Shopify admin
+ * (Online Store → Pages → About → Theme template).
+ * ------------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-about",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

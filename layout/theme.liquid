@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Mulish:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    >
+
+    {% # Load the critical + ANIA design-system CSS (compiled from the Astro src, pixel-identical) %}
+    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'ania.css' | asset_url | stylesheet_tag }}
+
+    {% # Social, title, etc. (includes charset + viewport) %}
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="m-0 bg-[#FAFAF2] text-[#525252]">
+    {% sections 'header-group' %}
+
+    {{ content_for_layout }}
+
+    {% sections 'footer-group' %}
+  </body>
+</html>

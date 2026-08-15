@@ -1,0 +1,76 @@
+{% comment %}
+  Most Popular — "Flowers They'll Never Forget" (bg #FDF6F1).
+  Rebuild of src astro/components/sections/MostPopular.astro (pixel-by-pixel).
+{% endcomment %}
+{%- liquid
+  assign mp_heading = section.settings.heading | default: "Flowers They'll Never Forget"
+  assign mp_subheading = section.settings.subheading | default: 'Our most-loved flower arrangements — beautiful choices that never fail to impress someone special.'
+  assign mp_products = section.settings.collection.products
+  if mp_products.size == 0
+    assign mp_products = collections.all.products
+  endif
+  assign mp_button = section.settings.button_label | default: 'View All Product'
+  assign mp_button_url = section.settings.collection.url | default: routes.all_products_collection_url
+-%}
+
+<section class="bg-[#FDF6F1] py-[50px] lg:py-[70px]">
+  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
+    <h2 class="text-center font-['Crimson_Text'] text-3xl font-normal text-[#3D3B2F] lg:text-[32px]">{{ mp_heading }}</h2>
+    <p class="mx-auto mt-4 max-w-[657px] text-center text-sm font-normal leading-relaxed text-[#525252]">{{ mp_subheading }}</p>
+
+    <div class="mt-12 grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+      {% for product in mp_products limit: 8 %}
+        {% render 'product-card', product: product %}
+      {% endfor %}
+    </div>
+
+    <div class="mt-14 flex justify-center">
+      <a
+        href="{{ mp_button_url }}"
+        class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-[#FDF6F1] transition-colors duration-200 hover:bg-[#7a8c6b]"
+      >
+        {{ mp_button }}
+      </a>
+    </div>
+  </div>
+
+  <div class="mt-14 h-px w-full bg-[#CCC8A8] lg:mt-16"></div>
+</section>
+
+{% schema %}
+{
+  "name": "Most Popular (ANIA)",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Defaults to all products when empty."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Flowers They'll Never Forget"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our most-loved flower arrangements — beautiful choices that never fail to impress someone special."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "View All Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Most Popular (ANIA)",
+      "category": "ANIA"
+    }
+  ]
+}
+{% endschema %}

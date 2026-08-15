@@ -1,0 +1,350 @@
+{% comment %}
+  Main Product — "Product Detail Page Desktop" (Figma).
+  Rebuild of src astro/components/sections/ProductDetails.astro (pixel-by-pixel):
+    - Gallery (prev/next + dot pagination) + Description
+    - Title / price / variant card + Delivery Information + sender fields
+    - Add to Cart (Shopify form) & Check Out Now (WhatsApp)
+    - "You May Also Like" + Care Instructions
+{% endcomment %}
+{%- liquid
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+  assign cities_list = 'Jakarta Pusat|Jakarta Selatan|Jakarta Barat|Jakarta Timur|Jakarta Utara|Tangerang|Bekasi|Depok|Bogor' | split: '|'
+  assign related = product.related_products
+  if related.size == 0
+    assign related = collections.all.products | reject: 'handle', product.handle
+  endif
+-%}
+
+<section class="bg-[#FDF6F1]" data-product-title="{{ product.title }}" data-product-price="{{ product.price }}">
+  <div class="mx-auto w-full max-w-[1440px] px-4 py-8 sm:px-6 lg:px-[70px] lg:py-12">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
+      {% comment %} Kiri: galeri + description {% endcomment %}
+      <div data-gallery>
+        <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-white">
+          {% if product.featured_image %}
+            {{ product.featured_image | image_url: width: 900 | image_tag: data-main-img: '', class: 'h-full w-full object-cover', loading: 'eager', alt: product.title | escape }}
+          {% endif %}
+          {% for media in product.media %}
+            {% if media.media_type == 'image' and media != product.featured_media %}
+              {{ media | image_url: width: 900 | image_tag: data-gallery-img: '', class: 'hidden', alt: product.title | escape }}
+            {% endif %}
+          {% endfor %}
+
+          {% comment %} Panah prev/next {% endcomment %}
+          <button type="button" data-nav="prev" aria-label="Foto sebelumnya" class="absolute left-4 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-[#3D3B2F] shadow-sm outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-[#899B7A]">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="m10 4-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button type="button" data-nav="next" aria-label="Foto berikutnya" class="absolute right-4 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-[#3D3B2F] shadow-sm outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-[#899B7A]">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="m6 4 4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+
+          {% comment %} Dot pagination {% endcomment %}
+          <div class="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5">
+            {% for media in product.media %}
+              <button
+                type="button"
+                data-dot
+                data-index="{{ forloop.index0 }}"
+                aria-label="Lihat foto {{ forloop.index }}"
+                class="h-1.5 rounded-full transition-all duration-200 {% if forloop.first %}is-active w-5 bg-[#3D3B2F]{% else %}w-1.5 bg-white/80{% endif %}"
+              ></button>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% comment %} Description {% endcomment %}
+        <div class="mt-8">
+          <h2 class="font-['Crimson_Text'] text-xl text-[#3D3B2F]">Description</h2>
+          <div class="mt-3 space-y-4 text-sm leading-relaxed text-[#6D6D6D]">
+            {{ product.description }}
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Kanan: title/price + delivery + CTA {% endcomment %}
+      <div class="flex flex-col gap-5">
+        {% comment %} Title & price card {% endcomment %}
+        <div class="rounded-lg border border-[#CCC8A8] bg-white p-6 text-center shadow-[0_1px_3px_rgba(61,59,47,0.06)]">
+          <h1 class="font-['Crimson_Text'] text-2xl text-[#3D3B2F]">{{ product.title }}</h1>
+          <span class="mt-3 inline-block rounded-full border border-[#EAE8E8] px-4 py-1 text-xs text-[#3D3B2F]">{{ product.type | default: 'Flowers' }}</span>
+          <p class="mt-3 font-['Crimson_Text'] text-xl text-[#3D3B2F]" data-product-price-display>
+            {% if on_sale %}<span class="mr-1 text-[#B5B1AF] line-through">{{ product.compare_at_price | money }}</span>{% endif %}
+            <span data-price-value>{{ product.price | money }}</span>
+          </p>
+          {% for option in product.options_with_values %}
+            {% if option.name == 'Size' %}
+              <p class="mt-1 text-[11px] uppercase tracking-[1.5px] text-[#6D6D6D]">Size: {{ option.selected_value }}</p>
+            {% endif %}
+          {% endfor %}
+
+          {% comment %} Varian material / option pills {% endcomment %}
+          {% for option in product.options_with_values %}
+            {% if option.name == 'Size' %}{% continue %}{% endif %}
+            <div class="mt-4 flex items-start justify-center gap-5">
+              {% for value in option.values %}
+                <label class="group flex cursor-pointer flex-col items-center gap-1.5">
+                  <input
+                    type="radio"
+                    name="option-{{ option.name | handle }}"
+                    value="{{ value | escape }}"
+                    data-option-input
+                    data-option-name="{{ option.name | escape }}"
+                    class="peer sr-only"
+                    {% if option.selected_value == value %}checked{% endif %}
+                  >
+                  <span class="flex h-10 w-10 items-center justify-center rounded-full border border-transparent p-0.5 transition-colors duration-150 peer-checked:border-[#3D3B2F] peer-focus-visible:ring-2 peer-focus-visible:ring-[#899B7A] peer-focus-visible:ring-offset-2">
+                    <span class="flex h-full w-full items-center justify-center rounded-full bg-[#EAE8E8] text-[11px] font-bold text-[#3D3B2F]">{{ value }}</span>
+                  </span>
+                  <span class="text-[11px] font-normal text-[#6D6D6D] transition-colors duration-150 peer-checked:font-semibold peer-checked:text-[#3D3B2F]">{{ value }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+
+
+        {% comment %} Delivery information {% endcomment %}
+        <div class="rounded-lg border border-[#CCC8A8] bg-white p-5 shadow-[0_1px_3px_rgba(61,59,47,0.06)] sm:p-6">
+          <h2 class="font-['Crimson_Text'] text-lg text-[#3D3B2F]">Delivery Information</h2>
+
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <button type="button" data-delivery-tab data-tab="delivery" class="is-active flex items-center justify-center gap-2 rounded-lg border border-[#3D3B2F] py-2.5 text-xs font-semibold uppercase tracking-[0.5px]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7.5 12 3l9 4.5M3 7.5v9L12 21m-9-4.5L12 21m0-13.5 9 4.5M12 7.5v13.5m9-9v9L12 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              Delivery
+            </button>
+            <button type="button" data-delivery-tab data-tab="pickup" class="flex items-center justify-center gap-2 rounded-lg border border-[#CCC8A8] py-2.5 text-xs font-semibold uppercase tracking-[0.5px] text-[#6D6D6D] transition-colors duration-150 hover:border-[#3D3B2F] hover:text-[#3D3B2F]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 21V6l8-3 8 3v15M4 21h16M9 21v-5h6v5M9 9h1m4 0h1M9 13h1m4 0h1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              Pickup
+            </button>
+          </div>
+
+          <div data-delivery-panel>
+            <p class="mt-5 text-xs text-[#6D6D6D]">Available Delivery City:</p>
+            <div class="relative mt-2">
+              <select class="w-full appearance-none rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 pr-9 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 focus:border-[#3D3B2F]">
+                <option>Select a city</option>
+                {% for city in cities_list %}<option>{{ city }}</option>{% endfor %}
+              </select>
+              <svg class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="m2.5 4.5 3.5 3.5 3.5-3.5" stroke="#3D3B2F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+
+            <p class="mt-4 text-xs text-[#6D6D6D]">Detail Delivery:</p>
+            <div class="mt-2 grid grid-cols-2 gap-4 rounded-lg border border-[#EAE8E8] bg-[#FAFAF2] p-4">
+              <div>
+                <p class="text-[11px] text-[#6D6D6D]">Receive on:</p>
+                <p class="mt-1 text-sm font-semibold text-[#3D3B2F]">05/29/2026</p>
+              </div>
+              <div>
+                <p class="text-[11px] text-[#6D6D6D]">Send to:</p>
+                <p class="mt-1 truncate text-sm font-semibold text-[#3D3B2F]">Prosperity Tower, SCBD, Jakarta...</p>
+              </div>
+            </div>
+            <p class="mt-3 text-xs italic leading-relaxed text-[#6D6D6D]">*Note: If you order D-1 after 3 PM, your order would be processed on the next day after 2 PM.</p>
+          </div>
+
+          {% comment %} Sender fields {% endcomment %}
+          <div class="mt-5 space-y-3 border-t border-[#EAE8E8] pt-5">
+            <div>
+              <label for="sender-name" class="text-xs text-[#6D6D6D]">Sender Name:</label>
+              <input id="sender-name" type="text" placeholder="Name" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
+            </div>
+            <div>
+              <label for="sender-wa" class="text-xs text-[#6D6D6D]">Sender WhatsApp:</label>
+              <input id="sender-wa" type="text" placeholder="(+62)" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
+            </div>
+            <div>
+              <label for="sender-email" class="text-xs text-[#6D6D6D]">Sender Email:</label>
+              <input id="sender-email" type="email" placeholder="Email" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
+            </div>
+          </div>
+        </div>
+
+
+        {% comment %} CTA {% endcomment %}
+        <div class="flex flex-col gap-3">
+          {% form 'product', product, class: 'flex flex-col gap-3' %}
+            <select name="id" data-variant-select class="hidden">
+              {% for variant in product.variants %}
+                <option
+                  value="{{ variant.id }}"
+                  {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                  data-option1="{{ variant.option1 | escape }}"
+                  data-option2="{{ variant.option2 | escape }}"
+                  data-option3="{{ variant.option3 | escape }}"
+                  data-price="{{ variant.price }}"
+                >
+                  {{ variant.title }} - {{ variant.price | money }}
+                </option>
+              {% endfor %}
+            </select>
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" data-add-to-cart class="flex h-12 w-full items-center justify-center rounded-lg border border-[#3D3B2F] bg-white text-xs font-semibold uppercase tracking-[1px] text-[#3D3B2F] outline-none transition-colors duration-200 hover:bg-[#FDF6F1] focus-visible:ring-2 focus-visible:ring-[#899B7A] focus-visible:ring-offset-2">Add to Cart</button>
+          {% endform %}
+          <button type="button" data-checkout class="flex h-12 w-full items-center justify-center rounded-lg bg-[#BBCCBF] text-xs font-semibold uppercase tracking-[1px] text-white outline-none transition-colors duration-200 hover:bg-[#A8BCAE] focus-visible:ring-2 focus-visible:ring-[#3D3B2F] focus-visible:ring-offset-2">Check Out Now · {{ product.price | money }}</button>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} You may also like {% endcomment %}
+    <section class="mt-20 lg:mt-28">
+      <h2 class="text-center font-['Crimson_Text'] text-3xl text-[#3D3B2F]">You May Also Like</h2>
+      <div class="mt-10 grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+        {% for rp in related limit: 4 %}
+          {% render 'product-card', product: rp %}
+        {% endfor %}
+      </div>
+      <div class="mt-10 flex justify-center">
+        <a href="{{ routes.all_products_collection_url }}" class="flex h-10 items-center justify-center rounded-full bg-[#BBCCBF] px-8 text-xs font-semibold uppercase tracking-[1px] text-white outline-none transition-colors duration-200 hover:bg-[#A8BCAE] focus-visible:ring-2 focus-visible:ring-[#3D3B2F] focus-visible:ring-offset-2">View All Product</a>
+      </div>
+    </section>
+
+
+    {% comment %} Care instructions {% endcomment %}
+    <section class="mt-20 pb-8 lg:mt-28">
+      <h2 class="text-center font-['Crimson_Text'] text-3xl text-[#3D3B2F]">Care Instructions</h2>
+      <div class="mt-10 grid grid-cols-1 border-l border-t border-[#CCC8A8] sm:grid-cols-2 lg:grid-cols-3">
+        <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <p class="text-sm font-semibold text-[#3D3B2F]">Keep away from heat and direct sunlight</p>
+          <p class="text-xs leading-relaxed text-[#6D6D6D]">Place your flowers in a cool spot away from windows, heating vents, or appliances. Direct sunlight and heat will cause petals to wilt and dry out faster.</p>
+        </div>
+        <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M12 3s6 7.2 6 11a6 6 0 0 1-12 0c0-3.8 6-11 6-11Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <p class="text-sm font-semibold text-[#3D3B2F]">Occasionally mist your flower</p>
+          <p class="text-xs leading-relaxed text-[#6D6D6D]">Lightly spray a fine mist of water on the petals and leaves every 1–2 days. This keeps the blooms hydrated and adds humidity, especially in air-conditioned rooms.</p>
+        </div>
+        <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M12 3c3.5 4.6 6 7.4 6 10.5A6 6 0 0 1 6 13.5C6 10.4 8.5 7.6 12 3Zm0 5.5c1.8 2.4 3 3.9 3 5.5a3 3 0 0 1-6 0c0-1.6 1.2-3.1 3-5.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <p class="text-sm font-semibold text-[#3D3B2F]">Fill up and change water daily</p>
+          <p class="text-xs leading-relaxed text-[#6D6D6D]">Refresh the vase water every day to prevent bacterial buildup that blocks stems. Top it up to ensure stems are always submerged at least 5–7 cm deep.</p>
+        </div>
+        <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M4 9.5h16V15a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V9.5Zm4 0V7a2 2 0 0 1 4 0v2.5m2 0V6a2 2 0 0 1 4 0v3.5M8.5 13.5h.01M12 15h.01M15.5 13.5h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <p class="text-sm font-semibold text-[#3D3B2F]">Ensure floral foam is never completely dry</p>
+          <p class="text-xs leading-relaxed text-[#6D6D6D]">If your arrangement uses floral foam, keep it moist at all times by adding water regularly. Dry foam cannot reabsorb water and will cause stems to dehydrate quickly.</p>
+        </div>
+        <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M6 7.5a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5Zm0 12a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5ZM20 4 8.3 10.1M20 20 8.3 13.9M13.5 12h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <p class="text-sm font-semibold text-[#3D3B2F]">Remove wilted blooms or foliage</p>
+          <p class="text-xs leading-relaxed text-[#6D6D6D]">Promptly trim away any dead or drooping flowers and yellow leaves using clean scissors. Wilted parts drain energy and nutrients from healthy blooms, shortening the arrangement's life.</p>
+        </div>
+        <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M9 3l-.7 3m7.4-3l.7 3M4 6h16l-1.2 12a2 2 0 0 1-2 1.8H7.2A2 2 0 0 1 5.2 18L4 6Zm3.5 6.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm7 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <p class="text-sm font-semibold text-[#3D3B2F]">Discard water and wash vase every second day</p>
+          <p class="text-xs leading-relaxed text-[#6D6D6D]">Every other day, empty the vase completely and clean it with mild soap to remove bacteria and residue. A clean vase keeps the water fresher for longer and extends bloom life.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+
+<script>
+  const mainImg = document.querySelector('[data-main-img]');
+  const hiddenImages = Array.from(document.querySelectorAll('[data-gallery-img]'));
+  const dots = Array.from(document.querySelectorAll('[data-dot]'));
+  let current = 0;
+
+  const showSlide = (index) => {
+    const total = hiddenImages.length + 1;
+    current = (index + total) % total;
+    if (current === 0) {
+      mainImg.src = mainImg.dataset.initialSrc || mainImg.src;
+    }
+    const source = current === 0 ? null : hiddenImages[current - 1];
+    if (source) {
+      mainImg.src = source.src;
+      mainImg.srcset = source.srcset;
+      mainImg.sizes = source.sizes;
+      mainImg.alt = source.alt;
+    }
+    dots.forEach((d, i) => {
+      const active = i === current;
+      d.classList.toggle('is-active', active);
+      d.classList.toggle('w-5', active);
+      d.classList.toggle('bg-[#3D3B2F]', active);
+      d.classList.toggle('w-1.5', !active);
+      d.classList.toggle('bg-white/80', !active);
+    });
+  };
+
+  if (mainImg) mainImg.dataset.initialSrc = mainImg.src;
+
+  document.querySelector('[data-nav="prev"]')?.addEventListener('click', () => showSlide(current - 1));
+  document.querySelector('[data-nav="next"]')?.addEventListener('click', () => showSlide(current + 1));
+  dots.forEach((dot) => dot.addEventListener('click', () => showSlide(Number(dot.dataset.index))));
+
+  // Delivery / pickup tabs
+  const tabs = Array.from(document.querySelectorAll('[data-delivery-tab]'));
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => t.classList.toggle('is-active', t === tab));
+    });
+  });
+
+  // Variant selection -> hidden product form select
+  const select = document.querySelector('[data-variant-select]');
+  const optionInputs = Array.from(document.querySelectorAll('[data-option-input]'));
+  const priceValue = document.querySelector('[data-price-value]');
+
+  const updateVariant = () => {
+    if (!select) return;
+    const values = {};
+    optionInputs.forEach((el) => {
+      if (el.checked) values[el.dataset.optionName] = el.value;
+    });
+    const names = Object.keys(values);
+    const opts = Array.from(select.querySelectorAll('option'));
+    const match = opts.find((o) =>
+      names.every((n, i) => o.dataset['option' + (i + 1)] === values[n])
+    );
+    if (match) {
+      select.value = match.value;
+      if (priceValue && match.dataset.price) {
+        priceValue.textContent = new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          maximumFractionDigits: 0,
+        }).format(Number(match.dataset.price));
+      }
+    }
+  };
+  optionInputs.forEach((el) => el.addEventListener('change', updateVariant));
+
+  // Add to cart — sync with CartButton in navbar
+  document.querySelector('[data-add-to-cart]')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('ania:addtocart', { detail: { amount: 1 } }));
+  });
+
+  // Checkout — open WhatsApp with order summary
+  document.querySelector('[data-checkout]')?.addEventListener('click', () => {
+    const section = document.querySelector('[data-product-title]');
+    const title = section?.getAttribute('data-product-title') || 'Produk ANIA';
+    const price = Number(section?.getAttribute('data-product-price') || '0');
+    const msg = encodeURIComponent(`Halo ANIA! Saya ingin checkout:\n\n${title}\nTotal: Rp ${price.toLocaleString('id-ID')}`);
+    window.open(`https://wa.me/?text=${msg}`, '_blank', 'noopener');
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product (ANIA details)",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product (ANIA details)",
+      "category": "ANIA"
+    }
+  ]
+}
+{% endschema %}
+

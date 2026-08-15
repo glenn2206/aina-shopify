@@ -278,12 +278,15 @@
         btn.type = 'button';
         btn.dataset.filter = v;
         btn.dataset.filterKey = activeKey;
+        // The active-state stylesheets target [data-filter-category|occasion|flower],
+        // so expose the matching attribute (refreshFilterUI toggles .is-filter-active).
+        btn.dataset[`filter${activeKey[0].toUpperCase()}${activeKey.slice(1)}`] = activeKey;
         btn.className = 'flex w-full items-center gap-2 px-2 py-[3px] text-left text-base tracking-[-0.8px] text-[#6D6D6D]';
         btn.innerHTML = `<span class="${dotClass}">•</span><span class="py-[3px]">${escapeHtml(v)}</span>`;
         btn.addEventListener('click', () => {
           state[activeKey] = state[activeKey] === v ? null : v;
           state.page = 1;
-          render();
+          render(true);
         });
         container.appendChild(btn);
       });
@@ -326,21 +329,11 @@
       );
     };
 
-    const render = () => {
-      const filtered = cards.filter(matches);
-      const list = sorted(filtered);
-      const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
-      if (state.page > pages) state.page = pages;
-      const start = (state.page - 1) * PAGE_SIZE;
-      const slice = list.slice(start, start + PAGE_SIZE);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Reorder the DOM so sorting is visually applied (moves visible cards in order)
-      if (grid) slice.forEach((c) => grid.appendChild(c));
-      cards.forEach((c) => c.classList.toggle('hidden', !slice.includes(c)));
-      refreshFilterUI();
+    const isVisible = (card) => !card.classList.contains('hidden');
 
-      if (resultCount) resultCount.textContent = `Showing ${list.length} of ${cards.length} products`;
-
+    const renderPagination = (pages) => {
       if (!pagination) return;
       if (pages <= 1) {
         pagination.innerHTML = '';
@@ -358,6 +351,64 @@
       pagination.innerHTML = html;
     };
 
+    let renderToken = 0;
+    const render = (animate = false) => {
+      const filtered = cards.filter(matches);
+      const list = sorted(filtered);
+      const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+      if (state.page > pages) state.page = pages;
+      const start = (state.page - 1) * PAGE_SIZE;
+      const slice = list.slice(start, start + PAGE_SIZE);
+
+      const prevVisible = cards.filter(isVisible);
+
+      // Applies the new filtered/sorted state + updates counters & pagination
+      const apply = () => {
+        // Reorder the DOM so sorting is visually applied (moves visible cards in order)
+        if (grid) slice.forEach((c) => grid.appendChild(c));
+        cards.forEach((c) => c.classList.toggle('hidden', !slice.includes(c)));
+        refreshFilterUI();
+
+        if (resultCount) {
+          resultCount.textContent = `Showing ${list.length} of ${cards.length} products`;
+          resultCount.classList.remove('is-updated');
+          void resultCount.offsetWidth; // reflow → re-trigger the animation
+          resultCount.classList.add('is-updated');
+        }
+        renderPagination(pages);
+      };
+
+      // First paint or reduced-motion users → plain swap, no animation
+      if (!animate || prefersReducedMotion) {
+        cards.forEach((c) => c.classList.remove('is-leaving', 'is-entering'));
+        apply();
+        return;
+      }
+
+      const token = ++renderToken;
+
+      // Fade out cards leaving the viewport (filtered out / moved to another page)
+      cards.forEach((c) => c.classList.remove('is-leaving'));
+      const leaving = prevVisible.filter((c) => !slice.includes(c));
+      leaving.forEach((c) => c.classList.add('is-leaving'));
+
+      // Cards entering the viewport get a staggered rise-in.
+      // A pure reorder (e.g. sorting) re-runs the cascade over the whole grid.
+      let entering = slice.filter((c) => !prevVisible.includes(c));
+      if (!leaving.length && !entering.length) entering = slice;
+
+      window.setTimeout(() => {
+        if (token !== renderToken) return; // a newer render superseded this one
+        apply();
+        entering.forEach((card, i) => {
+          card.classList.remove('is-entering');
+          void card.offsetWidth; // reflow → re-trigger on rapid re-renders
+          card.style.setProperty('--enter-delay', `${Math.min(i * 70, 490)}ms`);
+          card.classList.add('is-entering');
+        });
+      }, 240);
+    };
+
     // All Products → reset semua filter
     document.querySelectorAll('[data-filter-all]').forEach((el) =>
       el.addEventListener('click', (e) => {
@@ -367,7 +418,7 @@
         state.flower = null;
         state.sale = false;
         state.page = 1;
-        render();
+        render(true);
       })
     );
 
@@ -377,7 +428,7 @@
         e.preventDefault();
         state.sale = !state.sale;
         state.page = 1;
-        render();
+        render(true);
       })
     );
 
@@ -386,7 +437,7 @@
       const btn = e.target.closest('[data-page]');
       if (!btn) return;
       state.page = Number(btn.dataset.page);
-      render();
+      render(true);
     });
 
     // Sorting
@@ -397,7 +448,7 @@
         state.page = 1;
         if (sortLabel) sortLabel.textContent = btn.textContent.trim();
         sortMenu?.classList.add('hidden');
-        render();
+        render(true);
       });
     });
     document.addEventListener('click', (e) => {

@@ -203,8 +203,10 @@
     const nextSlide = () => {
       if (current === slides.length - 1) {
         clearTimer();
+        // Scroll by the hero's actual height so it never stops mid-hero
+        // (which makes the background look "cut off" at the edge of the screen).
         window.scrollBy({
-          top: window.innerHeight,
+          top: section.getBoundingClientRect().height,
           behavior: 'smooth',
         });
       } else {

@@ -2497,3 +2497,81 @@
 [data-filter-group-toggle].is-open svg {
   transform: rotate(180deg);
 }
+
+/* =====================================================================
+   Product filter/grid transitions (collections/all)
+   Cards leaving the viewport fade out; cards entering rise in one by one.
+   ===================================================================== */
+[data-product-card].is-leaving {
+  animation: card-leave 240ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+[data-product-card].is-entering {
+  animation: card-enter 550ms cubic-bezier(0.22, 1, 0.36, 1) var(--enter-delay, 0ms) both;
+}
+@keyframes card-leave {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.97);
+  }
+}
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Filter buttons — smooth active-state transitions */
+[data-filter-all],
+[data-filter-sale],
+[data-filter-group] button[data-filter] {
+  transition: color 200ms ease, background-color 200ms ease;
+}
+
+/* Result count — subtle fade-up when the list updates */
+[data-result-count].is-updated {
+  animation: result-update 550ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes result-update {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile filter panel — gentle slide-down when opened */
+[data-filter-panel]:not(.hidden) {
+  animation: panel-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-product-card].is-leaving,
+  [data-product-card].is-entering,
+  [data-result-count].is-updated,
+  [data-filter-panel]:not(.hidden) {
+    animation: none;
+  }
+}

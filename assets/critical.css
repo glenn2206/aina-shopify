@@ -15,7 +15,7 @@ canvas,
 svg {
   display: block;
   max-width: 100%;
-  height: auto;
+  /* height: auto; */
 }
 
 input,
@@ -76,6 +76,11 @@ html {
 /* ============================================================
    Landing page: full-viewport hero + scroll-snap between sections.
    ============================================================ */
+[data-hero] {
+  min-height: 100vh; /* fallback */
+  min-height: 100svh;
+  min-height: 100dvh; /* hero always spans at least the full visible viewport */
+}
 [data-hero] [data-hero-content-wrap] {
   min-height: 100vh; /* fallback */
   min-height: 100svh;
@@ -140,5 +145,18 @@ body.template-index .shopify-section > section {
 }
 [data-navbar].is-over-hero [data-lang-toggle] [aria-pressed='true'] {
   color: #fafaf2;
+}
+
+/* ============================================================
+   Products filter sidebar — make the selected filter unmistakable.
+   Option rows already get a sage highlight via ania.css; give
+   "All Products" and "Sale" a matching dot when they are active.
+   ============================================================ */
+[data-filter-all].is-filter-active::before,
+[data-filter-sale].is-filter-active::before {
+  content: '•';
+  color: #899b7a;
+  font-size: 16px;
+  line-height: 1;
 }
 

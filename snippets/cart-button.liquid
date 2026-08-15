@@ -16,7 +16,7 @@
   data-cart-button
   data-initial-count="{{ cart.item_count }}"
   class="relative inline-flex shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 transition-opacity duration-200 hover:opacity-75"
-  style="width:24px;height:24px;color:{{ icon_color }}"
+  style="width:24px;height:24px;color:var(--nav-cart, {{ icon_color }})"
   aria-label="Cart"
 >
   <svg
@@ -35,7 +35,7 @@
   <span
     data-cart-badge
     class="absolute flex h-[9px] min-w-[9px] items-center justify-center rounded-full border-[0.5px] bg-[#fdf6f1] px-[1px] font-['Open_Sans'] text-[6px] font-semibold leading-none opacity-0 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
-    style="top:0.3px; right:1.3px; border-color:{{ badge_border }}; color:#3d3b2f"
+    style="top:0.3px; right:1.3px; border-color:var(--nav-cart, {{ badge_border }}); color:#3d3b2f"
     aria-hidden="true"
   ></span>
 </a>

@@ -36,3 +36,109 @@ a {
   width: 100%;
 }
 
+/* ============================================================
+   Fixed navbar offset.
+   The ANIA navbar is `position: fixed` (sticky can't work because
+   every section is wrapped in its own .shopify-section whose height
+   equals the navbar itself). The page needs a top offset equal to
+   the header height: announcement bar 35px + nav 84px (mobile) /
+   35px + 109px (desktop). On the landing page the hero starts at
+   the very top and sits underneath the transparent navbar instead.
+   ============================================================ */
+body {
+  padding-top: 119px;
+  min-height: 100vh; /* fallback */
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+body.template-index {
+  padding-top: 0;
+}
+@media (min-width: 1024px) {
+  body {
+    padding-top: 144px;
+  }
+  body.template-index {
+    padding-top: 0;
+  }
+}
+
+/* Anchor links (#occasions, #contact, …) must clear the fixed navbar. */
+html {
+  scroll-padding-top: 119px;
+}
+@media (min-width: 1024px) {
+  html {
+    scroll-padding-top: 144px;
+  }
+}
+
+/* ============================================================
+   Landing page: full-viewport hero + scroll-snap between sections.
+   ============================================================ */
+[data-hero] [data-hero-content-wrap] {
+  min-height: 100vh; /* fallback */
+  min-height: 100svh;
+  min-height: 100dvh; /* always fills the visible viewport (mobile URL bar safe) */
+}
+
+/* html {
+  scroll-snap-type: y proximity;
+  -webkit-scroll-snap-type: y proximity;
+} */
+body.template-index .shopify-section > section {
+  scroll-snap-align: start;
+  -webkit-scroll-snap-align: start;
+}
+
+/* ============================================================
+   Navbar themes — light everywhere; on the landing page it starts
+   transparent with light text over the dark hero and turns light
+   as soon as the hero has scrolled past.
+   ============================================================ */
+[data-navbar] {
+  --nav-cart: #3d3b2f;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: #fdf6f1;
+  transition: background-color 300ms ease, box-shadow 300ms ease;
+}
+[data-navbar].is-over-hero {
+  --nav-cart: #ccc8a8;
+  background-color: transparent;
+  box-shadow: none;
+}
+/* Soft scrim behind the transparent navbar so light text stays readable. */
+[data-navbar].is-over-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(20, 22, 20, 0.4), rgba(20, 22, 20, 0) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+[data-navbar].is-scrolled:not(.is-over-hero) {
+  box-shadow: 0 1px 0 rgba(61, 59, 47, 0.08);
+}
+
+/* Over the dark hero: lighten nav text, icons and the hamburger. */
+[data-navbar].is-over-hero nav ul.hidden a,
+[data-navbar].is-over-hero nav a[aria-label='Cari'] {
+  color: #fafaf2;
+}
+[data-navbar].is-over-hero [data-nav-toggle] span {
+  background-color: #fafaf2;
+}
+[data-navbar].is-over-hero [data-lang-toggle] [data-lang-opt] {
+  color: rgba(250, 250, 242, 0.6);
+}
+[data-navbar].is-over-hero [data-lang-toggle] [aria-pressed='true'] {
+  color: #fafaf2;
+}
+

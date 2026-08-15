@@ -18,7 +18,7 @@
     {{ content_for_header }}
   </head>
 
-  <body class="m-0 bg-[#FAFAF2] text-[#525252]">
+  <body class="m-0 bg-[#FAFAF2] text-[#525252] template-{{ template.name | handle }}">
     {% sections 'header-group' %}
 
     {{ content_for_layout }}

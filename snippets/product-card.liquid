@@ -1,7 +1,7 @@
 {% comment %}
   ProductCard — ANIA product card (Figma "Most Popular").
   Rebuild of src astro/components/sections/ProductCard.astro (pixel-by-pixel).
-  Params: product (Product object), alt (optional)
+  Params: product (Product object), alt (optional), category_label (optional — product.category name)
 {% endcomment %}
 {%- liquid
   assign card_badge = ''
@@ -11,6 +11,7 @@
     assign card_badge = 'Sold Out'
   endif
   assign card_alt = alt | default: product.title
+  assign card_category = category_label | default: product.type | default: 'Flowers'
 -%}
 
 <div class="flex flex-col gap-3">
@@ -36,7 +37,7 @@
       href="{{ product.url }}"
       class="rounded-full border border-[#EAE8E8] px-4 py-1 text-xs font-normal text-black transition-colors duration-200 hover:border-[#899B7A] hover:text-[#4C5F45]"
     >
-      {{ product.type | default: 'Flowers' }}
+      {{ card_category }}
     </a>
 
     <a href="{{ product.url }}" class="flex flex-col items-center gap-1 transition-opacity duration-200 hover:opacity-80">

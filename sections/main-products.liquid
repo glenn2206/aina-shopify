@@ -9,8 +9,9 @@
 {% endcomment %}
 {%- liquid
   assign page_heading = section.settings.heading | default: collection.title
-  assign category_ns = section.settings.category_ns | default: 'custom'
-  assign category_key = section.settings.category_key | default: 'category'
+  assign occasion_key = section.settings.occasion_key | default: 'occasion'
+  assign flowers_key = section.settings.flowers_key | default: 'plant-class'
+  assign mo_field = section.settings.metaobject_field | default: 'name'
 -%}
 
 <section class="bg-[#FDF6F1]">
@@ -149,17 +150,71 @@
               if product.compare_at_price > product.price
                 assign on_sale = true
               endif
+              assign product_category = product.category.name | default: product.type
             -%}
+
+            {%- comment %}
+              occasion/plant-class metafields are metaobject_reference LISTS.
+              .value returns an array of metaobjects → we extract a text label
+              from each object (configured field, fallback name/title) so the
+              client-side filter can match simple strings.
+            {%- endcomment -%}
+            {%- capture occasion_labels -%}
+              {%- assign occasion_items = product.metafields.shopify[occasion_key].value -%}
+              {%- for mo in occasion_items -%}
+                {%- liquid
+                  # 1. Cek langsung properti standar Metaobject Taxonomy (.label atau .name)
+                  assign label = mo.label | default: mo.name | default: mo.title
+
+                  # 2. Jika mo_field spesifik diisi (misal: 'display_name'), ambil dari mo[mo_field]
+                  if label == blank and mo_field != blank
+                    assign label = mo[mo_field].value | default: mo[mo_field]
+                  endif
+
+                  # 3. Fallback jika nilainya masih bertipe Plain String (bukan metaobject)
+                  if label == blank and mo.first == nil
+                    assign label = mo
+                  endif
+                -%}
+                {%- if label != blank -%}
+                  {{ label | strip }}{% unless forloop.last %},{% endunless %}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+
+            {%- capture flowers_labels -%}
+              {%- assign flower_items = product.metafields.shopify[flowers_key].value -%}
+              {%- for mo in flower_items -%}
+                {%- liquid
+                  # 1. Cek langsung properti label/name standar Shopify Taxonomy Metaobject
+                  assign label = mo.label | default: mo.name | default: mo.title
+
+                  # 2. Jika mo_field spesifik diisi, ambil dari mo[mo_field]
+                  if label == blank and mo_field != blank
+                    assign label = mo[mo_field].value | default: mo[mo_field]
+                  endif
+
+                  # 3. Fallback jika nilainya berupa Plain String biasa
+                  if label == blank and mo.first == nil
+                    assign label = mo
+                  endif
+                -%}
+                {%- if label != blank -%}
+                  {{ label | strip }}{% unless forloop.last %},{% endunless %}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+
             <div
               data-product-card
-              data-category="{{ product.metafields[category_ns][category_key] }}"
-              data-occasions="{{ product.tags | join: ',' }}"
-              data-flowers="{{ product.tags | join: ',' }}"
+              data-category="{{ product_category }}"
+              data-occasions="{{ occasion_labels }}"
+              data-flowers="{{ flowers_labels }}"
               data-sale="{{ on_sale }}"
               data-price="{{ product.price }}"
               data-title="{{ product.title | escape }}"
             >
-              {% render 'product-card', product: product %}
+              {% render 'product-card', product: product, category_label: product_category %}
             </div>
           {% endfor %}
         </div>
@@ -193,13 +248,13 @@
 <script>
   (() => {
     const cards = Array.from(document.querySelectorAll('[data-product-card]'));
+    const grid = document.querySelector('[data-product-grid]');
     const pagination = document.querySelector('[data-pagination]');
     const resultCount = document.querySelector('[data-result-count]');
     const sortToggle = document.querySelector('[data-sort-toggle]');
     const sortMenu = document.querySelector('[data-sort-menu]');
     const sortLabel = document.querySelector('[data-sort-label]');
 
-    const FLOWER_TAGS = ['Rose', 'Carnation', 'Daisy', 'Hydrangea', 'Chrysanthemum', 'Sunflower', 'Orchid'];
     const PAGE_SIZE = 9;
     const state = { category: null, occasion: null, flower: null, sale: false, sort: 'default', page: 1 };
 
@@ -238,24 +293,10 @@
     if (categoryList) buildOptions(categoryList, (c) => split(c.dataset.category), 'category', 'text-[#3D3B2F]');
 
     const occasionList = document.querySelector('[data-occasion-list]');
-    if (occasionList) {
-      buildOptions(
-        occasionList,
-        (c) => split(c.dataset.occasions).filter((t) => !FLOWER_TAGS.includes(t)),
-        'occasion',
-        'text-[#7E4C4C]'
-      );
-    }
+    if (occasionList) buildOptions(occasionList, (c) => split(c.dataset.occasions), 'occasion', 'text-[#7E4C4C]');
 
     const flowerList = document.querySelector('[data-flower-list]');
-    if (flowerList) {
-      buildOptions(
-        flowerList,
-        (c) => split(c.dataset.flowers).filter((t) => FLOWER_TAGS.includes(t)),
-        'flower',
-        'text-[#7E4C4C]'
-      );
-    }
+    if (flowerList) buildOptions(flowerList, (c) => split(c.dataset.flowers), 'flower', 'text-[#7E4C4C]');
 
     // ---- Filtering / sorting / pagination (mirrors ProductsSection.astro) ----
     const matches = (card) => {
@@ -293,6 +334,8 @@
       const start = (state.page - 1) * PAGE_SIZE;
       const slice = list.slice(start, start + PAGE_SIZE);
 
+      // Reorder the DOM so sorting is visually applied (moves visible cards in order)
+      if (grid) slice.forEach((c) => grid.appendChild(c));
       cards.forEach((c) => c.classList.toggle('hidden', !slice.includes(c)));
       refreshFilterUI();
 
@@ -395,17 +438,24 @@
     },
     {
       "type": "text",
-      "id": "category_ns",
-      "label": "Category metafield namespace",
-      "default": "custom",
-      "info": "Product metafield namespace used for the Category filter."
+      "id": "occasion_key",
+      "label": "Occasion metafield key",
+      "default": "occasion",
+      "info": "Key of the Occasion metaobject metafield in the shopify namespace (product.metafields.shopify.<key>)."
     },
     {
       "type": "text",
-      "id": "category_key",
-      "label": "Category metafield key",
-      "default": "category",
-      "info": "Product metafield key used for the Category filter (e.g. custom.category)."
+      "id": "flowers_key",
+      "label": "Flowers metafield key",
+      "default": "plant-class",
+      "info": "Key of the Flowers metaobject metafield in the shopify namespace (product.metafields.shopify.<key>)."
+    },
+    {
+      "type": "text",
+      "id": "metaobject_field",
+      "label": "Metaobject label field",
+      "default": "name",
+      "info": "Field inside the Occasion/Flowers metaobject used as the displayed label (falls back to name/title)."
     }
   ],
   "presets": [

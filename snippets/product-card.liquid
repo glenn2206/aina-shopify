@@ -6,12 +6,13 @@
 {%- liquid
   assign card_badge = ''
   if product.compare_at_price > product.price
-    assign card_badge = 'Sale'
+    assign card_badge = 'product_card.sale' | t
   elsif product.available == false
-    assign card_badge = 'Sold Out'
+    assign card_badge = 'product_card.sold_out' | t
   endif
   assign card_alt = alt | default: product.title
-  assign card_category = category_label | default: product.type | default: 'Flowers'
+  assign flowers_fallback = 'product_card.flowers' | t
+  assign card_category = category_label | default: product.type | default: flowers_fallback
 -%}
 
 <div class="flex flex-col gap-3">

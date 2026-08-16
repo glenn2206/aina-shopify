@@ -7,6 +7,8 @@
   assign announcement_label = section.settings.announcement_link_label
   assign announcement_href = section.settings.announcement_link | default: routes.root_url
   assign occasions_url = pages.occasions.url | default: '/pages/occasions'
+  assign announcement_text_fb = 'header.announcement_text' | t
+  assign announcement_link_label_fb = 'header.announcement_link_label' | t
 
   # Logo: on the landing page start with the white variant (it sits on the dark hero),
   # everywhere else use the dark variant. The scroll script swaps between the two.
@@ -26,12 +28,12 @@
 >
   {% comment %} Announcement bar {% endcomment %}
   <div class="flex h-[35px] items-center justify-center gap-3 bg-[#BBCCBF] px-4">
-    <p class="whitespace-nowrap text-sm text-[#FAFAF2]">{{ announcement_text }}</p>
+    <p class="whitespace-nowrap text-sm text-[#FAFAF2]">{{ announcement_text | default: announcement_text_fb }}</p>
     <a
       href="{{ announcement_href }}"
       class="flex h-6 shrink-0 items-center gap-1.5 rounded-full bg-[#FDF6F1] pl-3 pr-2 text-sm font-semibold leading-none text-[#BBCCBF] transition-opacity duration-200 hover:opacity-85"
     >
-      {{ announcement_label }}
+      {{ announcement_label | default: announcement_link_label_fb }}
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
         <path d="M3 1l4 4-4 4" stroke="#BBCCBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -40,7 +42,7 @@
 
   <nav
     class="mx-auto grid h-[84px] w-full max-w-[1440px] grid-cols-[auto_1fr_auto] items-center gap-4 px-4 sm:px-6 lg:h-[109px] lg:grid-cols-[1fr_auto_1fr] lg:px-[36px]"
-    aria-label="Navigasi utama"
+    aria-label="{{ 'header.nav_label' | t }}"
   >
     {% comment %} Kolom kiri: hamburger (mobile) + menu kiri (desktop) {% endcomment %}
     <div class="flex items-center justify-start gap-6">
@@ -48,7 +50,9 @@
         data-nav-toggle
         type="button"
         class="relative flex h-9 w-9 cursor-pointer items-center justify-center border-0 bg-transparent p-0 lg:hidden"
-        aria-label="Buka menu"
+        aria-label="{{ 'header.open_menu' | t }}"
+        data-open-label="{{ 'header.open_menu' | t }}"
+        data-close-label="{{ 'header.close_menu' | t }}"
         aria-controls="mobile-menu"
         aria-expanded="false"
       >
@@ -68,10 +72,10 @@
       {% else %}
         <ul class="hidden items-center gap-[42px] lg:flex">
           <li>
-            <a href="{{ routes.all_products_collection_url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Shop</a>
+            <a href="{{ routes.all_products_collection_url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ 'header.shop' | t }}</a>
           </li>
           <li>
-            <a href="{{ occasions_url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">For Occasions</a>
+            <a href="{{ occasions_url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ 'header.for_occasions' | t }}</a>
           </li>
         </ul>
       {% endif %}
@@ -109,17 +113,17 @@
       {% else %}
         <ul class="hidden items-center gap-[42px] lg:flex">
           <li>
-            <a href="{{ pages.about.url | default: '/pages/about' }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">About Us</a>
+            <a href="{{ pages.about.url | default: '/pages/about' }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ 'header.about_us' | t }}</a>
           </li>
           <li>
-            <a href="{{ routes.root_url }}#contact" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Contact</a>
+            <a href="{{ routes.root_url }}#contact" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ 'header.contact' | t }}</a>
           </li>
         </ul>
       {% endif %}
 
       <a
         href="{{ routes.search_url }}"
-        aria-label="Cari"
+        aria-label="{{ 'header.search' | t }}"
         class="hidden h-9 w-9 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70 sm:flex"
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -129,7 +133,7 @@
       </a>
 
       <div class="hidden sm:block">
-        {% render 'language-toggle', lang: 'en' %}
+        {% render 'language-toggle', lang: localization.language.iso_code %}
       </div>
 
       {% render 'cart-button', tone: 'dark' %}
@@ -152,10 +156,10 @@
         {% endfor %}
       {% else %}
         <li>
-          <a href="{{ routes.all_products_collection_url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Shop</a>
+          <a href="{{ routes.all_products_collection_url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ 'header.shop' | t }}</a>
         </li>
         <li>
-          <a href="{{ occasions_url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">For Occasions</a>
+          <a href="{{ occasions_url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ 'header.for_occasions' | t }}</a>
         </li>
       {% endif %}
 
@@ -167,14 +171,14 @@
         {% endfor %}
       {% else %}
         <li>
-          <a href="{{ pages.about.url | default: '/pages/about' }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">About Us</a>
+          <a href="{{ pages.about.url | default: '/pages/about' }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ 'header.about_us' | t }}</a>
         </li>
         <li>
-          <a href="{{ routes.root_url }}#contact" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Contact</a>
+          <a href="{{ routes.root_url }}#contact" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">{{ 'header.contact' | t }}</a>
         </li>
       {% endif %}
       <li class="py-4 sm:hidden">
-        {% render 'language-toggle', lang: 'en' %}
+        {% render 'language-toggle', lang: localization.language.iso_code %}
       </li>
     </ul>
   </div>
@@ -216,7 +220,9 @@
     const setOpen = (open) => {
       if (!toggle || !menu) return;
       toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+      const openLabel = toggle.dataset.openLabel || 'Open menu';
+      const closeLabel = toggle.dataset.closeLabel || 'Close menu';
+      toggle.setAttribute('aria-label', open ? closeLabel : openLabel);
       menu.dataset.open = String(open);
     };
 

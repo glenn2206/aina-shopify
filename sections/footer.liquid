@@ -6,27 +6,31 @@
     - Logo + tagline "Let Flowers Speak for You" + social
     - Payment chips + copyright
 {% endcomment %}
+{%- liquid
+  assign order_heading_fb = 'footer.order_heading' | t
+  assign email_label_fb = 'footer.email_label' | t
+-%}
 
 <footer class="bg-[#FDF6F1]">
   {% comment %} Order section {% endcomment %}
   <div class="border-b border-[#CCC8A8]">
     <div class="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:px-[70px] lg:py-[50px]">
       <h2 class="max-w-[501px] font-['Cormorant_Garamond'] text-4xl font-normal leading-tight text-[#3D3B2F] lg:text-[40px]">
-        {{ section.settings.order_heading | default: 'Find your Perfect Bouquet today!' }}
+        {{ section.settings.order_heading | default: order_heading_fb }}
       </h2>
 
       <form class="flex w-full max-w-[506px] flex-col gap-[5px]" onsubmit="return false">
-        <label for="footer-email" class="text-xs font-normal text-[#525252]">{{ section.settings.email_label | default: 'Email address' }}</label>
+        <label for="footer-email" class="text-xs font-normal text-[#525252]">{{ section.settings.email_label | default: email_label_fb }}</label>
         <div class="flex h-11 items-center gap-2 rounded-lg border border-[#CCC8A8] bg-white px-4">
           <input
             id="footer-email"
             type="email"
-            placeholder="name@email.com"
+            placeholder="{{ 'footer.email_placeholder' | t }}"
             class="h-full flex-1 bg-transparent text-sm font-normal text-[#525252] outline-none placeholder:text-[#A2A2A2]"
           >
           <button
             type="submit"
-            aria-label="Subscribe"
+            aria-label="{{ 'footer.subscribe' | t }}"
             class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-[#899B7A] p-0 text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -41,13 +45,13 @@
           href="{{ section.settings.contact_link | default: routes.root_url }}#contact"
           class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
         >
-          Consult with our team
+          {{ 'footer.consult_team' | t }}
         </a>
         <a
           href="{{ routes.all_products_collection_url }}"
           class="flex h-9 items-center justify-center rounded-lg border border-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-[#899B7A] transition-colors duration-200 hover:bg-[#899B7A]/10"
         >
-          Shop Flowers
+          {{ 'footer.shop_flowers' | t }}
         </a>
       </div>
     </div>
@@ -60,7 +64,7 @@
       <div class="flex max-w-[300px] flex-col gap-6">
         <div>
           <img src="{{ 'logo-dark.png' | asset_url }}" alt="ANIA" width="142" height="104" class="h-24 w-auto object-contain" loading="lazy">
-          <p class="mt-4 text-[11px] font-semibold uppercase tracking-[4.24px] text-[#3D3B2F]">Let Flowers Speak for You</p>
+          <p class="mt-4 text-[11px] font-semibold uppercase tracking-[4.24px] text-[#3D3B2F]">{{ 'footer.tagline' | t }}</p>
         </div>
 
         <div class="flex flex-col gap-3">
@@ -93,7 +97,7 @@
       {% comment %} Kolom link {% endcomment %}
       <div class="flex flex-wrap gap-10 lg:gap-9">
         <div class="flex flex-col gap-4">
-          <h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">Shop</h3>
+          <h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">{{ 'footer.shop_heading' | t }}</h3>
           <ul class="flex flex-col gap-[10px]">
             {% if section.settings.menu_shop.links.size > 0 %}
               {% for link in section.settings.menu_shop.links %}
@@ -102,19 +106,19 @@
                 </li>
               {% endfor %}
             {% else %}
-              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">All Products</a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">Preserved Flower</a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">Bloom Box &amp; Basket</a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">Premium Wrapped Bloom</a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">Vase Arrangement</a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">Standing Flower &amp; Flower Board</a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">Accessories</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.shop_links.all_products' | t }}</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.shop_links.preserved' | t }}</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.shop_links.bloom_box' | t }}</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.shop_links.premium_wrapped' | t }}</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.shop_links.vase' | t }}</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.shop_links.standing' | t }}</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.shop_links.accessories' | t }}</a></li>
             {% endif %}
           </ul>
         </div>
 
         <div class="flex flex-col gap-4">
-          <h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">Resources</h3>
+          <h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">{{ 'footer.resources_heading' | t }}</h3>
           <ul class="flex flex-col gap-[10px]">
             {% if section.settings.menu_resources.links.size > 0 %}
               {% for link in section.settings.menu_resources.links %}
@@ -123,22 +127,22 @@
                 </li>
               {% endfor %}
             {% else %}
-              <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">Terms and Conditions</a></li>
-              <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">Frequently Asked Questions</a></li>
-              <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">How to Order</a></li>
+              <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.resource_links.terms' | t }}</a></li>
+              <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.resource_links.faq' | t }}</a></li>
+              <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.resource_links.how_to_order' | t }}</a></li>
             {% endif %}
           </ul>
         </div>
 
         <div class="flex flex-col gap-4">
-          <h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">Help</h3>
+          <h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">{{ 'footer.help_heading' | t }}</h3>
           <a href="mailto:team@myania.com" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">team@myania.com</a>
         </div>
       </div>
 
       {% comment %} Payment {% endcomment %}
       <div class="flex max-w-[280px] flex-col gap-4">
-        <h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">We Accept</h3>
+        <h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">{{ 'footer.we_accept' | t }}</h3>
         <div class="flex flex-wrap gap-2">
           <span class="flex h-[30px] w-[43px] items-center justify-center rounded-[2.5px] border border-[#D9D9D9] bg-white text-[8px] font-bold italic text-[#172B85]">VISA</span>
           <span class="flex h-[30px] w-[43px] items-center justify-center rounded-[2.5px] border border-[#D9D9D9] bg-white text-[8px] font-bold text-[#0E4C96]">JCB</span>
@@ -155,7 +159,7 @@
 
   {% comment %} Copyright {% endcomment %}
   <div class="mx-auto flex w-full max-w-[1440px] items-center justify-between px-4 py-5 sm:px-6 lg:px-[70px]">
-    <p class="font-['Crimson_Text'] text-sm font-normal text-[#3D3B2F]">© ANIA Boutique Flower</p>
+    <p class="font-['Crimson_Text'] text-sm font-normal text-[#3D3B2F]">{{ 'footer.copyright' | t }}</p>
   </div>
 </footer>
 

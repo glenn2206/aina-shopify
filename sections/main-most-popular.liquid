@@ -3,13 +3,16 @@
   Rebuild of src astro/components/sections/MostPopular.astro (pixel-by-pixel).
 {% endcomment %}
 {%- liquid
-  assign mp_heading = section.settings.heading | default: "Flowers They'll Never Forget"
-  assign mp_subheading = section.settings.subheading | default: 'Our most-loved flower arrangements — beautiful choices that never fail to impress someone special.'
+  assign mp_heading_default = 'most_popular.heading' | t
+  assign mp_heading = section.settings.heading | default: mp_heading_default
+  assign mp_subheading_default = 'most_popular.subheading' | t
+  assign mp_subheading = section.settings.subheading | default: mp_subheading_default
   assign mp_products = section.settings.collection.products
   if mp_products.size == 0
     assign mp_products = collections.all.products
   endif
-  assign mp_button = section.settings.button_label | default: 'View All Product'
+  assign mp_button_default = 'most_popular.button' | t
+  assign mp_button = section.settings.button_label | default: mp_button_default
   assign mp_button_url = section.settings.collection.url | default: routes.all_products_collection_url
 -%}
 

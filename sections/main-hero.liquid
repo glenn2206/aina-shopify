@@ -13,17 +13,17 @@
   data-hero
   class="relative w-full overflow-hidden bg-[#3B3A2F]"
   aria-roledescription="carousel"
-  aria-label="Koleksi unggulan ANIA"
+  aria-label="{{ 'hero.carousel_label' | t }}"
 >
   <div data-hero-track class="flex transition-transform duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]">
     {% comment %} Slide 1 {% endcomment %}
-    <div data-hero-slide class="relative w-full shrink-0 is-active" role="group" aria-roledescription="slide" aria-label="Slide 1 dari {{ slides_count }}">
+    <div data-hero-slide class="relative w-full shrink-0 is-active" role="group" aria-roledescription="slide" aria-label="{{ 'hero.slide_label' | t: index: 1, total: slides_count }}">
       <div class="absolute inset-0 overflow-hidden">
         <img
           data-hero-img
           class="h-full w-full object-cover object-center"
           src="{{ 'hero-1.png' | asset_url }}"
-          alt="Buket bunga segar dalam kotak — ANIA Flower Boutique"
+          alt="{{ 'hero.img_alt_1' | t }}"
           width="1440"
           height="939"
           loading="eager"
@@ -34,28 +34,28 @@
 
       <div data-hero-content-wrap class="relative z-10 flex min-h-[calc(100svh)] flex-col justify-center px-5 py-20 sm:px-8 sm:py-32 lg:min-h-[calc(100svh)] lg:px-[70px] lg:py-24">
         <div data-hero-content class="flex max-w-[621px] flex-col items-start gap-4">
-          <p data-anim style="--d: 720ms" class="text-[10px] font-semibold uppercase tracking-[4px] text-[#CCC8A8]">For Those Unspoken Words</p>
+          <p data-anim style="--d: 720ms" class="text-[10px] font-semibold uppercase tracking-[4px] text-[#CCC8A8]">{{ 'hero.eyebrow_1' | t }}</p>
           <h1 class="flex flex-col gap-5 sm:gap-6">
-            <span data-anim style="--d: 840ms" class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#BCC6BC] sm:text-5xl lg:text-7xl lg:leading-[87px]">Express your feelings beautifully...</span>
-            <span data-anim style="--d: 960ms" class="font-['Cormorant_Garamond'] text-4xl font-semibold italic leading-[1.15] text-[#CCC8A8] sm:text-5xl lg:text-7xl lg:leading-[87px]">...through flowers</span>
+            <span data-anim style="--d: 840ms" class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#BCC6BC] sm:text-5xl lg:text-7xl lg:leading-[87px]">{{ 'hero.title_line1_1' | t }}</span>
+            <span data-anim style="--d: 960ms" class="font-['Cormorant_Garamond'] text-4xl font-semibold italic leading-[1.15] text-[#CCC8A8] sm:text-5xl lg:text-7xl lg:leading-[87px]">{{ 'hero.title_line2_1' | t }}</span>
           </h1>
-          <p data-anim style="--d: 1080ms" class="mt-1 max-w-[520px] text-sm font-normal leading-6 text-[#CCC8A8]/90 sm:text-xs">ANIA Flower Boutique is a means of expressing emotions through flowers. In today's fast-paced society, words are often lost when trying to express how we feel. For those unspoken words, the creations by the ANIA flower team offer a beautiful way to show care through the language of flowers.</p>
+          <p data-anim style="--d: 1080ms" class="mt-1 max-w-[520px] text-sm font-normal leading-6 text-[#CCC8A8]/90 sm:text-xs">{{ 'hero.body_1' | t }}</p>
           <div data-anim style="--d: 1200ms" class="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-6">
-            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-[#CCC8A8] text-xs font-semibold text-black transition-colors duration-200 hover:bg-[#E8E3C8] sm:w-[150px]">VIEW COLLECTION</a>
-            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg border border-[#CCC8A8]/70 text-xs font-normal uppercase text-[#CCC8A8] transition-colors duration-200 hover:bg-[#CCC8A8]/10 sm:w-[150px]">View Catalogue</a>
+            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-[#CCC8A8] text-xs font-semibold text-black transition-colors duration-200 hover:bg-[#E8E3C8] sm:w-[150px]">{{ 'hero.view_collection' | t }}</a>
+            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg border border-[#CCC8A8]/70 text-xs font-normal uppercase text-[#CCC8A8] transition-colors duration-200 hover:bg-[#CCC8A8]/10 sm:w-[150px]">{{ 'hero.view_catalogue' | t }}</a>
           </div>
         </div>
       </div>
     </div>
 
     {% comment %} Slide 2 {% endcomment %}
-    <div data-hero-slide class="relative w-full shrink-0" role="group" aria-roledescription="slide" aria-label="Slide 2 dari {{ slides_count }}">
+    <div data-hero-slide class="relative w-full shrink-0" role="group" aria-roledescription="slide" aria-label="{{ 'hero.slide_label' | t: index: 2, total: slides_count }}">
       <div class="absolute inset-0 overflow-hidden">
         <img
           data-hero-img
           class="h-full w-full object-cover object-center"
           src="{{ 'hero-2.png' | asset_url }}"
-          alt="Rangkaian bunga preserved — ANIA Flower Boutique"
+          alt="{{ 'hero.img_alt_2' | t }}"
           width="1440"
           height="815"
           loading="lazy"
@@ -65,27 +65,27 @@
 
       <div data-hero-content-wrap class="relative z-10 flex min-h-[calc(100svh)] flex-col justify-center px-5 py-20 sm:px-8 sm:py-32 lg:min-h-[calc(100svh)] lg:px-[70px] lg:py-24">
         <div data-hero-content class="flex max-w-[621px] flex-col items-start gap-4">
-          <p data-anim style="--d: 720ms" class="text-[10px] font-semibold uppercase tracking-[4px] text-[#CCC8A8]">Timeless Beauty</p>
+          <p data-anim style="--d: 720ms" class="text-[10px] font-semibold uppercase tracking-[4px] text-[#CCC8A8]">{{ 'hero.eyebrow_2' | t }}</p>
           <h1 class="flex flex-col gap-5 sm:gap-6">
-            <span data-anim style="--d: 840ms" class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#BCC6BC] sm:text-5xl lg:text-7xl lg:leading-[87px]">Preserve the moments</span>
-            <span data-anim style="--d: 960ms" class="font-['Cormorant_Garamond'] text-4xl font-semibold italic leading-[1.15] text-[#CCC8A8] sm:text-5xl lg:text-7xl lg:leading-[87px]">that matter the most</span>
+            <span data-anim style="--d: 840ms" class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#BCC6BC] sm:text-5xl lg:text-7xl lg:leading-[87px]">{{ 'hero.title_line1_2' | t }}</span>
+            <span data-anim style="--d: 960ms" class="font-['Cormorant_Garamond'] text-4xl font-semibold italic leading-[1.15] text-[#CCC8A8] sm:text-5xl lg:text-7xl lg:leading-[87px]">{{ 'hero.title_line2_2' | t }}</span>
           </h1>
-          <p data-anim style="--d: 1080ms" class="mt-1 max-w-[520px] text-sm font-normal leading-6 text-[#CCC8A8]/90 sm:text-xs">Our preserved flower collection keeps your most precious memories alive for years. Each bloom is hand-selected and treated with care, so the beauty of your special day never fades away.</p>
+          <p data-anim style="--d: 1080ms" class="mt-1 max-w-[520px] text-sm font-normal leading-6 text-[#CCC8A8]/90 sm:text-xs">{{ 'hero.body_2' | t }}</p>
           <div data-anim style="--d: 1200ms" class="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-6">
-            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-[#CCC8A8] text-xs font-semibold text-black transition-colors duration-200 hover:bg-[#E8E3C8] sm:w-[150px]">VIEW COLLECTION</a>
-            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg border border-[#CCC8A8]/70 text-xs font-normal uppercase text-[#CCC8A8] transition-colors duration-200 hover:bg-[#CCC8A8]/10 sm:w-[150px]">View Catalogue</a>
+            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-[#CCC8A8] text-xs font-semibold text-black transition-colors duration-200 hover:bg-[#E8E3C8] sm:w-[150px]">{{ 'hero.view_collection' | t }}</a>
+            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg border border-[#CCC8A8]/70 text-xs font-normal uppercase text-[#CCC8A8] transition-colors duration-200 hover:bg-[#CCC8A8]/10 sm:w-[150px]">{{ 'hero.view_catalogue' | t }}</a>
           </div>
         </div>
       </div>
     </div>
     {% comment %} Slide 3 {% endcomment %}
-    <div data-hero-slide class="relative w-full shrink-0" role="group" aria-roledescription="slide" aria-label="Slide 3 dari {{ slides_count }}">
+    <div data-hero-slide class="relative w-full shrink-0" role="group" aria-roledescription="slide" aria-label="{{ 'hero.slide_label' | t: index: 3, total: slides_count }}">
       <div class="absolute inset-0 overflow-hidden">
         <img
           data-hero-img
           class="h-full w-full object-cover object-center"
           src="{{ 'hero-3.png' | asset_url }}"
-          alt="Buket bunga segar dalam kotak — ANIA Flower Boutique"
+          alt="{{ 'hero.img_alt_1' | t }}"
           width="1440"
           height="815"
           loading="lazy"
@@ -95,15 +95,15 @@
 
       <div data-hero-content-wrap class="relative z-10 flex min-h-[calc(100svh)] flex-col justify-center px-5 py-20 sm:px-8 sm:py-32 lg:min-h-[calc(100svh)] lg:px-[70px] lg:py-24">
         <div data-hero-content class="flex max-w-[621px] flex-col items-start gap-4">
-          <p data-anim style="--d: 720ms" class="text-[10px] font-semibold uppercase tracking-[4px] text-[#CCC8A8]">For Those Unspoken Words</p>
+          <p data-anim style="--d: 720ms" class="text-[10px] font-semibold uppercase tracking-[4px] text-[#CCC8A8]">{{ 'hero.eyebrow_1' | t }}</p>
           <h1 class="flex flex-col gap-5 sm:gap-6">
-            <span data-anim style="--d: 840ms" class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#BCC6BC] sm:text-5xl lg:text-7xl lg:leading-[87px]">Express your feelings beautifully...</span>
-            <span data-anim style="--d: 960ms" class="font-['Cormorant_Garamond'] text-4xl font-semibold italic leading-[1.15] text-[#CCC8A8] sm:text-5xl lg:text-7xl lg:leading-[87px]">...through flowers</span>
+            <span data-anim style="--d: 840ms" class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#BCC6BC] sm:text-5xl lg:text-7xl lg:leading-[87px]">{{ 'hero.title_line1_1' | t }}</span>
+            <span data-anim style="--d: 960ms" class="font-['Cormorant_Garamond'] text-4xl font-semibold italic leading-[1.15] text-[#CCC8A8] sm:text-5xl lg:text-7xl lg:leading-[87px]">{{ 'hero.title_line2_1' | t }}</span>
           </h1>
-          <p data-anim style="--d: 1080ms" class="mt-1 max-w-[520px] text-sm font-normal leading-6 text-[#CCC8A8]/90 sm:text-xs">ANIA Flower Boutique is a means of expressing emotions through flowers. In today's fast-paced society, words are often lost when trying to express how we feel. For those unspoken words, the creations by the ANIA flower team offer a beautiful way to show care through the language of flowers.</p>
+          <p data-anim style="--d: 1080ms" class="mt-1 max-w-[520px] text-sm font-normal leading-6 text-[#CCC8A8]/90 sm:text-xs">{{ 'hero.body_1' | t }}</p>
           <div data-anim style="--d: 1200ms" class="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-6">
-            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-[#CCC8A8] text-xs font-semibold text-black transition-colors duration-200 hover:bg-[#E8E3C8] sm:w-[150px]">VIEW COLLECTION</a>
-            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg border border-[#CCC8A8]/70 text-xs font-normal uppercase text-[#CCC8A8] transition-colors duration-200 hover:bg-[#CCC8A8]/10 sm:w-[150px]">View Catalogue</a>
+            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-[#CCC8A8] text-xs font-semibold text-black transition-colors duration-200 hover:bg-[#E8E3C8] sm:w-[150px]">{{ 'hero.view_collection' | t }}</a>
+            <a href="{{ cta_href }}" class="flex h-9 w-full items-center justify-center rounded-lg border border-[#CCC8A8]/70 text-xs font-normal uppercase text-[#CCC8A8] transition-colors duration-200 hover:bg-[#CCC8A8]/10 sm:w-[150px]">{{ 'hero.view_catalogue' | t }}</a>
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@
         data-progress
         data-progress-index="{{ forloop.index0 }}"
         class="h-0.5 w-12 cursor-pointer overflow-hidden rounded-full bg-white/25 transition-colors duration-300 hover:bg-white/40 sm:w-20 lg:w-32"
-        aria-label="Ke slide {{ forloop.index }}"
+        aria-label="{{ 'hero.go_to_slide' | t: index: forloop.index }}"
       >
         <span data-progress-fill class="block h-full w-0 bg-[#FCF6F3]"></span>
       </button>
@@ -130,7 +130,7 @@
     type="button"
     data-hero-prev
     class="absolute left-4 top-1/2 z-20 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-[#CCC8A8]/40 text-[#CCC8A8] transition-colors duration-200 hover:bg-[#CCC8A8] hover:text-[#3B3A2F] sm:left-6 sm:size-10 lg:left-8"
-    aria-label="Slide sebelumnya"
+    aria-label="{{ 'hero.prev_slide' | t }}"
   >
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
@@ -140,7 +140,7 @@
     type="button"
     data-hero-next
     class="absolute right-4 top-1/2 z-20 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-[#CCC8A8]/40 text-[#CCC8A8] transition-colors duration-200 hover:bg-[#CCC8A8] hover:text-[#3B3A2F] sm:right-6 sm:size-10 lg:right-8"
-    aria-label="Slide berikutnya"
+    aria-label="{{ 'hero.next_slide' | t }}"
   >
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />

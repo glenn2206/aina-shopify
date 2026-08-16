@@ -16,21 +16,26 @@
   assign delivery_fee_cents = section.settings.delivery_fee | default: 0 | times: 100
   assign grand_total = cart.total_price | plus: delivery_fee_cents
   assign continue_url = routes.all_products_collection_url | default: routes.root_url
+  assign empty_heading_fb = 'cart_page.empty_heading' | t
+  assign empty_text_fb = 'cart_page.empty_text' | t
+  assign empty_button_fb = 'cart_page.shop_flowers' | t
+  assign continue_label_fb = 'cart_page.continue_shopping' | t
+  assign checkout_label_fb = 'cart_page.checkout' | t
 -%}
 
 <section class="bg-[#FAFAF2]">
   <div class="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 lg:px-[70px] lg:py-14" data-cart-refresh>
-    <h1 class="sr-only">Your Cart</h1>
+    <h1 class="sr-only">{{ 'cart_page.title' | t }}</h1>
 
     {% if cart.item_count == 0 %}
       <div class="mx-auto flex max-w-md flex-col items-center gap-4 py-16 text-center">
-        <h2 class="font-['Crimson_Text'] text-3xl text-[#3D3B2F]">{{ section.settings.empty_heading | default: 'Your cart is empty' }}</h2>
-        <p class="text-sm leading-relaxed text-[#6D6D6D]">{{ section.settings.empty_text | default: "Looks like you haven't added anything yet. Let's find your perfect bouquet." }}</p>
+        <h2 class="font-['Crimson_Text'] text-3xl text-[#3D3B2F]">{{ section.settings.empty_heading | default: empty_heading_fb }}</h2>
+        <p class="text-sm leading-relaxed text-[#6D6D6D]">{{ section.settings.empty_text | default: empty_text_fb }}</p>
         <a
           href="{{ continue_url }}"
           class="mt-2 flex h-11 items-center justify-center rounded-lg bg-[#899B7A] px-8 text-xs font-semibold uppercase tracking-[1px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
         >
-          {{ section.settings.empty_button_label | default: 'Shop Flowers' }}
+          {{ section.settings.empty_button_label | default: empty_button_fb }}
         </a>
       </div>
     {% else %}
@@ -45,7 +50,7 @@
                     href="{{ item.url_to_remove }}"
                     data-remove-item
                     data-key="{{ item.key }}"
-                    aria-label="Remove {{ item.product.title | escape }} from cart"
+                    aria-label="{{ 'cart_page.remove_html' | t: product: item.product.title | escape }}"
                     class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#CCC8A8] text-[#6D6D6D] transition-colors duration-150 hover:border-[#3D3B2F] hover:text-[#3D3B2F]"
                   >
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
@@ -67,7 +72,7 @@
                   </div>
 
                   <div class="flex h-9 shrink-0 items-center overflow-hidden rounded-lg border border-[#CCC8A8]" data-qty-wrapper data-key="{{ item.key }}">
-                    <button type="button" data-qty-decrease aria-label="Decrease quantity" class="flex h-full w-8 items-center justify-center text-[#3D3B2F] transition-colors duration-150 hover:bg-[#FAFAF2]">−</button>
+                    <button type="button" data-qty-decrease aria-label="{{ 'cart_page.decrease_qty' | t }}" class="flex h-full w-8 items-center justify-center text-[#3D3B2F] transition-colors duration-150 hover:bg-[#FAFAF2]">−</button>
                     <input
                       type="number"
                       inputmode="numeric"
@@ -75,10 +80,10 @@
                       name="updates[{{ item.key }}]"
                       value="{{ item.quantity }}"
                       data-qty-input
-                      aria-label="Quantity for {{ item.product.title | escape }}"
+                      aria-label="{{ 'cart_page.quantity_html' | t: product: item.product.title | escape }}"
                       class="h-full w-10 border-x border-[#CCC8A8] bg-white text-center text-sm text-[#3D3B2F] outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                     >
-                    <button type="button" data-qty-increase aria-label="Increase quantity" class="flex h-full w-8 items-center justify-center text-[#3D3B2F] transition-colors duration-150 hover:bg-[#FAFAF2]">+</button>
+                    <button type="button" data-qty-increase aria-label="{{ 'cart_page.increase_qty' | t }}" class="flex h-full w-8 items-center justify-center text-[#3D3B2F] transition-colors duration-150 hover:bg-[#FAFAF2]">+</button>
                   </div>
 
                   <p class="w-28 shrink-0 text-right text-sm font-semibold text-[#3D3B2F]" data-line-price>{{ item.final_line_price | money }}</p>
@@ -90,11 +95,11 @@
             <div class="mt-6 flex items-center justify-between gap-6 rounded-lg border border-[#EAE8E8] bg-white p-5">
               <div class="flex flex-1 flex-wrap gap-x-10 gap-y-3">
                 <div>
-                  <p class="text-xs text-[#6D6D6D]">Receive on:</p>
+                  <p class="text-xs text-[#6D6D6D]">{{ 'cart_page.receive_on' | t }}</p>
                   <p class="mt-1 text-sm font-semibold text-[#3D3B2F]">{{ cart.attributes['Receive on'] | default: '—' }}</p>
                 </div>
                 <div>
-                  <p class="text-xs text-[#6D6D6D]">Send to:</p>
+                  <p class="text-xs text-[#6D6D6D]">{{ 'cart_page.send_to' | t }}</p>
                   <p class="mt-1 text-sm font-semibold text-[#3D3B2F]">{{ cart.attributes['Send to'] | default: '—' }}</p>
                 </div>
               </div>
@@ -107,38 +112,38 @@
             {% comment %} Sender fields — persisted as cart attributes {% endcomment %}
             <div class="mt-6 space-y-4">
               <div>
-                <label for="cart-sender-name" class="text-xs text-[#6D6D6D]">Sender Name:</label>
+                <label for="cart-sender-name" class="text-xs text-[#6D6D6D]">{{ 'cart_page.sender_name' | t }}</label>
                 <input
                   id="cart-sender-name"
                   type="text"
                   name="attributes[Sender Name]"
                   data-attr-field="Sender Name"
                   value="{{ cart.attributes['Sender Name'] }}"
-                  placeholder="Full name"
+                  placeholder="{{ 'cart_page.sender_name_placeholder' | t }}"
                   class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]"
                 >
               </div>
               <div>
-                <label for="cart-sender-wa" class="text-xs text-[#6D6D6D]">Sender WhatsApp:</label>
+                <label for="cart-sender-wa" class="text-xs text-[#6D6D6D]">{{ 'cart_page.sender_wa' | t }}</label>
                 <input
                   id="cart-sender-wa"
                   type="tel"
                   name="attributes[Sender WhatsApp]"
                   data-attr-field="Sender WhatsApp"
                   value="{{ cart.attributes['Sender WhatsApp'] }}"
-                  placeholder="(+62) 8xx-xxxx-xxxx"
+                  placeholder="{{ 'cart_page.sender_wa_placeholder' | t }}"
                   class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]"
                 >
               </div>
               <div>
-                <label for="cart-sender-email" class="text-xs text-[#6D6D6D]">Sender Email:</label>
+                <label for="cart-sender-email" class="text-xs text-[#6D6D6D]">{{ 'cart_page.sender_email' | t }}</label>
                 <input
                   id="cart-sender-email"
                   type="email"
                   name="attributes[Sender Email]"
                   data-attr-field="Sender Email"
                   value="{{ cart.attributes['Sender Email'] }}"
-                  placeholder="you@email.com"
+                  placeholder="{{ 'cart_page.sender_email_placeholder' | t }}"
                   class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]"
                 >
               </div>
@@ -151,24 +156,24 @@
               href="{{ continue_url }}"
               class="flex h-11 w-full items-center justify-center rounded-lg border border-[#CCC8A8] text-xs font-semibold uppercase tracking-[1px] text-[#3D3B2F] transition-colors duration-200 hover:border-[#3D3B2F]"
             >
-              {{ section.settings.continue_shopping_label | default: 'Continue Shopping?' }}
+              {{ section.settings.continue_shopping_label | default: continue_label_fb }}
             </a>
 
             <div class="mt-6 rounded-lg border border-[#CCC8A8] bg-white p-6">
-              <h2 class="text-base font-semibold text-[#3D3B2F]">Cart Totals</h2>
+              <h2 class="text-base font-semibold text-[#3D3B2F]">{{ 'cart_page.cart_totals' | t }}</h2>
 
-              <p class="mt-3 hidden text-xs text-[#B3261E]" data-cart-error role="alert"></p>
+              <p class="mt-3 hidden text-xs text-[#B3261E]" data-cart-error role="alert" data-i18n-error="{{ 'cart_page.update_error' | t }}"></p>
 
               <div class="mt-5 flex items-center justify-between text-sm text-[#3D3B2F]">
-                <span>Subtotal</span>
+                <span>{{ 'cart_page.subtotal' | t }}</span>
                 <span data-cart-subtotal>{{ cart.total_price | money }}</span>
               </div>
               <div class="mt-3 flex items-center justify-between text-sm text-[#3D3B2F]">
-                <span>Delivery</span>
+                <span>{{ 'cart_page.delivery' | t }}</span>
                 <span>{{ delivery_fee_cents | money }}</span>
               </div>
               <div class="mt-4 flex items-center justify-between border-t border-[#EAE8E8] pt-4 text-sm font-semibold text-[#3D3B2F]">
-                <span>Total</span>
+                <span>{{ 'cart_page.total' | t }}</span>
                 <span data-cart-total>{{ grand_total | money }}</span>
               </div>
 
@@ -177,7 +182,7 @@
                 name="checkout"
                 class="mt-5 flex h-12 w-full items-center justify-center rounded-lg bg-[#BBCCBF] text-center text-xs font-semibold uppercase tracking-[1px] text-white outline-none transition-colors duration-200 hover:bg-[#A8BCAE] focus-visible:ring-2 focus-visible:ring-[#3D3B2F] focus-visible:ring-offset-2"
               >
-                {{ section.settings.checkout_label | default: 'Proceed to Checkout' }} - {{ grand_total | money }}
+                {{ section.settings.checkout_label | default: checkout_label_fb }} - {{ grand_total | money }}
               </button>
             </div>
           </div>
@@ -243,7 +248,7 @@
         if (res.ok) {
           syncCartBadge(data.item_count);
         } else {
-          errorMessage = data.message || 'This item could not be updated.';
+          errorMessage = data.message || document.querySelector('[data-cart-error]')?.dataset.i18nError || 'This item could not be updated.';
         }
         await refreshSection();
         if (errorMessage) showError(errorMessage);

@@ -19,6 +19,16 @@
 {%- liquid
   assign shop_url = routes.all_products_collection_url
   assign contact_url = routes.root_url | append: '#contact'
+  assign row_birthday_eyebrow = 'occasions_page.rows.birthday.eyebrow' | t
+  assign row_birthday_heading = 'occasions_page.rows.birthday.heading' | t
+  assign row_anniversary_eyebrow = 'occasions_page.rows.anniversary.eyebrow' | t
+  assign row_anniversary_heading = 'occasions_page.rows.anniversary.heading' | t
+  assign row_graduation_eyebrow = 'occasions_page.rows.graduation.eyebrow' | t
+  assign row_graduation_heading = 'occasions_page.rows.graduation.heading' | t
+  assign row_sympathy_eyebrow = 'occasions_page.rows.sympathy.eyebrow' | t
+  assign row_sympathy_heading = 'occasions_page.rows.sympathy.heading' | t
+  assign row_get_well_eyebrow = 'occasions_page.rows.get_well.eyebrow' | t
+  assign row_get_well_heading = 'occasions_page.rows.get_well.heading' | t
 -%}
 
 {% comment %} 1. Hero {% endcomment %}
@@ -28,7 +38,7 @@
       {% comment %} TODO: swap for the bride/bouquet hero photo once supplied {% endcomment %}
       <img
         src="{{ 'hero-2.png' | asset_url }}"
-        alt="Rangkaian bunga ANIA untuk momen spesial"
+        alt="{{ 'occasions_page.hero_img_alt' | t }}"
         class="aspect-[4/5] w-full rounded-lg object-cover sm:aspect-square lg:aspect-[4/5]"
         width="1440"
         height="1440"
@@ -37,11 +47,11 @@
     </div>
 
     <div class="max-w-[535px]">
-      <p class="text-[13px] font-semibold uppercase tracking-[5.6px] text-[#525252] sm:text-[14px]">What's the Occasion?</p>
-      <h1 class="mt-6 font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.12] text-[#525252] sm:text-5xl lg:text-[52px]">Tell us the moment, and we'll help you find flowers that say it beautifully.</h1>
+      <p class="text-[13px] font-semibold uppercase tracking-[5.6px] text-[#525252] sm:text-[14px]">{{ 'occasions_page.hero_eyebrow' | t }}</p>
+      <h1 class="mt-6 font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.12] text-[#525252] sm:text-5xl lg:text-[52px]">{{ 'occasions_page.hero_heading' | t }}</h1>
       <div class="mt-9 flex flex-wrap items-center gap-4">
-        <a href="{{ shop_url }}" class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]">Shop Flowers</a>
-        <a href="{{ contact_url }}" class="flex h-9 items-center justify-center rounded-lg bg-[#BBCCBF] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#A8BCAE]">Custom Order</a>
+        <a href="{{ shop_url }}" class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]">{{ 'occasions_page.shop_flowers' | t }}</a>
+        <a href="{{ contact_url }}" class="flex h-9 items-center justify-center rounded-lg bg-[#BBCCBF] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#A8BCAE]">{{ 'occasions_page.custom_order' | t }}</a>
       </div>
     </div>
   </div>
@@ -52,15 +62,15 @@
   <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
     <div class="relative pb-8 text-center">
       <span class="absolute bottom-0 left-0 h-px w-full bg-[#CCC8A8]" aria-hidden="true"></span>
-      <h2 class="relative inline-block bg-[#FAFAF2] px-6 font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">What Do You Want to Say?</h2>
+      <h2 class="relative inline-block bg-[#FAFAF2] px-6 font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">{{ 'occasions_page.say_heading' | t }}</h2>
     </div>
 
     <div class="mt-2">
-      {% render 'occasion-row', row_id: 'birthday', eyebrow: 'Birthday Flower', heading: 'Happy Birthday!', occasion: 'Birthday' %}
-      {% render 'occasion-row', row_id: 'anniversary', eyebrow: 'Anniversary', heading: 'I Love You', occasion: 'Anniversary' %}
-      {% render 'occasion-row', row_id: 'graduation', eyebrow: 'Graduation', heading: 'Happy Graduation!', occasion: 'Graduation' %}
-      {% render 'occasion-row', row_id: 'sympathy', eyebrow: 'Sympathy', heading: 'Deepest Condolences', occasion: 'Sympathy' %}
-      {% render 'occasion-row', row_id: 'get-well-soon', eyebrow: 'Get Well Soon', heading: 'Speedy Recovery', occasion: 'Get Well Soon' %}
+      {% render 'occasion-row', row_id: 'birthday', eyebrow: row_birthday_eyebrow, heading: row_birthday_heading, occasion: 'Birthday' %}
+      {% render 'occasion-row', row_id: 'anniversary', eyebrow: row_anniversary_eyebrow, heading: row_anniversary_heading, occasion: 'Anniversary' %}
+      {% render 'occasion-row', row_id: 'graduation', eyebrow: row_graduation_eyebrow, heading: row_graduation_heading, occasion: 'Graduation' %}
+      {% render 'occasion-row', row_id: 'sympathy', eyebrow: row_sympathy_eyebrow, heading: row_sympathy_heading, occasion: 'Sympathy' %}
+      {% render 'occasion-row', row_id: 'get-well-soon', eyebrow: row_get_well_eyebrow, heading: row_get_well_heading, occasion: 'Get Well Soon' %}
     </div>
   </div>
 </section>
@@ -70,55 +80,55 @@
   <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
     <div class="relative pb-8 text-center">
       <span class="absolute bottom-0 left-0 h-px w-full bg-[#CCC8A8]" aria-hidden="true"></span>
-      <h2 class="relative inline-block bg-[#FAFAF2] px-6 font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">Who Are You Sending Flowers To?</h2>
+      <h2 class="relative inline-block bg-[#FAFAF2] px-6 font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">{{ 'occasions_page.recipients_heading' | t }}</h2>
     </div>
 
     <div class="mt-10 grid grid-cols-1 border-l border-t border-[#CCC8A8] sm:grid-cols-2 lg:grid-cols-3">
       {% comment %} Romantic partner {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><path d="M12 20.5s-7.5-4.6-9.7-9C.9 8.2 2.3 4.8 5.5 4.4c2-.3 4 .7 5 2.4 0 0 1-1.8 3.2-2 2.2-.2 4 1.5 4.5 3.6.5 2.1-.9 4.4-2.2 6-2.4 2.9-4 6.1-4 6.1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">Your Romantic Partner</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">For your partner, romantic and meaningful blooms are always a thoughtful choice. Classic roses are timeless, while their favourite colour can make the gesture feel even more personal.</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">Best for: Anniversaries · Valentine's Day · Birthdays · Just Because</p>
+        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_partner_title' | t }}</h3>
+        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_partner_text' | t }}</p>
+        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_partner_best' | t }}</p>
       </div>
 
       {% comment %} Parents {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><circle cx="9" cy="7" r="3.2" stroke="currentColor" stroke-width="1.5" /><circle cx="17" cy="8.5" r="2.4" stroke="currentColor" stroke-width="1.5" /><path d="M3 20.5c0-3.5 2.7-6.2 6-6.2s6 2.7 6 6.2M14.8 20.5c-.2-2.6-1.4-4.7-3.2-5.9M15 12.4c2.6.1 4.7 2.2 4.9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">Your Parents</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">Soft, elegant arrangements in cheerful or sophisticated colours are a lovely way to show appreciation. Consider flowers that feel warm, graceful, and thoughtful rather than overly romantic.</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">Best for: Mother's Day · Father's Day · Birthdays · Anniversaries</p>
+        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_parents_title' | t }}</h3>
+        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_parents_text' | t }}</p>
+        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_parents_best' | t }}</p>
       </div>
 
       {% comment %} Friend {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><circle cx="8.5" cy="8" r="3" stroke="currentColor" stroke-width="1.5" /><path d="M2.8 20c0-3.4 2.5-5.8 5.7-5.8s5.7 2.4 5.7 5.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /><path d="M16 4.3c1.6.4 2.7 1.8 2.7 3.4 0 1.3-.7 2.5-1.8 3.1l.4 2.3-2-1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">A Friend</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">Colourful bouquets and playful arrangements work beautifully for friends. Choose something that reflects their personality or simply brings a little happiness to their day.</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">Best for: Birthdays · Congratulations · Get Well Soon</p>
+        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_friend_title' | t }}</h3>
+        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_friend_text' | t }}</p>
+        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_friend_best' | t }}</p>
       </div>
 
       {% comment %} Colleague / business {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><rect x="3" y="8" width="18" height="11" rx="1.6" stroke="currentColor" stroke-width="1.5" /><path d="M8.5 8V6.2A1.7 1.7 0 0 1 10.2 4.5h3.6a1.7 1.7 0 0 1 1.7 1.7V8M3 13h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">A Colleague or Business Partner</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">For corporate gifting, opt for sophisticated arrangements with a refined colour palette. Minimal, elegant styles are ideal when you want to express appreciation without feeling overly personal.</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">Best for: Congratulations · Thank You · New Business · Corporate Events</p>
+        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_colleague_title' | t }}</h3>
+        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_colleague_text' | t }}</p>
+        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_colleague_best' | t }}</p>
       </div>
 
       {% comment %} Difficult time {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4.5 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /><path d="M8 9.5c0-1 .8-1.7 1.7-1.7.6 0 1 .3 1.3.7.3-.4.7-.7 1.3-.7.9 0 1.7.7 1.7 1.7 0 1.4-1.6 2.5-3 3.5-1.4-1-3-2.1-3-3.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">Someone Going Through a Difficult Time</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">Let the flowers speak gently. Choose elegant, understated arrangements in soft or calming tones. The gesture is more important than the size — thoughtful flowers can quietly communicate that you're thinking of them.</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">Best for: Sympathy · Condolences · Get Well Soon · Thinking of You</p>
+        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_difficult_title' | t }}</h3>
+        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_difficult_text' | t }}</p>
+        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_difficult_best' | t }}</p>
       </div>
 
       {% comment %} CTA cell {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] bg-[#FDF6F1] p-8">
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">Have Someone Special in Mind?</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">Tell our florist what you have in mind, and we'll help you create a thoughtful arrangement made just for them.</p>
-        <a href="{{ contact_url }}" class="mt-2 flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]">Talk to Our Florist</a>
+        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.cta_title' | t }}</h3>
+        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.cta_text' | t }}</p>
+        <a href="{{ contact_url }}" class="mt-2 flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]">{{ 'occasions_page.cta_button' | t }}</a>
       </div>
     </div>
   </div>
@@ -143,7 +153,7 @@
         pagination.classList.remove('hidden');
         pagination.classList.add('flex');
         pagination.innerHTML = `
-          <button type="button" data-row-prev aria-label="Previous">
+          <button type="button" data-row-prev aria-label="${pagination.dataset.i18nPrev || 'Previous'}">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </button>
           <div class="flex items-baseline gap-2 text-sm text-[#A2A2A2]">
@@ -155,7 +165,7 @@
               )
               .join('')}
           </div>
-          <button type="button" data-row-next aria-label="Next">
+          <button type="button" data-row-next aria-label="${pagination.dataset.i18nNext || 'Next'}">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </button>
         `;

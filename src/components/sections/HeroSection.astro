@@ -1,0 +1,136 @@
+---
+/**
+ * HeroSection — Bagian hero homepage ANIA.
+ *
+ * Mengikuti Figma node 137:1007 (Landing Page ANIA Revamp):
+ *   - Gambar latar "web 3 1" + overlay gradasi lembut
+ *   - Eyebrow "ANIA Flower Boutique" (Open Sans 14/600, ls 5.6, #525252)
+ *   - Judul Cormorant Garamond 60 "#525252":
+ *     "Looking for the Perfect Flowers Today?  We've Got You."
+ *   - 4 bullet keunggulan dengan tanda centang
+ *   - CTA: SHOP FLOWERS / CONTACT FLORIST (olive #899B7A, r8)
+ *   - CTA sekunder "VIEW CATALOGUE" (outline #BBCCBF + ikon dokumen)
+ *   - Slider 3 bar progress di bawah (aktif #899B7A)
+ *   - Tombol WhatsApp melayang kanan-bawah
+ */
+import { Image } from 'astro:assets';
+import heroBg from '../../assets/figma/hero-bg.png';
+
+const bullets = [
+	'Handcrafted by Florists',
+	'Professionally arranged',
+	'10+ years of floral craftsmanship',
+	'Same-Day Flower Delivery',
+];
+---
+
+<section class="relative w-full overflow-hidden bg-[#FAFAF2]" aria-label="Hero">
+	<!-- Gambar latar -->
+	<div class="absolute inset-0">
+		<Image
+			src={heroBg}
+			alt=""
+			width={1440}
+			height={815}
+			class="h-full w-full object-cover object-center"
+			loading="eager"
+			fetchpriority="high"
+		/>
+	</div>
+
+	<!-- Overlay gradasi agar teks terbaca -->
+	<div
+		class="absolute inset-0 bg-gradient-to-r from-[#FAFAF2]/90 via-[#FAFAF2]/45 to-[#FAFAF2]/10"
+		aria-hidden="true"
+	></div>
+
+	<!-- Konten -->
+	<div
+		class="relative z-10 mx-auto flex min-h-[560px] w-full max-w-[1440px] flex-col justify-center px-5 py-20 sm:px-8 md:min-h-[700px] lg:min-h-[812px] lg:px-[70px] lg:py-24"
+	>
+		<div class="max-w-[621px]">
+			<p class="text-[13px] font-semibold uppercase tracking-[5.6px] text-[#525252] sm:text-[14px]">
+				ANIA Flower Boutique
+			</p>
+
+			<h1
+				class="mt-7 font-['Cormorant_Garamond'] text-[42px] font-normal leading-[1.08] text-[#525252] sm:text-6xl lg:text-[60px] lg:leading-[1.1]"
+			>
+				Looking for the Perfect Flowers Today?
+				<br />
+				<span class="italic">We've Got You.</span>
+			</h1>
+
+			<ul class="mt-10 space-y-2.5 text-sm font-normal text-[#525252]">
+				{bullets.map((b) => (
+					<li class="flex items-center gap-2.5">
+						<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" class="shrink-0">
+							<path
+								d="M12.8 2.2a1 1 0 0 0-1.4 0L5 8.6l-2.4-2.4a1 1 0 0 0-1.4 1.4l3.1 3.1a1 1 0 0 0 1.4 0l7-7a1 1 0 0 0 .1-1.5Z"
+								fill="#899B7A"
+							/>
+						</svg>
+						{b}
+					</li>
+				))}
+			</ul>
+
+			<!-- CTA utama -->
+			<div class="mt-12 flex flex-wrap items-center gap-5">
+				<a
+					href="/products"
+					class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
+				>
+					Shop Flowers
+				</a>
+				<a
+					href="/#contact"
+					class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
+				>
+					Contact Florist
+				</a>
+			</div>
+
+			<!-- CTA sekunder -->
+			<a
+				href="/products"
+				class="mt-6 flex h-9 w-fit items-center gap-2.5 rounded-lg border border-[#BBCCBF] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-[#BBCCBF] transition-colors duration-200 hover:bg-[#BBCCBF]/10"
+			>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path
+						d="M3 2.5h7l3 3v8h-10v-11Zm7 0v3h3"
+						stroke="currentColor"
+						stroke-width="1.2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path d="M5.5 8.5h5M5.5 11h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+				</svg>
+				View Catalogue
+			</a>
+		</div>
+	</div>
+
+	<!-- Slider progress -->
+	<div class="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 lg:bottom-12 lg:left-[70px] lg:translate-x-0">
+		<span class="block h-[2px] w-16 rounded-full bg-[#899B7A] lg:w-[432px]"></span>
+		<span class="block h-[2px] w-16 rounded-full bg-[#899B7A]/25 lg:w-[432px]"></span>
+		<span class="block h-[2px] w-16 rounded-full bg-[#899B7A]/25 lg:w-[432px]"></span>
+	</div>
+
+	<!-- WhatsApp float -->
+	<a
+		href="https://wa.me/"
+		target="_blank"
+		rel="noopener"
+		aria-label="Chat WhatsApp"
+		class="absolute bottom-6 right-6 z-20 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition-transform duration-200 hover:scale-105"
+	>
+		<svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+			<path
+				d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.25-.64.8-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.29Z"
+				fill="#22CE5A"
+			/>
+		</svg>
+	</a>
+</section>

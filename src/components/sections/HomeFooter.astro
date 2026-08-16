@@ -1,0 +1,182 @@
+---
+/**
+ * HomeFooter — Footer homepage ANIA (bg #FDF6F1).
+ *
+ * Mengikuti Figma node 137:1006:
+ *   - Order section: "Find your Perfect Bouquet today!" + input email + 2 CTA
+ *   - Kolom link Shop / Resources / Help
+ *   - Logo + tagline "Let Flowers Speak for You" + social
+ *   - Payment method (Visa, JCB, Mastercard, PayPal, Google Pay)
+ *   - Copyright "© ANIA Boutique Flower" (Crimson Text 14)
+ */
+import { Image } from 'astro:assets';
+import logoDark from '../../assets/figma/logo-dark.png';
+
+const shopLinks = [
+	'All Products',
+	'Preserved Flower',
+	'Bloom Box & Basket',
+	'Premium Wrapped Bloom',
+	'Vase Arrangement',
+	'Standing Flower & Flower Board',
+	'Accessories',
+];
+
+const resourcesLinks = ['Terms and Conditions', 'Frequently Asked Questions', 'How to Order'];
+---
+
+<footer class="bg-[#FDF6F1]">
+	<!-- Order section -->
+	<div class="border-b border-[#CCC8A8]">
+		<div
+			class="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:px-[70px] lg:py-[50px]"
+		>
+			<h2 class="max-w-[501px] font-['Cormorant_Garamond'] text-4xl font-normal leading-tight text-[#3D3B2F] lg:text-[40px]">
+				Find your Perfect Bouquet today!
+			</h2>
+
+			<!-- Input email -->
+			<form class="flex w-full max-w-[506px] flex-col gap-[5px]" onsubmit="return false">
+				<label for="footer-email" class="text-xs font-normal text-[#525252]">Email address</label>
+				<div class="flex h-11 items-center gap-2 rounded-lg border border-[#CCC8A8] bg-white px-4">
+					<input
+						id="footer-email"
+						type="email"
+						placeholder="name@email.com"
+						class="h-full flex-1 bg-transparent text-sm font-normal text-[#525252] outline-none placeholder:text-[#A2A2A2]"
+					/>
+					<button
+						type="submit"
+						aria-label="Subscribe"
+						class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-[#899B7A] p-0 text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
+					>
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+							<path d="M3 12h16m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</button>
+				</div>
+			</form>
+
+			<!-- CTA -->
+			<div class="flex shrink-0 flex-wrap items-center gap-4">
+				<a
+					href="/#contact"
+					class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
+				>
+					Consult with our team
+				</a>
+				<a
+					href="/products"
+					class="flex h-9 items-center justify-center rounded-lg border border-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-[#899B7A] transition-colors duration-200 hover:bg-[#899B7A]/10"
+				>
+					Shop Flowers
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Body footer -->
+	<div class="border-b border-[#CCC8A8]">
+		<div class="mx-auto flex w-full max-w-[1440px] flex-col gap-12 px-4 py-12 sm:px-6 lg:flex-row lg:justify-between lg:gap-10 lg:px-[70px] lg:py-[70px]">
+			<!-- Logo + tagline + social -->
+			<div class="flex max-w-[300px] flex-col gap-6">
+				<div>
+					<Image src={logoDark} alt="ANIA" width={142} height={104} class="h-24 w-auto object-contain" loading="lazy" />
+					<p class="mt-4 text-[11px] font-semibold uppercase tracking-[4.24px] text-[#3D3B2F]">
+						Let Flowers Speak for You
+					</p>
+				</div>
+
+				<div class="flex flex-col gap-3">
+					<a href="#" class="flex items-center gap-3 text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+							<rect x="1" y="1" width="14" height="14" rx="4" stroke="currentColor" stroke-width="1.3" />
+							<circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3" />
+							<circle cx="12" cy="4" r="1" fill="currentColor" />
+						</svg>
+						Instagram
+					</a>
+					<a href="#" class="flex items-center gap-3 text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+							<path
+								d="M10.2 2.5c1.6.1 2.3 1.1 2.3 2.9v5.2c0 1.8-.7 2.8-2.3 2.9-.2 0-.4-.3-.3-.6l.6-3.4c0-.5-.5-.8-1-.5l-3.6 3.4c-.3.2-.6.1-.7-.2l-1.4-6c-.1-.4 0-.8.4-.8.4 0 .8.2.9.6l.6 2.7c.2-.9.3-2 .1-3.2-.1-.6-.2-1.6-.2-2.1 0-.6.2-1 .8-1Z"
+								fill="currentColor"
+							/>
+						</svg>
+						Facebook
+					</a>
+					<a href="#" class="flex items-center gap-3 text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+							<path d="M9.5 1.5a2 2 0 0 0 2 2v3.5a5.5 5.5 0 0 1-11 0V5l3 2M9.5 1.5H8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+						</svg>
+						TikTok
+					</a>
+				</div>
+			</div>
+
+			<!-- Kolom link -->
+			<div class="flex flex-wrap gap-10 lg:gap-9">
+				<div class="flex flex-col gap-4">
+					<h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">Shop</h3>
+					<ul class="flex flex-col gap-[10px]">
+						{shopLinks.map((l) => (
+							<li>
+								<a href="/products" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">
+									{l}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+
+				<div class="flex flex-col gap-4">
+					<h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">Resources</h3>
+					<ul class="flex flex-col gap-[10px]">
+						{resourcesLinks.map((l) => (
+							<li>
+								<a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">
+									{l}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+
+				<div class="flex flex-col gap-4">
+					<h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">Help</h3>
+					<a href="mailto:team@myania.com" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">
+						team@myania.com
+					</a>
+				</div>
+			</div>
+
+			<!-- Payment -->
+			<div class="flex max-w-[280px] flex-col gap-4">
+				<h3 class="font-['Crimson_Text'] text-xl font-semibold text-[#3D3B2F]">We Accept</h3>
+				<div class="flex flex-wrap gap-2">
+					<span class="flex h-[30px] w-[43px] items-center justify-center rounded-[2.5px] border border-[#D9D9D9] bg-white text-[8px] font-bold italic text-[#172B85]">
+						VISA
+					</span>
+					<span class="flex h-[30px] w-[43px] items-center justify-center rounded-[2.5px] border border-[#D9D9D9] bg-white text-[8px] font-bold text-[#0E4C96]">
+						JCB
+					</span>
+					<span class="flex h-[30px] w-[43px] items-center justify-center gap-[1px] rounded-[2.5px] border border-[#D9D9D9] bg-white" title="Mastercard">
+						<span class="h-2.5 w-2.5 rounded-full bg-[#ED0006]/80"></span>
+						<span class="h-2.5 w-2.5 rounded-full bg-[#F9A000]/80"></span>
+					</span>
+					<span class="flex h-[30px] w-[43px] items-center justify-center rounded-[2.5px] border border-[#D9D9D9] bg-white text-[8px] font-bold italic text-[#253B80]">
+						PayPal
+					</span>
+					<span class="flex h-[30px] w-[43px] items-center justify-center rounded-[2.5px] border border-[#D9D9D9] bg-white text-[8px] font-bold text-[#3C4043]">
+						G Pay
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Copyright -->
+	<div class="mx-auto flex w-full max-w-[1440px] items-center justify-between px-4 py-5 sm:px-6 lg:px-[70px]">
+		<p class="font-['Crimson_Text'] text-sm font-normal text-[#3D3B2F]">© ANIA Boutique Flower</p>
+	</div>
+</footer>

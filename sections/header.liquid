@@ -6,6 +6,7 @@
   assign announcement_text = section.settings.announcement_text
   assign announcement_label = section.settings.announcement_link_label
   assign announcement_href = section.settings.announcement_link | default: routes.root_url
+  assign occasions_url = pages.occasions.url | default: '/pages/occasions'
 
   # Logo: on the landing page start with the white variant (it sits on the dark hero),
   # everywhere else use the dark variant. The scroll script swaps between the two.
@@ -27,7 +28,7 @@
   <div class="flex h-[35px] items-center justify-center gap-3 bg-[#BBCCBF] px-4">
     <p class="whitespace-nowrap text-sm text-[#FAFAF2]">{{ announcement_text }}</p>
     <a
-      href="{{ announcement_href }}#occasions"
+      href="{{ announcement_href }}"
       class="flex h-6 shrink-0 items-center gap-1.5 rounded-full bg-[#FDF6F1] pl-3 pr-2 text-sm font-semibold leading-none text-[#BBCCBF] transition-opacity duration-200 hover:opacity-85"
     >
       {{ announcement_label }}
@@ -70,7 +71,7 @@
             <a href="{{ routes.all_products_collection_url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Shop</a>
           </li>
           <li>
-            <a href="{{ routes.root_url }}#occasions" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">For Occasions</a>
+            <a href="{{ occasions_url }}" class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">For Occasions</a>
           </li>
         </ul>
       {% endif %}
@@ -154,7 +155,7 @@
           <a href="{{ routes.all_products_collection_url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">Shop</a>
         </li>
         <li>
-          <a href="{{ routes.root_url }}#occasions" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">For Occasions</a>
+          <a href="{{ occasions_url }}" class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70">For Occasions</a>
         </li>
       {% endif %}
 

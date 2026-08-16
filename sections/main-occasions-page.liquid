@@ -1,0 +1,21 @@
+{% comment %}
+  Main Occasions Page — standalone "For Occasions" destination.
+  The design markup lives in snippets/occasions-page.liquid so it can also be
+  auto-rendered by the default page template (sections/page.liquid) when
+  page.handle == 'occasions' - no admin template assignment required.
+{% endcomment %}
+
+{% render 'occasions-page' %}
+
+{% schema %}
+{
+  "name": "Occasions Page (ANIA)",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Occasions Page (ANIA)",
+      "category": "ANIA"
+    }
+  ]
+}
+{% endschema %}

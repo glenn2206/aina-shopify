@@ -1,0 +1,107 @@
+---
+/**
+ * SocialStory — Section "A Flower for every Story" (Group 20 node 137:4310).
+ *
+ * Panel 1440x627 @(0,2430), bg #FAFAF2, border #A8A58C:
+ *   - Judul Cormorant Garamond 60 #525252 "A Flower for every Story"
+ *   - Deskripsi Open Sans 14 #1E2934
+ *   - 2 foto Instagram 459x474 (border #A8A58C)
+ *   - Pagination "1 2 3" (aktif #525252 + underline)
+ *   - "VISIT OUR SOCIAL MEDIA" Open Sans 14/600 ls5.6 #3D3B2F
+ *     + garis #BBCCBF + 3 ikon sosial 32x32 #BBCCBF
+ */
+import { Image } from 'astro:assets';
+import story1 from '../../assets/figma/about-story-1.png';
+import story2 from '../../assets/figma/about-story-2.png';
+---
+
+<section class="bg-[#FDF6F1] pb-[120px]">
+	<div class="mx-auto w-full max-w-[1440px]">
+		<div class="border border-[#A8A58C] bg-[#FAFAF2] px-5 py-10 sm:px-8 lg:px-[70px] lg:py-12">
+			<div class="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-12">
+				<!-- Teks -->
+				<div class="max-w-[349px] shrink-0">
+					<h2 class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#525252] sm:text-5xl lg:text-[60px]">
+						A Flower for every Story
+					</h2>
+					<p class="mt-6 max-w-[314px] text-sm font-normal leading-relaxed text-[#1E2934]">
+						From joyful celebrations to quiet gestures, see how our flowers become part of life’s most meaningful
+						moments.
+					</p>
+				</div>
+
+				<!-- Foto Instagram -->
+				<div class="flex flex-col items-center gap-6 sm:flex-row sm:gap-[31px]">
+					<Image
+						src={story1}
+						alt="Kegiatan di sosial media ANIA 1"
+						class="aspect-[459/474] w-full max-w-[459px] border border-[#A8A58C] object-cover sm:w-[459px]"
+						width={918}
+						height={948}
+						loading="lazy"
+					/>
+					<Image
+						src={story2}
+						alt="Kegiatan di sosial media ANIA 2"
+						class="aspect-[459/474] w-full max-w-[459px] border border-[#A8A58C] object-cover sm:w-[459px]"
+						width={918}
+						height={948}
+						loading="lazy"
+					/>
+				</div>
+			</div>
+
+			<!-- Pagination + social media -->
+			<div class="mt-10 flex flex-wrap items-center justify-between gap-6 lg:mt-12">
+				<!-- Pagination -->
+				<div class="flex items-center gap-4">
+					<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+						<path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+					<div class="relative flex items-baseline gap-2 text-sm text-[#A2A2A2]">
+						<span class="relative font-bold text-[#525252]">
+							1
+							<span class="absolute -bottom-[6px] left-0 h-px w-[20px] bg-[#525252]"></span>
+						</span>
+						<span>2</span>
+						<span>3</span>
+					</div>
+					<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+						<path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</div>
+
+				<!-- VISIT OUR SOCIAL MEDIA -->
+				<div class="flex items-center gap-6">
+					<p class="whitespace-nowrap text-[13px] font-semibold uppercase tracking-[5.6px] text-[#3D3B2F] sm:text-[14px]">
+						Visit Our Social Media
+					</p>
+					<span class="hidden h-px w-[58px] bg-[#BBCCBF] sm:block" aria-hidden="true"></span>
+					<div class="flex items-center gap-6 text-[#BBCCBF]">
+						<a href="#" aria-label="Instagram" class="transition-opacity hover:opacity-70">
+							<svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+								<rect x="2" y="2" width="28" height="28" rx="8" stroke="currentColor" stroke-width="1.5" />
+								<circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5" />
+								<circle cx="23" cy="9" r="1.6" fill="currentColor" />
+							</svg>
+						</a>
+						<a href="#" aria-label="Facebook" class="transition-opacity hover:opacity-70">
+							<svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+								<path
+									d="M20.4 5c3.2.2 4.6 2.2 4.6 5.8v10.4c0 3.6-1.4 5.6-4.6 5.8-.4 0-.8-.6-.6-1.2l1.2-6.8c0-1-.9-1.6-2-1L11.5 27c-.5.4-1.1.1-1.3-.4L7.4 15.4c-.1-.8 0-1.5.8-1.5.8.1 1.6.3 1.8 1.2l1.2 5.4c.4-1.8.6-4 .2-6.4-.1-1.2-.3-3.2-.3-4.2 0-1.1.3-1.9 1.5-1.9Z"
+									fill="currentColor"
+								/>
+							</svg>
+						</a>
+						<a href="#" aria-label="TikTok" class="transition-opacity hover:opacity-70">
+							<svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+								<path d="M19 3a4 4 0 0 0 4 4v7a11 11 0 0 1-11 11v0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+								<path d="M19 3h-3v14.5a4.5 4.5 0 0 1-9 .5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+							</svg>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

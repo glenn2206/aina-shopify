@@ -1,0 +1,85 @@
+---
+/**
+ * BehindFlower — Section "Behind The Flower" (Care Instructions, About node 137:4310).
+ *
+ * Frame 1440x432 @(-2,1188) bg #FAFAF2:
+ *   - Heading Crimson Text 32 #1E2934 (rata tengah)
+ *   - Deskripsi Open Sans 14 #1E2934 (rata tengah, max 508px)
+ *   - Garis pemisah horizontal atas/bawah + vertikal antar kolom (#CCC8A8)
+ *   - 3 langkah: Select, Arrange, Prepare & Delivery
+ *     (Cormorant Garamond 30/600 #525252, deskripsi Open Sans 14 #3D3B2F)
+ *   - Ikon 48x48 #3D3B2F
+ */
+const steps = [
+	{
+		title: 'Select',
+		desc: 'We carefully select flowers for quality, freshness and character.',
+		icon: 'tick',
+	},
+	{
+		title: 'Arrange',
+		desc: 'Our florists thoughtfully design each arrangement.',
+		icon: 'spray',
+	},
+	{
+		title: 'Prepare & Delivery',
+		desc: 'Every order is carefully wrapped and prepared for delivery.',
+		icon: 'truck',
+	},
+];
+---
+
+<section class="bg-[#FAFAF2]">
+	<div class="mx-auto w-full max-w-[1440px] px-4 py-[70px] sm:px-6 lg:px-[70px] lg:py-[86px]">
+		<!-- Heading -->
+		<h2 class="text-center font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">
+			Behind The Flower
+		</h2>
+		<p class="mx-auto mt-4 max-w-[508px] text-center text-sm font-normal leading-relaxed text-[#1E2934]">
+			From the first stem we select to the moment your flowers arrive, there’s a team of people who care about getting
+			every detail right.
+		</p>
+
+		<!-- 3 langkah -->
+		<div class="mt-14 grid grid-cols-1 divide-y divide-[#CCC8A8] border-y border-[#CCC8A8] md:grid-cols-3 md:divide-x md:divide-y-0">
+			{steps.map((s) => (
+				<div class="flex flex-col items-center gap-4 px-8 py-10 text-center">
+					<span class="flex h-12 w-12 items-center justify-center text-[#3D3B2F]">
+						{s.icon === 'tick' && (
+							<svg width="47" height="47" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+								<rect x="2.5" y="2.5" width="19" height="19" rx="4" stroke="currentColor" stroke-width="1.5" />
+								<path d="m7.5 12.2 3 3 6-6.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						)}
+						{s.icon === 'spray' && (
+							<svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+								<path d="M10 3h5a1 1 0 0 1 1 1v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V4a1 1 0 0 1 1-1h1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M14 3h2v3h-2z" fill="currentColor" />
+								<path d="M7 9h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+								<path d="M11.5 17.5a3 3 0 0 0 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+								<circle cx="15" cy="18" r="3" stroke="currentColor" stroke-width="1.5" />
+								<path d="M15 21v1.5M15 12v1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+							</svg>
+						)}
+						{s.icon === 'truck' && (
+							<svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+								<path d="M3 6h11v11H3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+								<path d="M14 9h4l3 3v5h-7V9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+								<circle cx="7" cy="18.5" r="2" stroke="currentColor" stroke-width="1.5" />
+								<circle cx="17.5" cy="18.5" r="2" stroke="currentColor" stroke-width="1.5" />
+							</svg>
+						)}
+					</span>
+					<div class="flex flex-col gap-2">
+						<h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]">
+							{s.title}
+						</h3>
+						<p class="mx-auto max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]">
+							{s.desc}
+						</p>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>

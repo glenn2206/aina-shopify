@@ -1,0 +1,19 @@
+---
+// Halaman /details — produk pertama sebagai default.
+// Setiap produk memiliki halaman khusus di /details/{slug} (lihat [slug].astro).
+import Layout from '../layouts/Layout.astro';
+import HomeFooter from '../components/sections/HomeFooter.astro';
+import ProductDetails from '../components/sections/ProductDetails.astro';
+import { products } from '../data/products';
+
+const product = products[0];
+const related = products.filter((p) => p.slug !== product.slug).slice(0, 4);
+---
+
+<Layout
+	title={`${product.title} — ANIA Flower Boutique`}
+	description={product.description[0]}
+>
+	<ProductDetails product={product} related={related} />
+	<HomeFooter />
+</Layout>

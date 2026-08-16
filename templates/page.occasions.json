@@ -1,0 +1,20 @@
+/*
+ * ------------------------------------------------------------------
+ * Occasions page template — ANIA "For Occasions" standalone page.
+ * Assign this template to the "occasions" page in Shopify admin
+ * (Online Store → Pages → Occasions → Theme template) if you want to
+ * manage it as a separate Page. Not required: sections/page.liquid
+ * already auto-renders this design for any page with handle "occasions".
+ * ------------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-occasions-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

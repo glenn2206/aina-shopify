@@ -1,7 +1,13 @@
 {% comment %}
   Occasions — "Find the Perfect Flowers for Every Moment."
   Rebuild of src astro/components/sections/Occasions.astro (pixel-by-pixel).
+  Homepage teaser only — the full standalone page lives at
+  snippets/occasions-page.liquid (pages.occasions.url), which this section's
+  "Check Other occasions" button links to.
 {% endcomment %}
+{%- liquid
+  assign occasions_url = pages.occasions.url | default: '/pages/occasions'
+-%}
 
 <section id="occasions" class="bg-[#FAFAF2] pb-[90px] pt-[60px] lg:pb-[110px]">
   <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
@@ -27,7 +33,7 @@
 
       <div class="mt-6 grid grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
         {% comment %} Kartu Graduation (bg olive, teks putih) {% endcomment %}
-        <a href="{{ routes.all_products_collection_url }}" class="group block">
+        <a href="{{ routes.all_products_collection_url }}?occasion=Graduation" class="group block">
           <div class="overflow-hidden rounded-[6px] bg-[#899B7A]">
             <div class="overflow-hidden">
               <img
@@ -49,7 +55,7 @@
         </a>
 
         {% comment %} Kartu Birthday (band border) {% endcomment %}
-        <a href="{{ routes.all_products_collection_url }}" class="group block">
+        <a href="{{ routes.all_products_collection_url }}?occasion=Birthday" class="group block">
           <div class="overflow-hidden rounded-[6px]">
             <div class="overflow-hidden">
               <img
@@ -71,7 +77,7 @@
         </a>
 
         {% comment %} Kartu Valentines (band border) {% endcomment %}
-        <a href="{{ routes.all_products_collection_url }}" class="group block">
+        <a href="{{ routes.all_products_collection_url }}?occasion=Valentines" class="group block">
           <div class="overflow-hidden rounded-[6px]">
             <div class="overflow-hidden">
               <img
@@ -114,7 +120,7 @@
 
       <div class="mt-8 flex justify-center lg:mt-10">
         <a
-          href="{{ routes.all_products_collection_url }}"
+          href="{{ occasions_url }}"
           class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
         >
           Check Other occasions

@@ -1,0 +1,177 @@
+---
+/**
+ * Navbar — Header ANIA (versi terang / "Navigation Bar 3" di Figma).
+ *
+ * Mengikuti Figma file "Untitled" node 137:1006 (Landing Page Desktop):
+ *   - Announcement bar 35px hijau sage #BBCCBF:
+ *     "Mother's Day Graduation Sale" + pill "25% Off! Shop Now"
+ *   - Baris navigasi #FDF6F1, logo di tengah,
+ *     menu kiri (SHOP, FOR OCCASIONS) & menu kanan (ABOUT US, CONTACT)
+ *   - Search icon, language toggle (glass), cart icon (#3D3B2F)
+ */
+import { Image } from 'astro:assets';
+import logoAina from '../assets/figma/logo-aina.svg';
+import LanguageToggle from './LanguageToggle.astro';
+import CartButton from './CartButton.astro';
+
+const menuLeft = [
+	{ label: 'SHOP', href: '/products' },
+	{ label: 'FOR OCCASIONS', href: '/#occasions' },
+];
+
+const menuRight = [
+	{ label: 'ABOUT US', href: '/about' },
+	{ label: 'CONTACT', href: '/#contact' },
+];
+
+const allMenu = [...menuLeft, ...menuRight];
+---
+
+<header data-navbar class="sticky top-0 z-50 w-full bg-[#FDF6F1]">
+	<!-- Announcement bar -->
+	<div class="flex h-[35px] items-center justify-center gap-3 bg-[#BBCCBF] px-4">
+		<p class="whitespace-nowrap text-sm text-[#FAFAF2]">Mother's Day Graduation Sale</p>
+		<a
+			href="/#occasions"
+			class="flex h-6 shrink-0 items-center gap-1.5 rounded-full bg-[#FDF6F1] pl-3 pr-2 text-sm font-semibold leading-none text-[#BBCCBF] transition-opacity duration-200 hover:opacity-85"
+		>
+			25% Off! Shop Now
+			<svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+				<path d="M3 1l4 4-4 4" stroke="#BBCCBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+		</a>
+	</div>
+
+	<nav
+		class="mx-auto grid h-[84px] w-full max-w-[1440px] grid-cols-[auto_1fr_auto] items-center gap-4 px-4 sm:px-6 lg:h-[109px] lg:grid-cols-[1fr_auto_1fr] lg:px-[36px]"
+		aria-label="Navigasi utama"
+	>
+		<!-- Kolom kiri: hamburger (mobile) + menu kiri (desktop) -->
+		<div class="flex items-center justify-start gap-6">
+			<button
+				data-nav-toggle
+				type="button"
+				class="relative flex h-9 w-9 cursor-pointer items-center justify-center border-0 bg-transparent p-0 lg:hidden"
+				aria-label="Buka menu"
+				aria-controls="mobile-menu"
+				aria-expanded="false"
+			>
+				<span class="absolute h-0.5 w-6 -translate-y-[7px] rounded-full bg-[#3D3B2F] transition-all duration-300 ease-out data-[open=true]:translate-y-0 data-[open=true]:rotate-45"></span>
+				<span class="absolute h-0.5 w-6 rounded-full bg-[#3D3B2F] transition-all duration-300 ease-out data-[open=true]:opacity-0"></span>
+				<span class="absolute h-0.5 w-6 translate-y-[7px] rounded-full bg-[#3D3B2F] transition-all duration-300 ease-out data-[open=true]:translate-y-0 data-[open=true]:-rotate-45"></span>
+			</button>
+
+			<ul class="hidden items-center gap-[42px] lg:flex">
+				{menuLeft.map((item) => (
+					<li>
+						<a
+							href={item.href}
+							class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70"
+						>
+							{item.label}
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+
+		<!-- Logo di tengah -->
+		<a href="/" class="flex items-center justify-center" aria-label="ANIA — Beranda">
+			<Image
+				src={logoAina}
+				alt="ANIA"
+				width={100}
+				height={71}
+				class="h-[52px] w-auto object-contain lg:h-[71px]"
+			/>
+		</a>
+
+		<!-- Kolom kanan: menu kanan (desktop) + ikon -->
+		<div class="flex items-center justify-end gap-4 sm:gap-6">
+			<ul class="hidden items-center gap-[42px] lg:flex">
+				{menuRight.map((item) => (
+					<li>
+						<a
+							href={item.href}
+							class="text-xs font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70"
+						>
+							{item.label}
+						</a>
+					</li>
+				))}
+			</ul>
+
+			<button
+				type="button"
+				aria-label="Cari"
+				class="hidden h-9 w-9 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70 sm:flex"
+			>
+				<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+					<circle cx="7.75" cy="7.75" r="5.5" stroke="currentColor" stroke-width="1.5" />
+					<line x1="11.8" y1="11.8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+				</svg>
+			</button>
+
+			<div class="hidden sm:block">
+				<LanguageToggle lang="en" />
+			</div>
+
+			<CartButton tone="dark" />
+		</div>
+	</nav>
+
+	<!-- Panel menu mobile -->
+	<div
+		id="mobile-menu"
+		data-nav-menu
+		data-open="false"
+		class="max-h-0 overflow-hidden border-t border-[#3D3B2F]/10 bg-[#FDF6F1]/95 opacity-0 backdrop-blur transition-[max-height,opacity] duration-300 ease-out data-[open=true]:max-h-[560px] data-[open=true]:opacity-100 lg:hidden"
+	>
+		<ul class="px-6 py-2">
+			{allMenu.map((item) => (
+				<li>
+					<a
+						href={item.href}
+						class="block border-b border-[#3D3B2F]/10 py-3.5 text-sm font-normal uppercase tracking-[2px] text-[#3D3B2F] transition-opacity duration-200 hover:opacity-70"
+					>
+						{item.label}
+					</a>
+				</li>
+			))}
+			<li class="py-4 sm:hidden">
+				<LanguageToggle lang="en" />
+			</li>
+		</ul>
+	</div>
+</header>
+
+<script>
+	(() => {
+		const navbar = document.querySelector('[data-navbar]');
+		if (!navbar) return;
+		const toggle = navbar.querySelector('[data-nav-toggle]');
+		const menu = navbar.querySelector('[data-nav-menu]');
+
+		const setOpen = (open) => {
+			if (!toggle || !menu) return;
+			toggle.setAttribute('aria-expanded', String(open));
+			toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+			menu.dataset.open = String(open);
+		};
+
+		toggle?.addEventListener('click', () => {
+			setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+		});
+
+		// Tutup menu saat link diklik
+		menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+
+		// Tutup saat klik di luar / tekan Escape
+		document.addEventListener('click', (e) => {
+			if (!navbar.contains(e.target)) setOpen(false);
+		});
+		window.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') setOpen(false);
+		});
+	})();
+</script>

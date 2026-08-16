@@ -1,7 +1,11 @@
 {
   "404": {
     "title": "404",
-    "not_found": "Page not found.",
+    "oops": "Oops — lost in the garden",
+    "heading": "Looks like this page is out of bloom.",
+    "not_found": "The page you're looking for has been moved, picked, or never existed. Let's get you back to something beautiful.",
+    "back_home": "Back to Home",
+    "view_collection": "View Collection",
     "back_to_shopping": "Back to shopping"
   },
   "blog": {

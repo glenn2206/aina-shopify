@@ -1,0 +1,26 @@
+---
+// Halaman detail produk dinamis: /details/{slug}
+// Semua halaman dipre-render saat build via getStaticPaths.
+import Layout from '../../layouts/Layout.astro';
+import HomeFooter from '../../components/sections/HomeFooter.astro';
+import ProductDetails from '../../components/sections/ProductDetails.astro';
+import { products } from '../../data/products';
+
+export function getStaticPaths() {
+	return products.map((product) => ({
+		params: { slug: product.slug },
+		props: { product },
+	}));
+}
+
+const { product } = Astro.props;
+const related = products.filter((p) => p.slug !== product.slug).slice(0, 4);
+---
+
+<Layout
+	title={`${product.title} — ANIA Flower Boutique`}
+	description={product.description[0]}
+>
+	<ProductDetails product={product} related={related} />
+	<HomeFooter />
+</Layout>

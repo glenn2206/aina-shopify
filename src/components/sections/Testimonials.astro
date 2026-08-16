@@ -1,0 +1,122 @@
+---
+/**
+ * Testimonials — Section "What Client Say About Us" (bg #FDF6F1).
+ *
+ * Mengikuti Figma node 137:1006:
+ *   - Heading Crimson Text 32 #1E2934 (rata tengah)
+ *   - Kartu 366x200, r6, bg #FDF6F1, stroke #CCC8A8, gap 12
+ *   - Deskripsi Mulish 14 #3D3B2F, profil (avatar 48px + nama + kota)
+ *   - Panah kiri/kanan untuk menggeser kartu
+ */
+import { Image } from 'astro:assets';
+import avatarClaudia from '../../assets/figma/avatar-claudia.png';
+import avatarDaniel from '../../assets/figma/avatar-daniel.png';
+import avatarMichelle from '../../assets/figma/avatar-michelle.png';
+
+const testimonials = [
+	{
+		quote:
+			'ANIA Flower Boutique truly helped me express feelings that were difficult to put into words. The flowers were fresh, the arrangements were absolutely beautiful, and the delivery was right on time. Highly recommended for special moments.',
+		name: 'Claudia S',
+		city: 'Jakarta Utara',
+		avatar: avatarClaudia,
+	},
+	{
+		quote:
+			'I ordered for an anniversary, and the result exceeded my expectations. The design was elegant, looked premium, and my partner absolutely loved it. The ordering process was also easy, and the response was quick.',
+		name: 'Daniel K',
+		city: 'Tangerang',
+		avatar: avatarDaniel,
+	},
+	{
+		quote:
+			'The service was outstanding. I ordered a standing flower arrangement for a congratulatory message, and the result was very neat and classy. ANIA truly understands how to convey messages through flowers.',
+		name: 'Michelle T',
+		city: 'Bekasi',
+		avatar: avatarMichelle,
+	},
+	{
+		quote:
+			'ANIA Flower Boutique truly helped me express feelings that were difficult to put into words. The flowers were fresh, the arrangements were absolutely beautiful, and the delivery was right on time. Highly recommended for special moments.',
+		name: 'Claudia S',
+		city: 'Jakarta Utara',
+		avatar: avatarClaudia,
+	},
+];
+---
+
+<section class="bg-[#FDF6F1] pb-[70px] pt-[50px] lg:pb-[90px]">
+	<div class="mx-auto w-full max-w-[1440px]">
+		<!-- Heading -->
+		<h2 class="text-center font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">
+			What Client Say About Us
+		</h2>
+
+		<!-- Track kartu -->
+		<div data-testi-scroll class="mt-10 flex gap-3 overflow-x-auto px-4 pb-4 sm:px-6 lg:px-[70px]" style="scrollbar-width:none">
+			{testimonials.map((t) => (
+				<article class="flex w-[366px] shrink-0 snap-start flex-col justify-between rounded-[6px] border border-[#CCC8A8] bg-[#FDF6F1] p-6">
+					<p class="text-sm font-normal leading-relaxed text-[#3D3B2F]" style="font-family:'Mulish',sans-serif">
+						{t.quote}
+					</p>
+					<div class="mt-6 flex items-center gap-2">
+						<Image
+							src={t.avatar}
+							alt={t.name}
+							width={48}
+							height={48}
+							class="h-12 w-12 shrink-0 rounded-full object-cover"
+						/>
+						<div class="ml-1 flex flex-col gap-0.5">
+							<span class="text-sm font-semibold tracking-[-0.6px] text-[#3D3B2F]">{t.name}</span>
+							<span class="text-xs font-normal text-[#3D3B2F]/50">{t.city}</span>
+						</div>
+					</div>
+				</article>
+			))}
+		</div>
+
+		<!-- Panah -->
+		<div class="mt-6 flex items-center justify-center gap-4">
+			<button
+				data-testi-prev
+				type="button"
+				aria-label="Testimoni sebelumnya"
+				class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#899B7A] text-[#899B7A] transition-colors duration-200 hover:bg-[#899B7A] hover:text-white"
+			>
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</button>
+			<button
+				data-testi-next
+				type="button"
+				aria-label="Testimoni berikutnya"
+				class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#899B7A] text-[#899B7A] transition-colors duration-200 hover:bg-[#899B7A] hover:text-white"
+			>
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</button>
+		</div>
+	</div>
+</section>
+
+<style>
+	[data-testi-scroll]::-webkit-scrollbar {
+		display: none;
+	}
+</style>
+
+<script>
+	(() => {
+		const track = document.querySelector('[data-testi-scroll]');
+		const prev = document.querySelector('[data-testi-prev]');
+		const next = document.querySelector('[data-testi-next]');
+		if (!track) return;
+
+		const step = () => 378;
+		prev?.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+		next?.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+	})();
+</script>

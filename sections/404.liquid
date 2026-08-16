@@ -1,19 +1,36 @@
 {% comment %}
-  This section is used in the 404 template to render page shown when customers
-  enter an invalid store URL.
+  ANIA 404 — brand-styled "Page not found" (replaces the skeleton default).
+  Matches the ANIA design system: cream bg #FDF6F1, green #899B7A, headings in
+  Cormorant Garamond / Crimson Text, body in Open Sans.
 
   https://shopify.dev/docs/storefronts/themes/architecture/templates/404
 {% endcomment %}
 
-<h1>{{ '404.title' | t }}</h1>
+<section class="bg-[#FDF6F1]">
+  <div class="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center px-4 py-24 text-center sm:px-6 lg:px-[70px] lg:py-36">
+    {% comment %} Decorative branch {% endcomment %}
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M32 58V18" stroke="#899B7A" stroke-width="1.8" stroke-linecap="round" />
+      <path d="M32 46c-8-2-13-7-15-13 7 0 12 4 15 13Z" fill="#A9BC9C" />
+      <path d="M32 34c8-3 14-8 16-15-7 1-12 5-16 15Z" fill="#899B7A" />
+      <circle cx="32" cy="14" r="7" fill="#CCC8A8" />
+      <circle cx="32" cy="14" r="3" fill="#899B7A" />
+    </svg>
 
-<p>
-  {{ '404.not_found' | t }}
-</p>
+    <p class="mt-8 text-[13px] font-semibold uppercase tracking-[5.6px] text-[#899B7A] sm:text-[14px]">{{ '404.oops' | t }}</p>
 
-<a href="{{ routes.all_products_collection_url }}">
-  {{ '404.back_to_shopping' | t }}
-</a>
+    <h1 class="mt-2 font-['Cormorant_Garamond'] text-[96px] font-normal leading-none text-[#1E2934] sm:text-[140px] lg:text-[180px]">404</h1>
+
+    <h2 class="mt-2 max-w-[560px] font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">{{ '404.heading' | t }}</h2>
+
+    <p class="mt-5 max-w-[480px] text-sm font-normal leading-[1.65] text-[#3D3B2F]">{{ '404.not_found' | t }}</p>
+
+    <div class="mt-9 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-6">
+      <a href="{{ routes.root_url }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-[#899B7A] px-6 text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b] sm:w-auto">{{ '404.back_home' | t }}</a>
+      <a href="{{ routes.all_products_collection_url }}" class="flex h-9 w-full items-center justify-center rounded-lg border border-[#899B7A]/60 text-xs font-normal uppercase text-[#525252] transition-colors duration-200 hover:bg-[#899B7A]/10 sm:w-auto">{{ '404.view_collection' | t }}</a>
+    </div>
+  </div>
+</section>
 
 {% schema %}
 {

@@ -1,0 +1,38 @@
+---
+/**
+ * AboutHero — Hero halaman About Us ("About Us Ver 2 Desktop" node 137:4310).
+ *
+ * Frame 1321317533 @(0,144) 1440x506:
+ *   - Gambar kanan 960x506 (pexels-suedadilli-19438267)
+ *   - Judul "About Us" Crimson Text 32 #1E2934
+ *   - Paragraf Open Sans 14 #3D3B2F (lebar ~340)
+ */
+import { Image } from 'astro:assets';
+import aboutHero from '../../assets/figma/about-hero.png';
+
+const paragraph =
+	'Lorem ipsum dolor sit amet consectetur. Mi et at imperdiet in pellentesque vel id nunc ut. Turpis lorem augue vulputate aliquam eget fames vehicula dolor. Sed ultrices id vehicula nunc amet dignissim massa non. Tristique in. Lorem ipsum dolor sit amet consectetur. Mi et at imperdiet in pellentesque vel id nunc ut. Turpis lorem augue vulputate aliquam eget fames vehicula dolor. Sed ultrices id vehicula nunc amet dignissim massa non. Tristique in.';
+---
+
+<section class="w-full overflow-hidden bg-[#FDF6F1]">
+	<div class="grid w-full max-w-[1440px] grid-cols-1 items-stretch lg:grid-cols-[480px_960px]">
+		<!-- Teks -->
+		<div class="flex flex-col justify-center px-5 py-16 sm:px-10 lg:px-[70px] lg:py-0">
+			<h1 class="font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">About Us</h1>
+			<p class="mt-5 max-w-[340px] text-sm font-normal leading-[1.65] text-[#3D3B2F]">{paragraph}</p>
+		</div>
+
+		<!-- Gambar -->
+		<div class="relative h-[320px] lg:h-auto">
+			<Image
+				src={aboutHero}
+				alt="Kegiatan tim ANIA Flower Boutique"
+				class="absolute inset-0 h-full w-full object-cover"
+				width={960}
+				height={506}
+				loading="eager"
+				fetchpriority="high"
+			/>
+		</div>
+	</div>
+</section>

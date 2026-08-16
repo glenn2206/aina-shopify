@@ -1,0 +1,104 @@
+---
+/**
+ * LanguageToggle — Language switcher (ENG ↔ IND)
+ *
+ * Ditulis ulang agar semirip mungkin dengan komponen "Language Button" di Figma
+ * (file "Untitled" node 167:6237, varian "Language Button ENG" / "Language Button IND"),
+ * kali ini full Tailwind utility classes:
+ *   - Container 84×28, border-radius 49.5, padding 2, gap 1
+ *   - Background rgba(171,171,171,0.25) + backdrop-blur(5px) + inner-shadow kaca (glass)
+ *   - Pill aktif #fdf6f1 → 41×24 saat "ENG" aktif, 38×24 saat "IND" aktif
+ *   - Teks aktif #3d3b2f, teks non-aktif rgba(124,124,124,0.5)
+ *   - Font Open Sans Regular 12px
+ *   - Animasi geser + morph pill (transform + width) lewat CSS vars → utility Tailwind
+ *
+ * Pemakaian: <LanguageToggle lang="en" />  |  <LanguageToggle lang="id" />
+ * Event yang di-broadcast: 'ania:langchange' → { detail: { lang } }
+ * Status juga disimpan ke localStorage 'ania-lang' dan document.documentElement.lang.
+ */
+interface Props {
+	lang?: 'en' | 'id';
+}
+const { lang = 'en' } = Astro.props;
+const initial = lang === 'id' ? 'id' : 'en';
+const startRight = initial === 'id';
+const pillX = startRight ? '42px' : '0px';
+const pillW = startRight ? '38px' : '41px';
+---
+
+<div
+	data-lang-toggle
+	data-lang={initial}
+	class="relative flex select-none items-center gap-px overflow-hidden rounded-[49.5px] bg-[rgba(171,171,171,0.25)] p-[2px] backdrop-blur-[5px] shadow-[inset_-0.5px_-0.5px_0.5px_#ffffff40,inset_0.5px_0.5px_0.5px_#ffffff80,inset_-0.5px_-0.5px_0px_#ffffff33] transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.97]"
+	style={`--pill-x: ${pillX}; --pill-w: ${pillW};`}
+	role="group"
+	aria-label="Pilih bahasa / Choose language"
+>
+	<button
+		type="button"
+		data-lang-opt="en"
+		class="relative z-[2] flex h-6 w-[41px] cursor-pointer items-center justify-center border-0 bg-transparent p-0 font-['Open_Sans'] text-[12px] font-normal leading-4 text-[rgba(124,124,124,0.5)] transition-colors duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:rounded-[49.5px] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-1 focus-visible:outline-[rgba(61,59,47,0.6)] aria-pressed:text-[#3d3b2f]"
+		aria-pressed={!startRight}
+		aria-label="English"
+	>ENG</button>
+	<button
+		type="button"
+		data-lang-opt="id"
+		class="relative z-[2] flex h-6 w-[38px] cursor-pointer items-center justify-center border-0 bg-transparent p-0 font-['Open_Sans'] text-[12px] font-normal leading-4 text-[rgba(124,124,124,0.5)] transition-colors duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:rounded-[49.5px] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-1 focus-visible:outline-[rgba(61,59,47,0.6)] aria-pressed:text-[#3d3b2f]"
+		aria-pressed={startRight}
+		aria-label="Bahasa Indonesia"
+	>IND</button>
+	<span
+		class="lang-pill pointer-events-none absolute left-[2px] top-[2px] z-[1] h-6 w-[var(--pill-w,41px)] rounded-[49.5px] bg-[#fdf6f1] translate-x-[var(--pill-x,0px)] transition-[transform,translate,width] duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
+		aria-hidden="true"
+	></span>
+</div>
+
+<script>
+	// Semua toggle di satu halaman tetap sinkron (pilih bahasa = pindah semua).
+	const roots = [...document.querySelectorAll('[data-lang-toggle]')];
+
+	const setPill = (root, lang, animate) => {
+		const pill = root.querySelector('.lang-pill');
+		const opts = [...root.querySelectorAll('[data-lang-opt]')];
+		if (!pill) return;
+
+		const active = lang === 'id';
+		const x = active ? '42px' : '0px';
+		const w = active ? '38px' : '41px';
+
+		if (!animate) {
+			root.style.transition = 'none';
+			pill.style.transition = 'none';
+		}
+		root.style.setProperty('--pill-x', x);
+		root.style.setProperty('--pill-w', w);
+		if (!animate) {
+			void root.offsetWidth; // force reflow → tanpa animasi saat set awal
+			root.style.transition = '';
+			pill.style.transition = '';
+		}
+
+		root.dataset.lang = lang;
+		opts.forEach((b) => {
+			b.setAttribute('aria-pressed', String(b.dataset.langOpt === lang));
+		});
+	};
+
+	const setLang = (lang, animate = true) => {
+		roots.forEach((root) => setPill(root, lang, animate));
+		try {
+			localStorage.setItem('ania-lang', lang);
+		} catch (e) {}
+		document.documentElement.lang = lang;
+		roots.forEach((root) =>
+			root.dispatchEvent(new CustomEvent('ania:langchange', { bubbles: true, detail: { lang } }))
+		);
+	};
+
+	roots.forEach((root) => {
+		[...root.querySelectorAll('[data-lang-opt]')].forEach((btn) =>
+			btn.addEventListener('click', () => setLang(btn.dataset.langOpt))
+		);
+	});
+</script>

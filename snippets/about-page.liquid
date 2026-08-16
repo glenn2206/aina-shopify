@@ -1,0 +1,167 @@
+{% comment %}
+  ANIA "About Us Ver 2" design markup, migrated from src astro:
+  AboutHero, ModernApproach, BehindFlower, AboutGallery, SocialStory.
+  Rendered by sections/main-about.liquid (template page.about) and
+  automatically by sections/page.liquid when page.handle == 'about'.
+{% endcomment %}
+
+{% comment %} AboutHero — 480/960 split, image right {% endcomment %}
+<section class="w-full overflow-hidden bg-[#FDF6F1]">
+  <div class="grid w-full max-w-[1440px] grid-cols-1 items-stretch lg:grid-cols-[480px_960px]">
+    <div class="flex flex-col justify-center px-5 py-16 sm:px-10 lg:px-[70px] lg:py-0">
+      <h1 class="font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">About Us</h1>
+      <p class="mt-5 max-w-[340px] text-sm font-normal leading-[1.65] text-[#3D3B2F]">Lorem ipsum dolor sit amet consectetur. Mi et at imperdiet in pellentesque vel id nunc ut. Turpis lorem augue vulputate aliquam eget fames vehicula dolor. Sed ultrices id vehicula nunc amet dignissim massa non. Tristique in. Lorem ipsum dolor sit amet consectetur. Mi et at imperdiet in pellentesque vel id nunc ut. Turpis lorem augue vulputate aliquam eget fames vehicula dolor. Sed ultrices id vehicula nunc amet dignissim massa non. Tristique in.</p>
+    </div>
+
+    <div class="relative h-[320px] lg:h-auto">
+      <img src="{{ 'about-hero.png' | asset_url }}" alt="Kegiatan tim ANIA Flower Boutique" width="960" height="506" class="absolute inset-0 h-full w-full object-cover" loading="eager">
+    </div>
+  </div>
+</section>
+
+{% comment %} ModernApproach — image left, text right {% endcomment %}
+<section class="w-full overflow-hidden bg-[#FDF6F1]">
+  <div class="grid w-full max-w-[1440px] grid-cols-1 items-stretch lg:grid-cols-[960px_480px]">
+    <div class="relative order-2 h-[320px] lg:order-1 lg:h-auto">
+      <img src="{{ 'about-modern.png' | asset_url }}" alt="Proses modern ANIA Flower Boutique" width="960" height="506" class="absolute inset-0 h-full w-full object-cover" loading="lazy">
+    </div>
+
+    <div class="order-1 flex flex-col justify-center px-5 py-16 sm:px-10 lg:order-2 lg:px-[40px] lg:py-0 lg:pl-14">
+      <h2 class="font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">A Modern Approach</h2>
+      <p class="mt-5 max-w-[380px] text-sm font-normal leading-[1.65] text-[#3D3B2F]">Lorem ipsum dolor sit amet consectetur. Mi et at imperdiet in pellentesque vel id nunc ut. Turpis lorem augue vulputate aliquam eget fames vehicula dolor. Sed ultrices id vehicula nunc amet dignissim massa non. Tristique in. Lorem ipsum dolor sit amet consectetur. Mi et at imperdiet in pellentesque vel id nunc ut. Turpis lorem augue vulputate aliquam eget fames vehicula dolor. Sed ultrices id vehicula nunc amet dignissim massa non. Tristique in.</p>
+    </div>
+  </div>
+</section>
+
+{% comment %} BehindFlower — 3 steps grid with dividers {% endcomment %}
+<section class="bg-[#FAFAF2]">
+  <div class="mx-auto w-full max-w-[1440px] px-4 py-[70px] sm:px-6 lg:px-[70px] lg:py-[86px]">
+    <h2 class="text-center font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">Behind The Flower</h2>
+    <p class="mx-auto mt-4 max-w-[508px] text-center text-sm font-normal leading-relaxed text-[#1E2934]">From the first stem we select to the moment your flowers arrive, there's a team of people who care about getting every detail right.</p>
+
+    <div class="mt-14 grid grid-cols-1 divide-y divide-[#CCC8A8] border-y border-[#CCC8A8] md:grid-cols-3 md:divide-x md:divide-y-0">
+      <div class="flex flex-col items-center gap-4 px-8 py-10 text-center">
+        <span class="flex h-12 w-12 items-center justify-center text-[#3D3B2F]">
+          <svg width="47" height="47" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.5" y="2.5" width="19" height="19" rx="4" stroke="currentColor" stroke-width="1.5" />
+            <path d="m7.5 12.2 3 3 6-6.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <div class="flex flex-col gap-2">
+          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]">Select</h3>
+          <p class="mx-auto max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]">We carefully select flowers for quality, freshness and character.</p>
+        </div>
+      </div>
+      <div class="flex flex-col items-center gap-4 px-8 py-10 text-center">
+        <span class="flex h-12 w-12 items-center justify-center text-[#3D3B2F]">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10 3h5a1 1 0 0 1 1 1v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V4a1 1 0 0 1 1-1h1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M14 3h2v3h-2z" fill="currentColor" />
+            <path d="M7 9h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M11.5 17.5a3 3 0 0 0 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <circle cx="15" cy="18" r="3" stroke="currentColor" stroke-width="1.5" />
+            <path d="M15 21v1.5M15 12v1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </span>
+        <div class="flex flex-col gap-2">
+          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]">Arrange</h3>
+          <p class="mx-auto max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]">Our florists thoughtfully design each arrangement.</p>
+        </div>
+      </div>
+      <div class="flex flex-col items-center gap-4 px-8 py-10 text-center">
+        <span class="flex h-12 w-12 items-center justify-center text-[#3D3B2F]">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 6h11v11H3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+            <path d="M14 9h4l3 3v5h-7V9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+            <circle cx="7" cy="18.5" r="2" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="17.5" cy="18.5" r="2" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </span>
+        <div class="flex flex-col gap-2">
+          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]">Prepare &amp; Delivery</h3>
+          <p class="mx-auto max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]">Every order is carefully wrapped and prepared for delivery.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% comment %} AboutGallery — collage {% endcomment %}
+<section class="bg-[#FDF6F1] pb-[120px] lg:pb-[160px]">
+  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
+    <div class="relative flex flex-col items-center gap-[19px] sm:flex-row sm:justify-center">
+      <div class="absolute left-[21%] top-1/2 z-0 hidden h-[193px] w-[199px] -translate-y-1/2 sm:block" style="clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); background:#EDEDED" aria-hidden="true"></div>
+
+      <img src="{{ 'about-collage-3.png' | asset_url }}" alt="Rangkaian bunga ANIA" width="1140" height="1426" class="relative z-10 aspect-[570/713] w-full max-w-[570px] object-cover" loading="lazy">
+
+      <div class="relative z-10 flex w-full max-w-[469px] flex-col gap-[19px]">
+        <img src="{{ 'about-collage-1.png' | asset_url }}" alt="Proses merangkai bunga ANIA" width="938" height="700" class="aspect-[469/350] w-full object-cover" loading="lazy">
+        <img src="{{ 'about-collage-2.png' | asset_url }}" alt="Hasil rangkaian ANIA" width="928" height="692" class="aspect-[464/346] w-full object-cover" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+{% comment %} SocialStory — "A Flower for every Story" {% endcomment %}
+<section class="bg-[#FDF6F1] pb-[120px]">
+  <div class="mx-auto w-full max-w-[1440px]">
+    <div class="border border-[#A8A58C] bg-[#FAFAF2] px-5 py-10 sm:px-8 lg:px-[70px] lg:py-12">
+      <div class="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-12">
+        <div class="max-w-[349px] shrink-0">
+          <h2 class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#525252] sm:text-5xl lg:text-[60px]">A Flower for every Story</h2>
+          <p class="mt-6 max-w-[314px] text-sm font-normal leading-relaxed text-[#1E2934]">From joyful celebrations to quiet gestures, see how our flowers become part of life's most meaningful moments.</p>
+        </div>
+
+        <div class="flex flex-col items-center gap-6 sm:flex-row sm:gap-[31px]">
+          <img src="{{ 'about-story-1.png' | asset_url }}" alt="Kegiatan di sosial media ANIA 1" width="918" height="948" class="aspect-[459/474] w-full max-w-[459px] border border-[#A8A58C] object-cover sm:w-[459px]" loading="lazy">
+          <img src="{{ 'about-story-2.png' | asset_url }}" alt="Kegiatan di sosial media ANIA 2" width="918" height="948" class="aspect-[459/474] w-full max-w-[459px] border border-[#A8A58C] object-cover sm:w-[459px]" loading="lazy">
+        </div>
+      </div>
+
+      <div class="mt-10 flex flex-wrap items-center justify-between gap-6 lg:mt-12">
+        <div class="flex items-center gap-4">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="relative flex items-baseline gap-2 text-sm text-[#A2A2A2]">
+            <span class="relative font-bold text-[#525252]">
+              1
+              <span class="absolute -bottom-[6px] left-0 h-px w-[20px] bg-[#525252]"></span>
+            </span>
+            <span>2</span>
+            <span>3</span>
+          </div>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <p class="whitespace-nowrap text-[13px] font-semibold uppercase tracking-[5.6px] text-[#3D3B2F] sm:text-[14px]">Visit Our Social Media</p>
+          <span class="hidden h-px w-[58px] bg-[#BBCCBF] sm:block" aria-hidden="true"></span>
+          <div class="flex items-center gap-6 text-[#BBCCBF]">
+            <a href="#" aria-label="Instagram" class="transition-opacity hover:opacity-70">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect x="2" y="2" width="28" height="28" rx="8" stroke="currentColor" stroke-width="1.5" />
+                <circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5" />
+                <circle cx="23" cy="9" r="1.6" fill="currentColor" />
+              </svg>
+            </a>
+            <a href="#" aria-label="Facebook" class="transition-opacity hover:opacity-70">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M20.4 5c3.2.2 4.6 2.2 4.6 5.8v10.4c0 3.6-1.4 5.6-4.6 5.8-.4 0-.8-.6-.6-1.2l1.2-6.8c0-1-.9-1.6-2-1L11.5 27c-.5.4-1.1.1-1.3-.4L7.4 15.4c-.1-.8 0-1.5.8-1.5.8.1 1.6.3 1.8 1.2l1.2 5.4c.4-1.8.6-4 .2-6.4-.1-1.2-.3-3.2-.3-4.2 0-1.1.3-1.9 1.5-1.9Z" fill="currentColor" />
+              </svg>
+            </a>
+            <a href="#" aria-label="TikTok" class="transition-opacity hover:opacity-70">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M19 3a4 4 0 0 0 4 4v7a11 11 0 0 1-11 11v0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <path d="M19 3h-3v14.5a4.5 4.5 0 0 1-9 .5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

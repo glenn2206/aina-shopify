@@ -1,0 +1,62 @@
+{% comment %}
+  OccasionRow — one "What Do You Want to Say?" row on the Occasions page:
+  eyebrow + heading + mini pagination on the left, real product cards (3 at a
+  time) on the right.
+
+  Products are matched against the same Occasion metafield the rest of the
+  theme already uses (sections/main-products.liquid's "For Occassions"
+  filter), so once products are tagged, these rows fill in automatically.
+  Falls back to the general catalog when nothing is tagged yet — same
+  fallback pattern as Most Popular (sections/main-most-popular.liquid) — so
+  the row never looks broken on a fresh catalog.
+
+  Params: eyebrow, heading, occasion (string matched against the Occasion
+  metafield, case-insensitive), row_id (unique slug, for the data attribute)
+{% endcomment %}
+{%- liquid
+  assign occasion_key = 'occasion'
+  assign needle = occasion | downcase
+-%}
+
+<div class="border-b border-[#CCC8A8] py-10 last:border-b-0 lg:py-12" data-occasion-row data-row-id="{{ row_id }}">
+  <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-14">
+    <div class="shrink-0 lg:w-[210px]">
+      <p class="text-xs font-semibold uppercase tracking-[2px] text-[#6D6D6D]">{{ eyebrow }}</p>
+      <h3 class="mt-2 font-['Crimson_Text'] text-3xl leading-tight text-[#1E2934] lg:text-[34px]">{{ heading }}</h3>
+      <div class="mt-6 hidden items-center gap-4" data-row-pagination></div>
+    </div>
+
+    <div class="min-w-0 flex-1">
+      <div class="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-3" data-row-grid>
+        {%- assign match_count = 0 -%}
+        {%- for product in collections.all.products -%}
+          {%- assign occ_items = product.metafields.shopify[occasion_key].value -%}
+          {%- assign is_match = false -%}
+          {%- for mo in occ_items -%}
+            {%- liquid
+              assign label = mo.label | default: mo.name | default: mo.title
+              if label == blank and mo.first == nil
+                assign label = mo
+              endif
+              assign label_downcase = label | downcase
+            -%}
+            {%- if label != blank and label_downcase == needle -%}
+              {%- assign is_match = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if is_match -%}
+            {%- assign match_count = match_count | plus: 1 -%}
+            <div data-row-card>{% render 'product-card', product: product %}</div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if match_count == 0 -%}
+          {%- comment %} Nothing tagged for this occasion yet — show real products anyway rather than an empty row. {% endcomment -%}
+          {%- for product in collections.all.products limit: 3 -%}
+            <div data-row-card>{% render 'product-card', product: product %}</div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

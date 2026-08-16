@@ -301,6 +301,34 @@
     const flowerList = document.querySelector('[data-flower-list]');
     if (flowerList) buildOptions(flowerList, (c) => split(c.dataset.flowers), 'flower', 'text-[#7E4C4C]');
 
+    // Deep-link support: ?occasion=Graduation (also &category=, &flower=) pre-applies
+    // a filter on load — used by the Occasions page and the homepage teaser tiles,
+    // so those links actually filter real products instead of just landing here.
+    const applyParamFilters = () => {
+      const params = new URLSearchParams(window.location.search);
+      const findValue = (list, want) => {
+        if (!want) return null;
+        const target = want.trim().toLowerCase();
+        return list.find((v) => v.toLowerCase() === target) || null;
+      };
+      const allOccasions = [...new Set(cards.flatMap((c) => split(c.dataset.occasions)))];
+      const allCategories = [...new Set(cards.flatMap((c) => split(c.dataset.category)))];
+      const allFlowers = [...new Set(cards.flatMap((c) => split(c.dataset.flowers)))];
+
+      const wantOccasion = findValue(allOccasions, params.get('occasion'));
+      const wantCategory = findValue(allCategories, params.get('category'));
+      const wantFlower = findValue(allFlowers, params.get('flower'));
+
+      if (wantOccasion) state.occasion = wantOccasion;
+      if (wantCategory) state.category = wantCategory;
+      if (wantFlower) state.flower = wantFlower;
+
+      if (wantOccasion || wantCategory || wantFlower) {
+        document.querySelector('[data-filter-panel]')?.classList.remove('hidden');
+      }
+    };
+    applyParamFilters();
+
     // ---- Filtering / sorting / pagination (mirrors ProductsSection.astro) ----
     const matches = (card) => {
       if (state.sale && card.dataset.sale !== 'true') return false;

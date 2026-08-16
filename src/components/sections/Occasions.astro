@@ -1,0 +1,170 @@
+---
+/**
+ * Occasions — Section "Find the Perfect Flowers for Every Moment."
+ *
+ * Mengikuti Figma node 137:1006:
+ *   - Heading Cormorant Garamond 32 #1E2934 (rata tengah)
+ *   - Tab "Ocassions" (aktif + underline #525252), "Category", "Flower"
+ *     — Crimson Text 24 #1E2934
+ *   - Container border #CCC8A8 r6 berisi: deskripsi, 3 kartu occasion,
+ *     pagination "1 2 3", dan CTA "Check Other occasions"
+ *   - Kartu Graduation: bg olive #899B7A, teks putih
+ *   - Kartu Birthday & Valentines: band border #899B7A, teks #525252
+ */
+import { Image } from 'astro:assets';
+import graduation from '../../assets/figma/occas-graduation.png';
+import birthday from '../../assets/figma/occas-birthday.png';
+import valentines from '../../assets/figma/occas-valentines.png';
+
+const tabs = ['Ocassions', 'Category', 'Flower'];
+
+const occasions = [
+	{
+		name: 'Graduation',
+		image: graduation,
+		alt: 'Karangan bunga untuk kelulusan',
+		tone: 'light' as const,
+	},
+	{
+		name: 'Birthday',
+		image: birthday,
+		alt: 'Karangan bunga untuk ulang tahun',
+		tone: 'dark' as const,
+	},
+	{
+		name: 'Valentines',
+		image: valentines,
+		alt: 'Karangan bunga untuk hari kasih sayang',
+		tone: 'dark' as const,
+	},
+];
+---
+
+<section id="occasions" class="bg-[#FAFAF2] pb-[90px] pt-[60px] lg:pb-[110px]">
+	<div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
+		<!-- Heading -->
+		<h2
+			class="mx-auto max-w-[620px] text-center font-['Cormorant_Garamond'] text-3xl font-medium leading-tight text-[#1E2934] lg:text-[32px]"
+		>
+			Find the Perfect Flowers for Every Moment.
+			<span class="mt-1 block font-normal italic">Choose your Flower by Occasions.</span>
+		</h2>
+
+		<!-- Container -->
+		<div class="relative mt-10 rounded-[6px] border border-[#CCC8A8] px-5 pb-8 pt-6 sm:px-8 lg:px-[30px] lg:pt-7">
+			<!-- Tabs -->
+			<div class="flex items-baseline gap-8 lg:gap-[170px]">
+				{tabs.map((tab, i) => (
+					<button
+						type="button"
+						class={`relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl ${
+							i === 0 ? 'text-[#1E2934]' : 'text-[#1E2934]/55'
+						}`}
+						aria-pressed={i === 0}
+					>
+						{tab}
+						{i === 0 && (
+							<span class="absolute -bottom-2 left-0 h-px w-[118px] bg-[#525252]" aria-hidden="true"></span>
+						)}
+					</button>
+				))}
+			</div>
+
+			<!-- Deskripsi -->
+			<p class="mt-8 max-w-[630px] text-sm font-normal leading-relaxed text-[#525252]">
+				Find flowers for birthdays, anniversaries, congratulations, romance &amp; every meaningful moment.
+			</p>
+
+			<!-- Kartu occasion -->
+			<div class="mt-6 grid grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
+				{occasions.map((o) => (
+					<a href="/products" class="group block">
+						{o.tone === 'light' ? (
+							<div class="overflow-hidden rounded-[6px] bg-[#899B7A]">
+								<div class="overflow-hidden">
+									<Image
+										src={o.image}
+										alt={o.alt}
+										class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+										width={802}
+										height={936}
+										loading="lazy"
+									/>
+								</div>
+								<div class="flex items-center justify-between px-5 py-5 text-white">
+									<span class="font-['Cormorant_Garamond'] text-[32px] font-normal leading-none lg:text-[40px]">
+										{o.name}
+									</span>
+									<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+										<path
+											d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5"
+											stroke="currentColor"
+											stroke-width="1.6"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</div>
+							</div>
+						) : (
+							<div class="overflow-hidden rounded-[6px]">
+								<div class="overflow-hidden">
+									<Image
+										src={o.image}
+										alt={o.alt}
+										class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+										width={802}
+										height={936}
+										loading="lazy"
+									/>
+								</div>
+								<div class="flex items-center justify-between border border-t-0 border-[#899B7A] px-5 py-5 text-[#525252]">
+									<span class="font-['Cormorant_Garamond'] text-[32px] font-normal leading-none lg:text-[40px]">
+										{o.name}
+									</span>
+									<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+										<path
+											d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5"
+											stroke="currentColor"
+											stroke-width="1.6"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</div>
+							</div>
+						)}
+					</a>
+				))}
+			</div>
+
+			<!-- Pagination (kanan bawah) -->
+			<div class="mt-8 hidden items-center gap-4 lg:absolute lg:bottom-[76px] lg:right-9 lg:mt-0 lg:flex">
+				<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+					<path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+				<div class="relative flex items-baseline gap-2 text-sm text-[#A2A2A2]">
+					<span class="relative font-bold text-[#525252]">
+						1
+						<span class="absolute -bottom-[6px] left-0 h-px w-[20px] bg-[#525252]"></span>
+					</span>
+					<span>2</span>
+					<span>3</span>
+				</div>
+				<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+					<path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</div>
+
+			<!-- CTA -->
+			<div class="mt-8 flex justify-center lg:mt-10">
+				<a
+					href="/products"
+					class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
+				>
+					Check Other occasions
+				</a>
+			</div>
+		</div>
+	</div>
+</section>

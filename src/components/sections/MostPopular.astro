@@ -1,0 +1,59 @@
+---
+/**
+ * MostPopular — Section "Most Popular" (bg #FDF6F1).
+ *
+ * Mengikuti Figma node 137:1006:
+ *   - Heading Crimson Text 32 #3D3B2F "Flowers They'll Never Forget"
+ *   - Deskripsi Open Sans 14 #525252
+ *   - 8 kartu produk (2 baris × 4)
+ *   - CTA "View All Product" (olive #899B7A)
+ *   - Garis pemisah #CCC8A8 di bawah
+ */
+import ProductCard from './ProductCard.astro';
+import { products as catalog, formatPrice } from '../../data/products';
+
+/** Siapkan data untuk ProductCard (harga diformat, tambah slug → link detail). */
+const products = catalog.map((p) => ({
+	image: p.image,
+	alt: p.title,
+	category: p.category,
+	title: p.title,
+	price: formatPrice(p.price),
+	priceOld: p.priceOld ? formatPrice(p.priceOld) : undefined,
+	badge: p.badge,
+	standardThumb: p.standardThumb,
+	premiumThumb: p.premiumThumb,
+	slug: p.slug,
+}));
+---
+
+<section class="bg-[#FDF6F1] py-[50px] lg:py-[70px]">
+	<div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
+		<!-- Heading -->
+		<h2 class="text-center font-['Crimson_Text'] text-3xl font-normal text-[#3D3B2F] lg:text-[32px]">
+			Flowers They'll Never Forget
+		</h2>
+		<p class="mx-auto mt-4 max-w-[657px] text-center text-sm font-normal leading-relaxed text-[#525252]">
+			Our most-loved flower arrangements — beautiful choices that never fail to impress someone special.
+		</p>
+
+		<!-- Grid produk -->
+		<div class="mt-12 grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+			{products.map((p) => (
+				<ProductCard {...p} />
+			))}
+		</div>
+
+		<!-- CTA -->
+		<div class="mt-14 flex justify-center">
+			<a
+				href="/products"
+				class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-[#FDF6F1] transition-colors duration-200 hover:bg-[#7a8c6b]"
+			>
+				View All Product
+			</a>
+		</div>
+	</div>
+
+	<div class="mt-14 h-px w-full bg-[#CCC8A8] lg:mt-16"></div>
+</section>

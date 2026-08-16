@@ -1,0 +1,120 @@
+---
+/**
+ * WhyAnia — Section "Why Ania?" (Group 7 di Figma node 137:1006).
+ *
+ *   - Heading "Why Ania?" Cormorant Garamond 32 #1E2934 (rata tengah)
+ *   - 4 kartu 330x260, rounded 6, border #CCC8A8, transparan:
+ *       1. Happy Customer Guarantee  (ikon hati)   — deskripsi #6E6B60
+ *       2. Fresh Flower Guarantee    (ikon daun)
+ *       3. Last Minute Order         (ikon jam)
+ *       4. Free Consultation         (ikon chat)
+ *     Judul Cormorant Garamond 24/600 #3D3B2F, deskripsi Open Sans 14 #3D3B2F
+ */
+const cards = [
+	{
+		title: 'Happy Customer Guarantee',
+		desc: 'If your flowers arrive damaged, we’ll make it right with a replacement.',
+		tone: 'muted' as const,
+		icon: 'heart',
+	},
+	{
+		title: 'Fresh Flower Guarantee',
+		desc: 'Fresh flowers, carefully selected for every order, prepared with care.',
+		tone: 'dark' as const,
+		icon: 'leaf',
+	},
+	{
+		title: 'Last Minute Order',
+		desc: 'Beautiful flowers are ready, even at the last minute.',
+		tone: 'dark' as const,
+		icon: 'clock',
+	},
+	{
+		title: 'Free Consultation',
+		desc: 'Get complimentary advice to find the perfect arrangement flower for you.',
+		tone: 'dark' as const,
+		icon: 'chat',
+	},
+];
+---
+
+<section id="why-ania" class="bg-[#FAFAF2] py-[60px] lg:pb-[70px]">
+	<div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[48px]">
+		<!-- Heading -->
+		<h2 class="text-center font-['Cormorant_Garamond'] text-[32px] font-normal text-[#1E2934]">Why Ania?</h2>
+
+		<!-- Ikon chat dekoratif -->
+		<div class="mt-6 hidden gap-[338px] lg:flex" aria-hidden="true">
+			<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+				<path
+					d="M4 3.5h8a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H7.5L5 12.5V10.5H4a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1Z"
+					stroke="#CCC8A8"
+					stroke-width="1.2"
+				/>
+			</svg>
+			<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+				<path
+					d="M4 3.5h8a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H7.5L5 12.5V10.5H4a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1Z"
+					stroke="#CCC8A8"
+					stroke-width="1.2"
+				/>
+			</svg>
+			<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+				<path
+					d="M4 3.5h8a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H7.5L5 12.5V10.5H4a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1Z"
+					stroke="#CCC8A8"
+					stroke-width="1.2"
+				/>
+			</svg>
+		</div>
+
+		<!-- Kartu -->
+		<div class="mt-6 grid grid-cols-1 gap-[8px] sm:grid-cols-2 lg:grid-cols-4">
+			{cards.map((card) => (
+				<div class="flex min-h-[260px] flex-col items-start justify-center gap-3 rounded-[6px] border border-[#CCC8A8] px-7 py-8">
+					<span class="flex h-11 w-11 items-center justify-center text-[#3D3B2F]">
+						{card.icon === 'heart' && (
+							<svg width="42" height="42" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+								<path
+									d="M12 21s-7.5-4.7-9.7-9C.9 8.9 2.3 5.5 5.5 5.1c2-.3 4 .7 5 2.4 0 0 1-1.8 3.2-2 2.2-.2 4 1.5 4.5 3.6.5 2.1-.9 4.4-2.2 6C13.6 17.9 12 21 12 21Z"
+									fill="currentColor"
+								/>
+							</svg>
+						)}
+						{card.icon === 'leaf' && (
+							<svg width="39" height="39" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+								<path
+									d="M5 21C5 10 12 4 21 3c0 11-7 18-16 18Z"
+									stroke="currentColor"
+									stroke-width="1.6"
+									stroke-linejoin="round"
+								/>
+								<path d="M5 21c4-5 8-8 12-10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+							</svg>
+						)}
+						{card.icon === 'clock' && (
+							<svg width="42" height="42" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+								<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" />
+								<path d="M12 7.5V12l3 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+							</svg>
+						)}
+						{card.icon === 'chat' && (
+							<svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+								<path
+									d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H10l-5 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"
+									stroke="currentColor"
+									stroke-width="1.6"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						)}
+					</span>
+					<h3 class="font-['Cormorant_Garamond'] text-2xl font-semibold text-[#3D3B2F]">{card.title}</h3>
+					<p class={`text-sm font-normal leading-relaxed ${card.tone === 'muted' ? 'text-[#6E6B60]' : 'text-[#3D3B2F]'}`}>
+						{card.desc}
+					</p>
+				</div>
+			))}
+		</div>
+	</div>
+</section>

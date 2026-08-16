@@ -1,0 +1,59 @@
+---
+/**
+ * AboutGallery — Kolase foto halaman About Us (Group 21 node 137:4310).
+ *
+ * Group 21 @(171,1649) 1094x715:
+ *   - image 16: 570x713 kiri (potret besar)
+ *   - image 13: 469x350 kanan-atas
+ *   - image 17: 464x346 kanan-bawah
+ *   - Polygon dekoratif #EDEDED di antara kolom
+ */
+import { Image } from 'astro:assets';
+import big from '../../assets/figma/about-collage-3.png';
+import topRight from '../../assets/figma/about-collage-1.png';
+import bottomRight from '../../assets/figma/about-collage-2.png';
+---
+
+<section class="bg-[#FDF6F1] pb-[120px] lg:pb-[160px]">
+	<div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
+		<div class="relative flex flex-col items-center gap-[19px] sm:flex-row sm:justify-center">
+			<!-- Polygon dekoratif -->
+			<div
+				class="absolute left-[21%] top-1/2 z-0 hidden h-[193px] w-[199px] -translate-y-1/2 sm:block"
+				style="clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); background:#EDEDED"
+				aria-hidden="true"
+			></div>
+
+			<!-- Kiri: potret besar -->
+			<Image
+				src={big}
+				alt="Rangkaian bunga ANIA"
+				class="relative z-10 aspect-[570/713] w-full max-w-[570px] object-cover"
+				width={1140}
+				height={1426}
+				loading="lazy"
+			/>
+
+			<!-- Kanan: dua foto -->
+			<div class="relative z-10 flex w-full max-w-[469px] flex-col gap-[19px]">
+				<Image
+					src={topRight}
+					alt="Proses merangkai bunga ANIA"
+					class="aspect-[469/350] w-full object-cover"
+					width={938}
+					height={700}
+					loading="lazy"
+				/>
+				<Image
+					src={bottomRight}
+					alt="Hasil rangkaian ANIA"
+					class="aspect-[464/346] w-full object-cover"
+					width={928}
+					height={692}
+					loading="lazy"
+				/>
+			</div>
+		</div>
+	</div>
+</section>
+

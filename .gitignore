@@ -18,3 +18,5 @@ tailwind-build/
 ## Release files
 release
 *.zip
+
+src

@@ -89,5 +89,12 @@
         render(btn, current + amount, true);
       });
     });
+
+    // Absolute sync — used by the cart page after a live quantity/remove update.
+    document.addEventListener('ania:cartcount', (e) => {
+      const count = e.detail && typeof e.detail.count === 'number' ? e.detail.count : null;
+      if (count === null) return;
+      buttons.forEach((btn) => render(btn, count, false));
+    });
   })();
 </script>

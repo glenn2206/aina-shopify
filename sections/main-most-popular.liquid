@@ -19,7 +19,7 @@
     <p class="mx-auto mt-4 max-w-[657px] text-center text-sm font-normal leading-relaxed text-[#525252]">{{ mp_subheading }}</p>
 
     <div class="mt-12 grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
-      {% for product in mp_products limit: 8 %}
+      {% for product in collections['all'].products limit: 8 %}
         {% render 'product-card', product: product %}
       {% endfor %}
     </div>

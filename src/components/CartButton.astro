@@ -1,0 +1,129 @@
+---
+/**
+ * CartButton — Icon cart dengan badge jumlah, full Tailwind utility classes.
+ *
+ * Berbasis komponen "Cart" di Figma (file "Untitled" node 137:1797):
+ *   - Icon cart 24×24, vektor filled #3d3b2f
+ *   - Badge 9×9 di pojok kanan-atas (posisi Figma: x 13.71, y 0.3):
+ *     bg #fdf6f1, stroke #3d3b2f 0.5px, angka Open Sans SemiBold 6px #3d3b2f
+ *
+ * Interaksi / animasi:
+ *   - Mendengar event 'ania:addtocart' ({ amount? }) → jumlah naik
+ *   - Badge "pop" (scale 0 → 1, kurva spring) saat jumlah berubah
+ *   - Icon "shake" saat item ditambahkan
+ *   - Broadcast 'ania:cartchange' → { detail: { count } }
+ *   - Jumlah disimpan di localStorage 'ania-cart-count'
+ *
+ * Pemakaian: <CartButton count={2} />  |  tombol lain tinggal dispatch:
+ *   document.dispatchEvent(new CustomEvent('ania:addtocart', { detail: { amount: 1 } }));
+ */
+interface Props {
+	/** Jumlah awal di badge */
+	count?: number;
+	/** Ukuran icon dalam px (default 24 sesuai Figma) */
+	size?: number;
+	/**
+	 * tone="light" → icon berwarna #CCC8A8 (cocok di navbar gelap ANIA).
+	 * Default "dark" → icon #3d3b2f (cocok di background terang).
+	 */
+	tone?: 'light' | 'dark';
+}
+const { count = 0, size = 24, tone = 'dark' } = Astro.props;
+const iconColor = tone === 'light' ? 'text-[#CCC8A8]' : 'text-[#3d3b2f]';
+const badgeBorder = tone === 'light' ? 'border-[#CCC8A8]' : 'border-[#3d3b2f]';
+---
+
+<button
+	type="button"
+	data-cart-button
+	data-initial-count={count}
+	class={`relative inline-flex shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 ${iconColor} transition-opacity duration-200 hover:opacity-75`}
+	style={`width:${size}px;height:${size}px`}
+	aria-label="Cart"
+>
+	<svg
+		data-cart-icon
+		class="h-full w-full transition-transform duration-100 ease-in-out"
+		width={size}
+		height={size}
+		viewBox="0 0 24 24"
+		fill="currentColor"
+		aria-hidden="true"
+	>
+		<path
+			d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM8.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63z"
+		/>
+	</svg>
+	<span
+		data-cart-badge
+		class={`absolute flex h-[9px] min-w-[9px] items-center justify-center rounded-full border-[0.5px] ${badgeBorder} bg-[#fdf6f1] px-[1px] font-['Open_Sans'] text-[6px] font-semibold leading-none text-[#3d3b2f] opacity-0 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]`}
+		style="top:0.3px; right:1.3px"
+		aria-hidden="true"
+	></span>
+</button>
+
+<script>
+	// Semua CartButton di satu halaman tetap sinkron (via localStorage + event).
+	const buttons = [...document.querySelectorAll('[data-cart-button]')];
+
+	const shake = (el) => {
+		if (!el) return;
+		const steps = ['rotate(-8deg)', 'rotate(8deg)', 'rotate(-5deg)', 'rotate(3deg)', 'rotate(0deg)'];
+		el.style.transition = 'transform 0.06s ease-in-out';
+		steps.forEach((t, i) => {
+			setTimeout(() => {
+				el.style.transform = t;
+				if (i === steps.length - 1) el.style.transition = '';
+			}, i * 60);
+		});
+	};
+
+	// Set jumlah badge: animate=true → pop (scale 0→1 spring) + shake icon
+	const render = (btn, count, animate) => {
+		const badge = btn.querySelector('[data-cart-badge]');
+		const icon = btn.querySelector('[data-cart-icon]');
+		if (!badge) return;
+		btn.dataset.count = String(count);
+		try {
+			localStorage.setItem('ania-cart-count', String(count));
+		} catch (e) {}
+		if (count <= 0) {
+			badge.textContent = '';
+			badge.style.opacity = '0';
+			return;
+		}
+		badge.textContent = count > 99 ? '99+' : String(count);
+		badge.style.transition = 'none';
+		badge.style.transform = animate ? 'scale(0)' : 'scale(1)';
+		badge.style.opacity = '1';
+		void badge.offsetWidth; // force reflow
+		badge.style.transition = '';
+		badge.style.transform = 'scale(1)';
+		if (animate) shake(icon);
+		btn.dispatchEvent(new CustomEvent('ania:cartchange', { bubbles: true, detail: { count } }));
+	};
+
+	buttons.forEach((btn) => {
+		// Restore dari localStorage kalau ada
+		let init = parseInt(btn.dataset.initialCount || '0', 10);
+		try {
+			const saved = parseInt(localStorage.getItem('ania-cart-count') || '', 10);
+			if (!isNaN(saved)) init = saved;
+		} catch (e) {}
+		render(btn, init, false);
+
+		// Klik icon cart = buka cart (simulasi), tidak menambah
+		btn.addEventListener('click', () =>
+			btn.dispatchEvent(new CustomEvent('ania:cartopen', { bubbles: true, detail: { count: btn.dataset.count } }))
+		);
+	});
+
+	// Dari mana saja: dispatch ania:addtocart → semua cart bertambah + animasi
+	document.addEventListener('ania:addtocart', (e) => {
+		const amount = e.detail && typeof e.detail.amount === 'number' ? e.detail.amount : 1;
+		buttons.forEach((btn) => {
+			const current = parseInt(btn.dataset.count || '0', 10);
+			render(btn, current + amount, true);
+		});
+	});
+</script>

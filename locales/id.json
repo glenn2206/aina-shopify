@@ -131,7 +131,11 @@
     "placeholder": "Cari artikel, halaman, atau produk",
     "submit": "Cari",
     "no_results_html": "Tidak ada hasil untuk {{ terms }}",
-    "results_for_html": "{{ count }} hasil ditemukan untuk {{ terms }}"
+    "results_for_html": "{{ count }} hasil ditemukan untuk {{ terms }}",
+    "clear": "Hapus pencarian",
+    "results_label": "Hasil",
+    "no_results": "Tidak ada hasil yang ditemukan",
+    "view_all": "Lihat Semua Produk"
   },
   "cart_button": {
     "cart": "Keranjang"
@@ -221,6 +225,8 @@
     "tab_category": "Kategori",
     "tab_flower": "Bunga",
     "body": "Temukan bunga untuk ulang tahun, hari jadi, ucapan selamat, romansa & setiap momen bermakna.",
+    "body_category": "Jelajahi buket, kotak bunga, vas, hampers & banyak lagi.",
+    "body_flower": "Pilih bunga favorit mereka, dari mawar klasik hingga lily, tulip yang elegan & lainnya.",
     "card_graduation": "Kelulusan",
     "card_birthday": "Ulang Tahun",
     "card_valentines": "Valentine",
@@ -228,6 +234,8 @@
     "img_alt_birthday": "Rangkaian bunga untuk ulang tahun",
     "img_alt_valentines": "Rangkaian bunga untuk hari kasih sayang",
     "check_other": "Lihat Acara Lainnya",
+    "check_other_category": "Lihat Kategori Lainnya",
+    "check_other_flower": "Lihat Pilihan Lainnya",
     "empty_category": "Belum ada kategori — cek lagi nanti.",
     "empty_flower": "Belum ada bunga — cek lagi nanti."
   },

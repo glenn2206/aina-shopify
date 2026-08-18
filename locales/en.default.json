@@ -131,7 +131,11 @@
     "placeholder": "Search articles, pages, or products",
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "results_for_html": "{{ count }} results found for {{ terms }}",
+    "clear": "Clear search",
+    "results_label": "Results",
+    "no_results": "No results could be found",
+    "view_all": "View All Product"
   },
   "cart_button": {
     "cart": "Cart"
@@ -221,6 +225,8 @@
     "tab_category": "Category",
     "tab_flower": "Flower",
     "body": "Find flowers for birthdays, anniversaries, congratulations, romance & every meaningful moment.",
+    "body_category": "Explore bouquets, blossom boxes, vases, hampers & more.",
+    "body_flower": "Choose the blooms they love, from classic roses to elegant lilies, tulips & beyond.",
     "card_graduation": "Graduation",
     "card_birthday": "Birthday",
     "card_valentines": "Valentines",
@@ -228,6 +234,8 @@
     "img_alt_birthday": "Flower arrangement for a birthday",
     "img_alt_valentines": "Flower arrangement for Valentine's Day",
     "check_other": "Check Other occasions",
+    "check_other_category": "Check Other Category",
+    "check_other_flower": "Check Other Options",
     "empty_category": "No categories yet — check back soon.",
     "empty_flower": "No flowers yet — check back soon."
   },

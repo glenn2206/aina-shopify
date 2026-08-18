@@ -47,8 +47,8 @@
     </div>
 
     <div class="max-w-[535px]">
-      <p class="text-[13px] font-semibold uppercase tracking-[5.6px] text-[#525252] sm:text-[14px]">{{ 'occasions_page.hero_eyebrow' | t }}</p>
-      <h1 class="mt-6 font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.12] text-[#525252] sm:text-5xl lg:text-[52px]">{{ 'occasions_page.hero_heading' | t }}</h1>
+      <p class="text-[14px] font-semibold uppercase tracking-[5.6px] text-[#525252]">{{ 'occasions_page.hero_eyebrow' | t }}</p>
+      <h1 class="mt-6 font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.12] text-[#525252] sm:text-5xl lg:text-[60px]">{{ 'occasions_page.hero_heading' | t }}</h1>
       <div class="mt-9 flex flex-wrap items-center gap-4">
         <a href="{{ shop_url }}" class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]">{{ 'occasions_page.shop_flowers' | t }}</a>
         <a href="{{ contact_url }}" class="flex h-9 items-center justify-center rounded-lg bg-[#BBCCBF] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#A8BCAE]">{{ 'occasions_page.custom_order' | t }}</a>
@@ -62,7 +62,7 @@
   <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
     <div class="relative pb-8 text-center">
       <span class="absolute bottom-0 left-0 h-px w-full bg-[#CCC8A8]" aria-hidden="true"></span>
-      <h2 class="relative inline-block bg-[#FAFAF2] px-6 font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">{{ 'occasions_page.say_heading' | t }}</h2>
+      <h2 class="relative inline-block bg-[#FAFAF2] px-6 font-['Crimson_Text'] text-[32px] font-normal text-[#1E2934]">{{ 'occasions_page.say_heading' | t }}</h2>
     </div>
 
     <div class="mt-2">
@@ -80,55 +80,55 @@
   <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
     <div class="relative pb-8 text-center">
       <span class="absolute bottom-0 left-0 h-px w-full bg-[#CCC8A8]" aria-hidden="true"></span>
-      <h2 class="relative inline-block bg-[#FAFAF2] px-6 font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">{{ 'occasions_page.recipients_heading' | t }}</h2>
+      <h2 class="relative inline-block bg-[#FAFAF2] px-6 font-['Crimson_Text'] text-[32px] font-normal text-[#3D3B2F]">{{ 'occasions_page.recipients_heading' | t }}</h2>
     </div>
 
     <div class="mt-10 grid grid-cols-1 border-l border-t border-[#CCC8A8] sm:grid-cols-2 lg:grid-cols-3">
       {% comment %} Romantic partner {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><path d="M12 20.5s-7.5-4.6-9.7-9C.9 8.2 2.3 4.8 5.5 4.4c2-.3 4 .7 5 2.4 0 0 1-1.8 3.2-2 2.2-.2 4 1.5 4.5 3.6.5 2.1-.9 4.4-2.2 6-2.4 2.9-4 6.1-4 6.1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_partner_title' | t }}</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_partner_text' | t }}</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_partner_best' | t }}</p>
+        <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold text-[#525252]">{{ 'occasions_page.recipient_partner_title' | t }}</h3>
+        <p class="font-['Open_Sans'] text-sm leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_partner_text' | t }}</p>
+        <p class="mt-1 font-['Open_Sans'] text-sm font-semibold leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_partner_best' | t }}</p>
       </div>
 
       {% comment %} Parents {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><circle cx="9" cy="7" r="3.2" stroke="currentColor" stroke-width="1.5" /><circle cx="17" cy="8.5" r="2.4" stroke="currentColor" stroke-width="1.5" /><path d="M3 20.5c0-3.5 2.7-6.2 6-6.2s6 2.7 6 6.2M14.8 20.5c-.2-2.6-1.4-4.7-3.2-5.9M15 12.4c2.6.1 4.7 2.2 4.9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_parents_title' | t }}</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_parents_text' | t }}</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_parents_best' | t }}</p>
+        <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold text-[#525252]">{{ 'occasions_page.recipient_parents_title' | t }}</h3>
+        <p class="font-['Open_Sans'] text-sm leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_parents_text' | t }}</p>
+        <p class="mt-1 font-['Open_Sans'] text-sm font-semibold leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_parents_best' | t }}</p>
       </div>
 
       {% comment %} Friend {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><circle cx="8.5" cy="8" r="3" stroke="currentColor" stroke-width="1.5" /><path d="M2.8 20c0-3.4 2.5-5.8 5.7-5.8s5.7 2.4 5.7 5.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /><path d="M16 4.3c1.6.4 2.7 1.8 2.7 3.4 0 1.3-.7 2.5-1.8 3.1l.4 2.3-2-1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_friend_title' | t }}</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_friend_text' | t }}</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_friend_best' | t }}</p>
+        <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold text-[#525252]">{{ 'occasions_page.recipient_friend_title' | t }}</h3>
+        <p class="font-['Open_Sans'] text-sm leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_friend_text' | t }}</p>
+        <p class="mt-1 font-['Open_Sans'] text-sm font-semibold leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_friend_best' | t }}</p>
       </div>
 
       {% comment %} Colleague / business {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><rect x="3" y="8" width="18" height="11" rx="1.6" stroke="currentColor" stroke-width="1.5" /><path d="M8.5 8V6.2A1.7 1.7 0 0 1 10.2 4.5h3.6a1.7 1.7 0 0 1 1.7 1.7V8M3 13h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_colleague_title' | t }}</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_colleague_text' | t }}</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_colleague_best' | t }}</p>
+        <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold text-[#525252]">{{ 'occasions_page.recipient_colleague_title' | t }}</h3>
+        <p class="font-['Open_Sans'] text-sm leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_colleague_text' | t }}</p>
+        <p class="mt-1 font-['Open_Sans'] text-sm font-semibold leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_colleague_best' | t }}</p>
       </div>
 
       {% comment %} Difficult time {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] p-8">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#899B7A]"><path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4.5 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /><path d="M8 9.5c0-1 .8-1.7 1.7-1.7.6 0 1 .3 1.3.7.3-.4.7-.7 1.3-.7.9 0 1.7.7 1.7 1.7 0 1.4-1.6 2.5-3 3.5-1.4-1-3-2.1-3-3.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" /></svg>
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.recipient_difficult_title' | t }}</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.recipient_difficult_text' | t }}</p>
-        <p class="mt-1 text-[11px] italic leading-relaxed text-[#899B7A]">{{ 'occasions_page.recipient_difficult_best' | t }}</p>
+        <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold text-[#525252]">{{ 'occasions_page.recipient_difficult_title' | t }}</h3>
+        <p class="font-['Open_Sans'] text-sm leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_difficult_text' | t }}</p>
+        <p class="mt-1 font-['Open_Sans'] text-sm font-semibold leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.recipient_difficult_best' | t }}</p>
       </div>
 
       {% comment %} CTA cell {% endcomment %}
       <div class="flex flex-col items-start gap-3 border-b border-r border-[#CCC8A8] bg-[#FDF6F1] p-8">
-        <h3 class="font-['Crimson_Text'] text-lg text-[#1E2934]">{{ 'occasions_page.cta_title' | t }}</h3>
-        <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'occasions_page.cta_text' | t }}</p>
-        <a href="{{ contact_url }}" class="mt-2 flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]">{{ 'occasions_page.cta_button' | t }}</a>
+        <h3 class="font-['Cormorant_Garamond'] text-[36px] font-semibold text-[#525252] lg:text-[45px]">{{ 'occasions_page.cta_title' | t }}</h3>
+        <p class="font-['Open_Sans'] text-sm font-semibold leading-relaxed text-[#3D3B2F]">{{ 'occasions_page.cta_text' | t }}</p>
+        <a href="{{ contact_url }}" class="mt-2 flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]">{{ 'occasions_page.cta_button' | t }} →</a>
       </div>
     </div>
   </div>

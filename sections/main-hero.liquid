@@ -167,6 +167,19 @@
     let timer = null;
     let paused = false;
 
+    // Once the visitor takes control of the scroll themselves, the
+    // "advance past the hero" auto-scroll below must never fire again —
+    // otherwise it yanks them back down mid-read whenever the slideshow
+    // loops back around to the last slide.
+    let userScrolled = false;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (window.scrollY > 40) userScrolled = true;
+      },
+      { passive: true }
+    );
+
     const clearTimer = () => {
       if (timer) {
         clearTimeout(timer);
@@ -203,12 +216,18 @@
     const nextSlide = () => {
       if (current === slides.length - 1) {
         clearTimer();
-        // Scroll by the hero's actual height so it never stops mid-hero
-        // (which makes the background look "cut off" at the edge of the screen).
-        window.scrollBy({
-          top: section.getBoundingClientRect().height,
-          behavior: 'smooth',
-        });
+        // Only auto-scroll if the visitor is still sitting at the hero —
+        // if they've already scrolled away (reading the page below, or
+        // came back around to the last slide again later), leave their
+        // scroll position alone.
+        if (!userScrolled && window.scrollY <= 40) {
+          // Scroll by the hero's actual height so it never stops mid-hero
+          // (which makes the background look "cut off" at the edge of the screen).
+          window.scrollBy({
+            top: section.getBoundingClientRect().height,
+            behavior: 'smooth',
+          });
+        }
       } else {
         goTo(current + 1);
       }

@@ -1,0 +1,33 @@
+{% comment %}
+  PickerCard — reusable "occasion / category / flower" teaser tile used by
+  the homepage Occasions section (sections/main-occasions.liquid): a photo
+  with a label + arrow bar underneath. `highlighted: true` renders the olive
+  filled variant (used for the first card in each row); otherwise a bordered
+  white card.
+
+  Params: href, image_src (ready-to-use <img src>), alt, label, highlighted
+{% endcomment %}
+<a href="{{ href }}" class="group block">
+  <div class="overflow-hidden rounded-[6px]{% if highlighted %} bg-[#899B7A]{% endif %}">
+    <div class="overflow-hidden">
+      {% if image_src %}
+        <img
+          src="{{ image_src }}"
+          alt="{{ alt | escape }}"
+          class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          width="802"
+          height="936"
+          loading="lazy"
+        >
+      {% else %}
+        <span class="flex aspect-[401/468] w-full items-center justify-center bg-[#EAE8E8] text-sm text-[#6D6D6D]">{{ label }}</span>
+      {% endif %}
+    </div>
+    <div class="flex items-center justify-between px-5 py-5 {% if highlighted %}text-white{% else %}border border-t-0 border-[#899B7A] text-[#525252]{% endif %}">
+      <span class="font-['Cormorant_Garamond'] text-[40px] font-normal leading-none">{{ label }}</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+  </div>
+</a>

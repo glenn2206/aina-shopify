@@ -160,3 +160,20 @@ body.template-index .shopify-section > section {
   line-height: 1;
 }
 
+/* Category / For Occassions / Flowers option rows are built by JS with no
+   Tailwind classes to toggle, so the active one needs an explicit rule. */
+[data-filter-group] button[data-filter].is-filter-active {
+  color: #3d3b2f;
+  font-weight: 600;
+}
+[data-filter-group] button[data-filter].is-filter-active::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: #899b7a;
+  vertical-align: middle;
+}
+

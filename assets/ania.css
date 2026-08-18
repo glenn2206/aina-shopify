@@ -33,6 +33,7 @@
     --text-5xl--line-height: 1;
     --text-7xl: 4.5rem;
     --text-7xl--line-height: 1;
+    --font-weight-light: 300;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
@@ -705,6 +706,9 @@
   }
   .max-h-screen {
     max-height: 100vh;
+  }
+  .min-h-\[60vh\] {
+    min-height: 60vh;
   }
   .min-h-\[260px\] {
     min-height: 260px;
@@ -2200,6 +2204,9 @@
   .py-5 {
     padding-block: calc(var(--spacing) * 5);
   }
+  .py-6 {
+    padding-block: calc(var(--spacing) * 6);
+  }
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
   }
@@ -2376,11 +2383,20 @@
   .text-\[13px\] {
     font-size: 13px;
   }
+  .text-\[14px\] {
+    font-size: 14px;
+  }
   .text-\[30px\] {
     font-size: 30px;
   }
   .text-\[32px\] {
     font-size: 32px;
+  }
+  .text-\[36px\] {
+    font-size: 36px;
+  }
+  .text-\[40px\] {
+    font-size: 40px;
   }
   .text-\[96px\] {
     font-size: 96px;
@@ -2424,6 +2440,10 @@
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
+  }
+  .font-light {
+    --tw-font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-light);
   }
   .font-medium {
     --tw-font-weight: var(--font-weight-medium);
@@ -2584,9 +2604,6 @@
   }
   .text-\[\#3D3B2F\]\/50 {
     color: color-mix(in oklab, #3D3B2F 50%, transparent);
-  }
-  .text-\[\#3D3B2F\]\/90 {
-    color: color-mix(in oklab, #3D3B2F 90%, transparent);
   }
   .text-\[\#3d3b2f\] {
     color: #3d3b2f;
@@ -3420,10 +3437,6 @@
     .sm\:py-32 {
       padding-block: calc(var(--spacing) * 32);
     }
-    .sm\:text-4xl {
-      font-size: var(--text-4xl);
-      line-height: var(--tw-leading, var(--text-4xl--line-height));
-    }
     .sm\:text-5xl {
       font-size: var(--text-5xl);
       line-height: var(--tw-leading, var(--text-5xl--line-height));
@@ -3667,14 +3680,11 @@
     .lg\:text-\[32px\] {
       font-size: 32px;
     }
-    .lg\:text-\[34px\] {
-      font-size: 34px;
-    }
     .lg\:text-\[40px\] {
       font-size: 40px;
     }
-    .lg\:text-\[42px\] {
-      font-size: 42px;
+    .lg\:text-\[45px\] {
+      font-size: 45px;
     }
     .lg\:text-\[52px\] {
       font-size: 52px;
@@ -3697,6 +3707,62 @@
     .xl\:grid-cols-4 {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
+  }
+  .\[\&_a\]\:text-\[\#899B7A\] a {
+    color: #899B7A;
+  }
+  .\[\&_a\]\:underline a {
+    text-decoration-line: underline;
+  }
+  .\[\&_h2\]\:mt-6 h2 {
+    margin-top: calc(var(--spacing) * 6);
+  }
+  .\[\&_h2\]\:text-base h2 {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
+  }
+  .\[\&_h2\]\:font-normal h2 {
+    --tw-font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-normal);
+  }
+  .\[\&_h2\]\:text-\[\#3D3B2F\] h2 {
+    color: #3D3B2F;
+  }
+  .\[\&_h3\]\:mt-5 h3 {
+    margin-top: calc(var(--spacing) * 5);
+  }
+  .\[\&_h3\]\:text-base h3 {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
+  }
+  .\[\&_h3\]\:font-semibold h3 {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
+  .\[\&_h3\]\:text-\[\#3D3B2F\] h3 {
+    color: #3D3B2F;
+  }
+  .\[\&_li\]\:ml-5 li {
+    margin-left: calc(var(--spacing) * 5);
+  }
+  .\[\&_ol\]\:mt-3 ol {
+    margin-top: calc(var(--spacing) * 3);
+  }
+  .\[\&_ol\]\:list-decimal ol {
+    list-style-type: decimal;
+  }
+  .\[\&_p\]\:mt-3 p {
+    margin-top: calc(var(--spacing) * 3);
+  }
+  .\[\&_strong\]\:font-semibold strong {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
+  .\[\&_ul\]\:mt-3 ul {
+    margin-top: calc(var(--spacing) * 3);
+  }
+  .\[\&_ul\]\:list-disc ul {
+    list-style-type: disc;
   }
   .\[\&\:\:-webkit-inner-spin-button\]\:appearance-none::-webkit-inner-spin-button {
     appearance: none;

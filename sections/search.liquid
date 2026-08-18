@@ -1,66 +1,97 @@
 {% comment %}
-  This section is used in the search template to render search results for
-  products, articles, and pages.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/search
+  Search — ANIA search results page (Figma).
+  Search bar (real GET form to routes.search_url) + result count + divider,
+  then either a product grid (reusing snippets/product-card.liquid) or an
+  empty state with a "View All Product" fallback.
 {% endcomment %}
+{%- liquid
+  assign shop_url = routes.all_products_collection_url
+-%}
 
-<h1>{{ 'search.title' | t }}</h1>
+<section class="min-h-[60vh] bg-[#FAFAF2]">
+  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
+    <h1 class="sr-only">{{ 'search.title' | t }}</h1>
 
-<form action="{{ routes.search_url }}" method="get" role="search">
-  <input
-    type="search"
-    size="50"
-    name="q"
-    value="{{ search.terms | escape }}"
-    placeholder="{{ 'search.placeholder' | t }}"
-  >
-  <button type="submit">{{ 'search.submit' | t }}</button>
-</form>
+    {% comment %} Search bar {% endcomment %}
+    <form action="{{ routes.search_url }}" method="get" role="search" class="flex items-center gap-4 border-b border-[#CCC8A8] py-6">
+      <svg width="20" height="20" viewBox="0 0 18 18" fill="none" aria-hidden="true" class="shrink-0 text-[#3D3B2F]">
+        <circle cx="7.75" cy="7.75" r="5.5" stroke="currentColor" stroke-width="1.5" />
+        <line x1="11.8" y1="11.8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+      <input
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'search.placeholder' | t }}"
+        autofocus
+        class="h-8 min-w-0 flex-1 border-0 bg-transparent text-lg text-[#3D3B2F] outline-none placeholder:text-[#A2A2A2]"
+      >
+      {% if search.terms != blank %}
+        <a
+          href="{{ routes.search_url }}"
+          aria-label="{{ 'search.clear' | t }}"
+          class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#CCC8A8] text-[#6D6D6D] transition-colors duration-200 hover:border-[#3D3B2F] hover:text-[#3D3B2F]"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+        </a>
+      {% endif %}
+    </form>
 
-{% if search.performed %}
-  {% if search.results_count == 0 %}
-    <p>{{ 'search.no_results_html' | t: terms: search.terms }}</p>
-  {% else %}
-    <p>{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+    {% if search.performed %}
+      {% comment %} Result count + divider {% endcomment %}
+      <div class="flex items-center justify-between pt-6">
+        <p class="text-xs font-semibold uppercase tracking-[2px] text-[#6D6D6D]">
+          {{ search.results_count }} {{ 'search.results_label' | t }}
+        </p>
+      </div>
+      <div class="mt-3 h-px w-full bg-[#CCC8A8]"></div>
 
-    <div class="search-results">
-      {% paginate search.results by 20 %}
-        {% # Search result items may be an article, a page, or a product. %}
-        {% for result in search.results %}
-          <div class="search-result">
-            {% assign featured_image = result.featured_image | default: result.image %}
-            {% if featured_image %}
-              {% render 'image', class: 'search-result__image', image: featured_image, url: result.url, width: 400 %}
-            {% endif %}
-            <div class="search-result__content">
-              <p>
-                {{ result.title | link_to: result.url }}
-                {% if result.price %}
-                  {{ result.price | money_with_currency }}
+      {% if search.results_count == 0 %}
+        <div class="flex flex-col items-center gap-6 py-20 text-center">
+          <p class="text-sm text-[#6D6D6D]">{{ 'search.no_results' | t }}</p>
+          <a
+            href="{{ shop_url }}"
+            class="flex h-10 items-center justify-center rounded-lg bg-[#BBCCBF] px-8 text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#A8BCAE]"
+          >
+            {{ 'search.view_all' | t }}
+          </a>
+        </div>
+      {% else %}
+        <div class="py-10">
+          {% paginate search.results by 24 %}
+            <div class="grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+              {% for result in search.results %}
+                {% if result.object_type == 'product' %}
+                  {% render 'product-card', product: result %}
+                {% else %}
+                  {% assign result_image = result.featured_image | default: result.image %}
+                  <a href="{{ result.url }}" class="flex flex-col gap-3">
+                    <span class="block overflow-hidden rounded-lg bg-white">
+                      {% if result_image %}
+                        {{ result_image | image_url: width: 640 | image_tag: class: 'aspect-[320/406] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]', loading: 'lazy', alt: result.title | escape }}
+                      {% else %}
+                        <span class="flex aspect-[320/406] w-full items-center justify-center bg-[#EAE8E8] text-xs text-[#6D6D6D]">{{ result.object_type | capitalize }}</span>
+                      {% endif %}
+                    </span>
+                    <h3 class="text-center font-['Crimson_Text'] text-xl font-normal text-[#1E2934]">{{ result.title }}</h3>
+                  </a>
                 {% endif %}
-              </p>
+              {% endfor %}
             </div>
-          </div>
-        {% endfor %}
 
-        {{ paginate | default_pagination }}
-      {% endpaginate %}
-    </div>
-  {% endif %}
-{% endif %}
-
-{% stylesheet %}
-  .search-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-  .search-results .prev,
-  .search-results .page,
-  .search-results .next {
-    grid-column: 1 / -1;
-  }
-{% endstylesheet %}
+            {% if paginate.pages > 1 %}
+              <div class="mt-14 flex justify-center">
+                {{ paginate | default_pagination }}
+              </div>
+            {% endif %}
+          {% endpaginate %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
 
 {% schema %}
 {

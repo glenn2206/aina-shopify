@@ -1,0 +1,68 @@
+{% comment %}
+  Terms & Conditions Page — ANIA layout.
+  Snippet: snippets/terms-and-condition-page.liquid
+{% endcomment %}
+
+<section class="w-full bg-[#FDF6F1] py-16 sm:py-20 lg:py-24">
+  <div class="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-[70px]">
+    
+    <!-- Title -->
+    <h1 class="text-center font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] sm:text-4xl lg:text-[42px]">
+      {{ page.title | default: 'Terms & Condition' }}
+    </h1>
+
+    <!-- Terms Content Container -->
+    <div class="mx-auto mt-12 max-w-[840px] space-y-8 text-sm font-normal leading-relaxed text-[#3D3B2F]">
+      
+      <!-- Clause Block 1 -->
+      <div class="space-y-3">
+        <h2 class="font-['Crimson_Text'] text-lg font-semibold text-[#1E2934]">
+          Lorem ipsum dolor sit amet consectetur. Faucibus adipiscing a pellentesque.
+        </h2>
+        <p class="text-[#3D3B2F]/90">
+          Lorem ipsum dolor sit amet consectetur. Dis adipiscing feugiat augue nulla turpis nibh commodo. Commodo nisi diam adipiscing ipsum quis. Viverra lorem sed eget consectetur augue quis. Sollicitudin magna nibh tellus nec velit sed nulla. Interdum congue pellentesque molestie facilisi aliquet erat. Sagittis suspendisse mi erat nisi volutpat odio sed duis. Lacus augue diam massa nec lectus et mattis.
+        </p>
+      </div>
+
+      <!-- Clause Block 2 -->
+      <div class="space-y-3">
+        <h2 class="font-['Crimson_Text'] text-lg font-semibold text-[#1E2934]">
+          Lorem ipsum dolor sit amet consectetur. Faucibus adipiscing a pellentesque.
+        </h2>
+        <p class="text-[#3D3B2F]/90">
+          Lorem ipsum dolor sit amet consectetur. Dis adipiscing feugiat augue nulla turpis nibh commodo. Commodo nisi diam adipiscing ipsum quis. Viverra lorem sed eget consectetur augue quis. Sollicitudin magna nibh tellus nec velit sed nulla. Interdum congue pellentesque molestie facilisi aliquet erat. Sagittis suspendisse mi erat nisi volutpat odio sed duis. Lacus augue diam massa nec lectus et mattis.
+        </p>
+        <p class="text-[#3D3B2F]/90">
+          Lorem ipsum dolor sit amet consectetur. Dis adipiscing feugiat augue nulla turpis nibh commodo. Commodo nisi diam adipiscing ipsum quis. Viverra lorem sed eget consectetur augue quis. Sollicitudin magna nibh tellus nec velit sed nulla. Interdum congue pellentesque molestie facilisi aliquet erat. Sagittis suspendisse mi erat nisi volutpat odio sed duis. Lacus augue diam massa nec lectus et mattis. Lorem ipsum dolor sit amet consectetur. Dis adipiscing feugiat augue nulla turpis nibh commodo.
+        </p>
+      </div>
+
+      <!-- Clause Block 3 -->
+      <div class="space-y-3">
+        <h2 class="font-['Crimson_Text'] text-lg font-semibold text-[#1E2934]">
+          Lorem ipsum dolor sit amet consectetur. Faucibus adipiscing a pellentesque.
+        </h2>
+        <p class="text-[#3D3B2F]/90">
+          Lorem ipsum dolor sit amet consectetur. Dis adipiscing feugiat augue nulla turpis nibh commodo. Commodo nisi diam adipiscing ipsum quis. Viverra lorem sed eget consectetur augue quis. Sollicitudin magna nibh tellus nec velit sed nulla. Interdum congue pellentesque molestie facilisi aliquet erat. Sagittis suspendisse mi erat nisi volutpat odio sed duis. Lacus augue diam massa nec lectus et mattis.
+        </p>
+      </div>
+
+      <!-- Clause Block 4 -->
+      <div class="space-y-3">
+        <h2 class="font-['Crimson_Text'] text-lg font-semibold text-[#1E2934]">
+          Lorem ipsum dolor sit amet consectetur. Faucibus adipiscing a pellentesque.
+        </h2>
+        <p class="text-[#3D3B2F]/90">
+          Lorem ipsum dolor sit amet consectetur. Dis adipiscing feugiat augue nulla turpis nibh commodo. Commodo nisi diam adipiscing ipsum quis. Viverra lorem sed eget consectetur augue quis. Sollicitudin magna nibh tellus nec velit sed nulla. Interdum congue pellentesque molestie facilisi aliquet erat. Sagittis suspendisse mi erat nisi volutpat odio sed duis. Lacus augue diam massa nec lectus et mattis.
+        </p>
+      </div>
+
+      {% if page.content != blank %}
+        <div class="prose max-w-none pt-4 text-[#3D3B2F]/90">
+          {{ page.content }}
+        </div>
+      {% endif %}
+
+    </div>
+</div>
+</section>

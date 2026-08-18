@@ -13,7 +13,7 @@
 
 <footer class="bg-[#FDF6F1]">
   {% comment %} Order section {% endcomment %}
-  <div class="border-b border-[#CCC8A8]">
+  <div class="border-b border-t border-[#CCC8A8]">
     <div class="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:px-[70px] lg:py-[50px]">
       <h2 class="max-w-[501px] font-['Cormorant_Garamond'] text-4xl font-normal leading-tight text-[#3D3B2F] lg:text-[40px]">
         {{ section.settings.order_heading | default: order_heading_fb }}
@@ -127,7 +127,7 @@
                 </li>
               {% endfor %}
             {% else %}
-              <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.resource_links.terms' | t }}</a></li>
+              <li><a href="{{ pages.terms-and-condition.url | default: '/pages/terms-and-condition' }}" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.resource_links.terms' | t }}</a></li>
               <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.resource_links.faq' | t }}</a></li>
               <li><a href="#" class="text-base font-normal text-[#3D3B2F] transition-opacity hover:opacity-70">{{ 'footer.resource_links.how_to_order' | t }}</a></li>
             {% endif %}

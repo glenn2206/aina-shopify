@@ -227,7 +227,9 @@
     "img_alt_graduation": "Flower arrangement for graduation",
     "img_alt_birthday": "Flower arrangement for a birthday",
     "img_alt_valentines": "Flower arrangement for Valentine's Day",
-    "check_other": "Check Other occasions"
+    "check_other": "Check Other occasions",
+    "empty_category": "No categories yet — check back soon.",
+    "empty_flower": "No flowers yet — check back soon."
   },
   "occasions_page": {
     "hero_eyebrow": "What's the Occasion?",

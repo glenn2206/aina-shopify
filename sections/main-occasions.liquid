@@ -4,10 +4,41 @@
   Homepage teaser only — the full standalone page lives at
   snippets/occasions-page.liquid (pages.occasions.url), which this section's
   "Check Other occasions" button links to.
+
+  The Occasions / Category / Flower tabs are functional: each switches to a
+  real, product-backed panel and every link deep-links into the product grid
+  with ?occasion=/?category=/?flower=, which sections/main-products.liquid
+  already reads on load to pre-apply that filter (same mechanism used by the
+  standalone Occasions page).
 {% endcomment %}
 {%- liquid
   assign occasions_url = pages.occasions.url | default: '/pages/occasions'
+  assign shop_url = routes.all_products_collection_url
 -%}
+
+{%- capture category_raw -%}
+  {%- for product in collections.all.products -%}
+    {%- assign cat = product.category.name | default: product.type -%}
+    {%- if cat != blank -%}{{ cat | strip }}||{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign category_list = category_raw | split: '||' | uniq | sort -%}
+
+{%- capture flower_raw -%}
+  {%- for product in collections.all.products -%}
+    {%- assign flower_items = product.metafields.shopify['plant-class'].value -%}
+    {%- for mo in flower_items -%}
+      {%- liquid
+        assign label = mo.label | default: mo.name | default: mo.title
+        if label == blank and mo.first == nil
+          assign label = mo
+        endif
+      -%}
+      {%- if label != blank -%}{{ label | strip }}||{%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign flower_list = flower_raw | split: '||' | uniq | sort -%}
 
 <section id="occasions" class="bg-[#FAFAF2] pb-[90px] pt-[60px] lg:pb-[110px]">
   <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
@@ -19,103 +50,137 @@
     <div class="relative mt-10 rounded-[6px] border border-[#CCC8A8] px-5 pb-8 pt-6 sm:px-8 lg:px-[30px] lg:pt-7">
       {% comment %} Tabs {% endcomment %}
       <div class="flex items-baseline gap-8 lg:gap-[170px]">
-        <button type="button" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]" aria-pressed="true">
+        <button type="button" data-teaser-tab data-tab="occasions" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]" aria-pressed="true">
           {{ 'occasions.tab_occasions' | t }}
-          <span class="absolute -bottom-2 left-0 h-px w-[118px] bg-[#525252]" aria-hidden="true"></span>
+          <span class="tab-underline absolute -bottom-2 left-0 h-px w-[118px] bg-[#525252]" aria-hidden="true"></span>
         </button>
-        <button type="button" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]/55" aria-pressed="false">{{ 'occasions.tab_category' | t }}</button>
-        <button type="button" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]/55" aria-pressed="false">{{ 'occasions.tab_flower' | t }}</button>
+        <button type="button" data-teaser-tab data-tab="category" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]/55" aria-pressed="false">
+          {{ 'occasions.tab_category' | t }}
+          <span class="tab-underline absolute -bottom-2 left-0 hidden h-px w-[118px] bg-[#525252]" aria-hidden="true"></span>
+        </button>
+        <button type="button" data-teaser-tab data-tab="flower" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]/55" aria-pressed="false">
+          {{ 'occasions.tab_flower' | t }}
+          <span class="tab-underline absolute -bottom-2 left-0 hidden h-px w-[118px] bg-[#525252]" aria-hidden="true"></span>
+        </button>
       </div>
 
-      <p class="mt-8 max-w-[630px] text-sm font-normal leading-relaxed text-[#525252]">
-        {{ 'occasions.body' | t }}
-      </p>
+      {% comment %} Panel: Occasions (curated cards) {% endcomment %}
+      <div data-teaser-panel data-panel="occasions">
+        <p class="mt-8 max-w-[630px] text-sm font-normal leading-relaxed text-[#525252]">
+          {{ 'occasions.body' | t }}
+        </p>
 
-      <div class="mt-6 grid grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
-        {% comment %} Kartu Graduation (bg olive, teks putih) {% endcomment %}
-        <a href="{{ routes.all_products_collection_url }}?occasion=Graduation" class="group block">
-          <div class="overflow-hidden rounded-[6px] bg-[#899B7A]">
-            <div class="overflow-hidden">
-              <img
-                src="{{ 'occas-graduation.png' | asset_url }}"
-                alt="{{ 'occasions.img_alt_graduation' | t }}"
-                class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                width="802"
-                height="936"
-                loading="lazy"
-              >
+        <div class="mt-6 grid grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
+          {% comment %} Kartu Graduation (bg olive, teks putih) {% endcomment %}
+          <a href="{{ shop_url }}?occasion=Graduation" class="group block">
+            <div class="overflow-hidden rounded-[6px] bg-[#899B7A]">
+              <div class="overflow-hidden">
+                <img
+                  src="{{ 'occas-graduation.png' | asset_url }}"
+                  alt="{{ 'occasions.img_alt_graduation' | t }}"
+                  class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  width="802"
+                  height="936"
+                  loading="lazy"
+                >
+              </div>
+              <div class="flex items-center justify-between px-5 py-5 text-white">
+                <span class="font-['Cormorant_Garamond'] text-[32px] font-normal leading-none lg:text-[40px]">{{ 'occasions.card_graduation' | t }}</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
             </div>
-            <div class="flex items-center justify-between px-5 py-5 text-white">
-              <span class="font-['Cormorant_Garamond'] text-[32px] font-normal leading-none lg:text-[40px]">{{ 'occasions.card_graduation' | t }}</span>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
-        </a>
+          </a>
 
-        {% comment %} Kartu Birthday (band border) {% endcomment %}
-        <a href="{{ routes.all_products_collection_url }}?occasion=Birthday" class="group block">
-          <div class="overflow-hidden rounded-[6px]">
-            <div class="overflow-hidden">
-              <img
-                src="{{ 'occas-birthday.png' | asset_url }}"
-                alt="{{ 'occasions.img_alt_birthday' | t }}"
-                class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                width="802"
-                height="936"
-                loading="lazy"
-              >
+          {% comment %} Kartu Birthday (band border) {% endcomment %}
+          <a href="{{ shop_url }}?occasion=Birthday" class="group block">
+            <div class="overflow-hidden rounded-[6px]">
+              <div class="overflow-hidden">
+                <img
+                  src="{{ 'occas-birthday.png' | asset_url }}"
+                  alt="{{ 'occasions.img_alt_birthday' | t }}"
+                  class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  width="802"
+                  height="936"
+                  loading="lazy"
+                >
+              </div>
+              <div class="flex items-center justify-between border border-t-0 border-[#899B7A] px-5 py-5 text-[#525252]">
+                <span class="font-['Cormorant_Garamond'] text-[32px] font-normal leading-none lg:text-[40px]">{{ 'occasions.card_birthday' | t }}</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
             </div>
-            <div class="flex items-center justify-between border border-t-0 border-[#899B7A] px-5 py-5 text-[#525252]">
-              <span class="font-['Cormorant_Garamond'] text-[32px] font-normal leading-none lg:text-[40px]">{{ 'occasions.card_birthday' | t }}</span>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
-        </a>
+          </a>
 
-        {% comment %} Kartu Valentines (band border) {% endcomment %}
-        <a href="{{ routes.all_products_collection_url }}?occasion=Valentines" class="group block">
-          <div class="overflow-hidden rounded-[6px]">
-            <div class="overflow-hidden">
-              <img
-                src="{{ 'occas-valentines.png' | asset_url }}"
-                alt="{{ 'occasions.img_alt_valentines' | t }}"
-                class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                width="802"
-                height="936"
-                loading="lazy"
-              >
+          {% comment %} Kartu Valentines (band border) {% endcomment %}
+          <a href="{{ shop_url }}?occasion=Valentines" class="group block">
+            <div class="overflow-hidden rounded-[6px]">
+              <div class="overflow-hidden">
+                <img
+                  src="{{ 'occas-valentines.png' | asset_url }}"
+                  alt="{{ 'occasions.img_alt_valentines' | t }}"
+                  class="aspect-[401/468] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  width="802"
+                  height="936"
+                  loading="lazy"
+                >
+              </div>
+              <div class="flex items-center justify-between border border-t-0 border-[#899B7A] px-5 py-5 text-[#525252]">
+                <span class="font-['Cormorant_Garamond'] text-[32px] font-normal leading-none lg:text-[40px]">{{ 'occasions.card_valentines' | t }}</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
             </div>
-            <div class="flex items-center justify-between border border-t-0 border-[#899B7A] px-5 py-5 text-[#525252]">
-              <span class="font-['Cormorant_Garamond'] text-[32px] font-normal leading-none lg:text-[40px]">{{ 'occasions.card_valentines' | t }}</span>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M6 12h11m0 0-4.5-4.5M17 12l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
-        </a>
-      </div>
-
-
-      {% comment %} Pagination (kanan bawah) {% endcomment %}
-      <div class="mt-8 hidden items-center gap-4 lg:absolute lg:bottom-[76px] lg:right-9 lg:mt-0 lg:flex">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <div class="relative flex items-baseline gap-2 text-sm text-[#A2A2A2]">
-          <span class="relative font-bold text-[#525252]">
-            1
-            <span class="absolute -bottom-[6px] left-0 h-px w-[20px] bg-[#525252]"></span>
-          </span>
-          <span>2</span>
-          <span>3</span>
+          </a>
         </div>
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+
+        {% comment %} Pagination (kanan bawah) {% endcomment %}
+        <div class="mt-8 hidden items-center gap-4 lg:absolute lg:bottom-[76px] lg:right-9 lg:mt-0 lg:flex">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="relative flex items-baseline gap-2 text-sm text-[#A2A2A2]">
+            <span class="relative font-bold text-[#525252]">
+              1
+              <span class="absolute -bottom-[6px] left-0 h-px w-[20px] bg-[#525252]"></span>
+            </span>
+            <span>2</span>
+            <span>3</span>
+          </div>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+      </div>
+
+      {% comment %} Panel: Category (real product categories) {% endcomment %}
+      <div data-teaser-panel data-panel="category" class="hidden">
+        {% if category_list.size > 0 %}
+          <div class="mt-8 flex flex-wrap gap-3">
+            {% for cat in category_list %}
+              <a href="{{ shop_url }}?category={{ cat | url_encode }}" class="rounded-full border border-[#EAE8E8] bg-white px-5 py-2 text-sm text-[#1E2934] transition-colors duration-200 hover:border-[#899B7A] hover:text-[#4C5F45]">{{ cat }}</a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="mt-8 text-sm text-[#6D6D6D]">{{ 'occasions.empty_category' | t }}</p>
+        {% endif %}
+      </div>
+
+      {% comment %} Panel: Flower (real flower/plant types) {% endcomment %}
+      <div data-teaser-panel data-panel="flower" class="hidden">
+        {% if flower_list.size > 0 %}
+          <div class="mt-8 flex flex-wrap gap-3">
+            {% for f in flower_list %}
+              <a href="{{ shop_url }}?flower={{ f | url_encode }}" class="rounded-full border border-[#EAE8E8] bg-white px-5 py-2 text-sm text-[#1E2934] transition-colors duration-200 hover:border-[#899B7A] hover:text-[#4C5F45]">{{ f }}</a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="mt-8 text-sm text-[#6D6D6D]">{{ 'occasions.empty_flower' | t }}</p>
+        {% endif %}
       </div>
 
       <div class="mt-8 flex justify-center lg:mt-10">
@@ -129,6 +194,31 @@
     </div>
   </div>
 </section>
+
+<script>
+  // Occasions / Category / Flower tabs — switches which real, product-backed
+  // panel is shown. Every link inside a panel deep-links into the product
+  // grid (?occasion=/?category=/?flower=), which main-products.liquid reads
+  // on load to pre-apply that filter.
+  (() => {
+    const tabs = Array.from(document.querySelectorAll('[data-teaser-tab]'));
+    const panels = Array.from(document.querySelectorAll('[data-teaser-panel]'));
+    if (!tabs.length) return;
+
+    const activate = (name) => {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.tab === name;
+        tab.setAttribute('aria-pressed', String(active));
+        tab.classList.toggle('text-[#1E2934]', active);
+        tab.classList.toggle('text-[#1E2934]/55', !active);
+        tab.querySelector('.tab-underline')?.classList.toggle('hidden', !active);
+      });
+      panels.forEach((panel) => panel.classList.toggle('hidden', panel.dataset.panel !== name));
+    };
+
+    tabs.forEach((tab) => tab.addEventListener('click', () => activate(tab.dataset.tab)));
+  })();
+</script>
 
 {% schema %}
 {

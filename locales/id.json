@@ -227,7 +227,9 @@
     "img_alt_graduation": "Rangkaian bunga untuk kelulusan",
     "img_alt_birthday": "Rangkaian bunga untuk ulang tahun",
     "img_alt_valentines": "Rangkaian bunga untuk hari kasih sayang",
-    "check_other": "Lihat Acara Lainnya"
+    "check_other": "Lihat Acara Lainnya",
+    "empty_category": "Belum ada kategori — cek lagi nanti.",
+    "empty_flower": "Belum ada bunga — cek lagi nanti."
   },
   "occasions_page": {
     "hero_eyebrow": "Ada Acara Apa?",

@@ -6,29 +6,54 @@
 {% endcomment %}
 
 {% comment %} AboutHero — 480/960 split, image right {% endcomment %}
-<section class="w-full overflow-hidden bg-[#FDF6F1]">
-  <div class="grid w-full max-w-[1440px] grid-cols-1 items-stretch lg:grid-cols-[480px_960px]">
-    <div class="flex flex-col justify-center px-5 py-16 sm:px-10 lg:px-[70px] lg:py-0">
-      <h1 class="font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">{{ 'about_page.hero_heading' | t }}</h1>
-      <p class="mt-5 max-w-[340px] text-sm font-normal leading-[1.65] text-[#3D3B2F]">{{ 'about_page.hero_body' | t }}</p>
+<section class="w-full overflow-hidden" style="background-color: #F6EBE3;">
+  <!-- 50/50 Grid Layout (grid-cols-1 on mobile, grid-cols-2 on large screens) -->
+  <div class="grid w-full grid-cols-1 items-stretch lg:grid-cols-2">
+    <!-- Image Column (50% Width / Order first on left) -->
+    <div class="relative h-[320px] lg:h-auto lg:order-first">
+      <img src="{{ 'about-hero.jpg' | asset_url }}" alt="{{ 'about_page.hero_img_alt' | t }}" width="960" height="506" class="absolute inset-0 h-full w-full object-cover" loading="eager">
     </div>
 
-    <div class="relative h-[320px] lg:h-auto">
-      <img src="{{ 'about-hero.png' | asset_url }}" alt="{{ 'about_page.hero_img_alt' | t }}" width="960" height="506" class="absolute inset-0 h-full w-full object-cover" loading="eager">
-    </div>
-  </div>
-</section>
+    <!-- Content Column (50% Width / On right) -->
+    <div class="flex flex-col justify-center px-5 py-16 sm:px-10 lg:px-[70px] lg:py-16">
+      <!-- Subheader -->
+      <span class="text-[14px] font-[Open_Sans] uppercase text-[#3D3B2F] tracking-[4px] font-semibold">{{ 'about_page.hero_subheading' | t | default: "Who We Are?" }}</span>
 
-{% comment %} ModernApproach — image left, text right {% endcomment %}
-<section class="w-full overflow-hidden bg-[#FDF6F1]">
-  <div class="grid w-full max-w-[1440px] grid-cols-1 items-stretch lg:grid-cols-[960px_480px]">
-    <div class="relative order-2 h-[320px] lg:order-1 lg:h-auto">
-      <img src="{{ 'about-modern.png' | asset_url }}" alt="{{ 'about_page.modern_img_alt' | t }}" width="960" height="506" class="absolute inset-0 h-full w-full object-cover" loading="lazy">
-    </div>
+      <!-- Main Heading -->
+      <h1 class="mt-2 font-['Cormorant_Garamond'] text-[60px] font-normal leading-[1.2] text-[#1E2934] lg:text-[40px]">{{ 'about_page.hero_heading' | t | default: "Flowers That Speak Louder Than Words" }}</h1>
 
-    <div class="order-1 flex flex-col justify-center px-5 py-16 sm:px-10 lg:order-2 lg:px-[40px] lg:py-0 lg:pl-14">
-      <h2 class="font-['Crimson_Text'] text-3xl font-normal text-[#1E2934] lg:text-[32px]">{{ 'about_page.modern_heading' | t }}</h2>
-      <p class="mt-5 max-w-[380px] text-sm font-normal leading-[1.65] text-[#3D3B2F]">{{ 'about_page.modern_body' | t }}</p>
+      <!-- Body Paragraph 1 -->
+      <p class="mt-6 text-[16px] font-[Open_Sans] leading-[1.65] text-[#3D3B2F]"  style="font-size:16px;">{{ 'about_page.hero_body' | t }}</p>
+
+      <!-- Quote Callout -->
+      <p class="mt-6 font-['Crimson_Text'] text-[#1E2934]" style="font-size:24px; font-weight:400;">
+        “{{ 'about_page.hero_quote' | t | default: "Flowers are the earth’s way of smiling." }}”
+      </p>
+
+      <!-- Body Paragraph 2 -->
+      <p class="font-[Open_Sans] leading-[1.65] text-[#3D3B2F]" style="font-size:16px;">{{ 'about_page.hero_body_secondary' | t }}</p>
+
+      <!-- Our Promise Section -->
+      <div class="mt-8 pt-6">
+        <h2 class="font-['Crimson_Text'] text-[#1E2934]" style="font-size:32px;">{{ 'about_page.promise_heading' | t | default: "Our Promise" }}</h2>
+        <p class="font-[Open_Sans] leading-[1.65] text-[#3D3B2F]" style="font-size:16px;">{{ 'about_page.promise_body' | t }}</p>
+
+        <!-- Checkmark List -->
+        <ul class="mt-2 space-y-2 text-sm text-[#3D3B2F]">
+          <li class="flex items-center gap-2">
+            <span class="font-[Open_Sans] font-bold" style="font-size:16px;">✓</span> {{ 'about_page.promise_item_1' | t | default: "High Quality Gift and Flower Arrangement" }}
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="font-[Open_Sans] font-bold" style="font-size:16px;">✓</span> {{ 'about_page.promise_item_2' | t | default: "Professionally arranged for 10+ years" }}
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="font-[Open_Sans] font-bold" style="font-size:16px;">✓</span> {{ 'about_page.promise_item_3' | t | default: "Easy online ordering system" }}
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="font-[Open_Sans] font-bold" style="font-size:16px;">✓</span> {{ 'about_page.promise_item_4' | t | default: "Reliable on-time delivery" }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -40,46 +65,46 @@
     <p class="mx-auto mt-4 max-w-[508px] text-center text-sm font-normal leading-relaxed text-[#1E2934]">{{ 'about_page.behind_body' | t }}</p>
 
     <div class="mt-14 grid grid-cols-1 divide-y divide-[#CCC8A8] border-y border-[#CCC8A8] md:grid-cols-3 md:divide-x md:divide-y-0">
-      <div class="flex flex-col items-center gap-4 px-8 py-10 text-center">
+      <div class="flex flex-col items-left gap-4 px-8 py-10 text-left">
         <span class="flex h-12 w-12 items-center justify-center text-[#3D3B2F]">
-          <svg width="47" height="47" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="2.5" y="2.5" width="19" height="19" rx="4" stroke="currentColor" stroke-width="1.5" />
-            <path d="m7.5 12.2 3 3 6-6.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M44.1706 11.2221L42.9033 11.9645C37.0633 15.3855 32.5486 19.8933 29.4857 23.5671C27.9574 25.4003 26.7988 27.0158 26.0252 28.1683C25.6386 28.7442 25.3487 29.2036 25.1573 29.5158C25.0616 29.6718 24.9906 29.7909 24.9445 29.8693L24.8941 29.9558L24.883 29.9752L24.8813 29.9782L24.4596 30.7243H22.7517L22.3168 30.0667L22.3119 30.0594L22.2904 30.0275C22.2703 29.9979 22.2389 29.952 22.1968 29.8916C22.1125 29.7706 21.9853 29.5913 21.819 29.3666C21.486 28.9166 20.9989 28.2874 20.3893 27.5808C19.1579 26.1532 17.4802 24.4721 15.6086 23.2889L14.3672 22.5041L15.9369 20.0212L17.1784 20.806C19.3978 22.2092 21.2939 24.1322 22.6137 25.6621C22.9319 26.031 23.2197 26.3807 23.4736 26.6996C23.5103 26.6444 23.5479 26.5882 23.5863 26.531C24.4073 25.308 25.6263 23.6091 27.2295 21.6861C30.4297 17.8475 35.1942 13.0761 41.4185 9.42988L42.6859 8.6875L44.1706 11.2221Z" fill="#3D3B2F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M3.37109 23.5C3.37109 12.6844 12.1389 3.91663 22.9544 3.91663C33.77 3.91663 42.5378 12.6844 42.5378 23.5C42.5378 34.3155 33.77 43.0833 22.9544 43.0833C12.1389 43.0833 3.37109 34.3155 3.37109 23.5ZM22.9544 6.85413C13.7612 6.85413 6.30859 14.3067 6.30859 23.5C6.30859 32.6932 13.7612 40.1458 22.9544 40.1458C32.1477 40.1458 39.6003 32.6932 39.6003 23.5C39.6003 14.3067 32.1477 6.85413 22.9544 6.85413Z" fill="#3D3B2F"/>
           </svg>
         </span>
         <div class="flex flex-col gap-2">
-          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]">{{ 'about_page.step1_title' | t }}</h3>
-          <p class="mx-auto max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]">{{ 'about_page.step1_text' | t }}</p>
+          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252] text-left">{{ 'about_page.step1_title' | t }}</h3>
+          <p class="max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F] text-left">{{ 'about_page.step1_text' | t }}</p>
         </div>
       </div>
-      <div class="flex flex-col items-center gap-4 px-8 py-10 text-center">
+      <div class="flex flex-col items-left gap-4 px-8 py-10 text-left">
         <span class="flex h-12 w-12 items-center justify-center text-[#3D3B2F]">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M10 3h5a1 1 0 0 1 1 1v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V4a1 1 0 0 1 1-1h1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M14 3h2v3h-2z" fill="currentColor" />
-            <path d="M7 9h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M11.5 17.5a3 3 0 0 0 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-            <circle cx="15" cy="18" r="3" stroke="currentColor" stroke-width="1.5" />
-            <path d="M15 21v1.5M15 12v1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer Ring from the second SVG -->
+            <path d="M24.0016 2.08967C11.9196 2.08967 2.08967 11.9164 2.08967 23.9984C2.08967 36.0804 11.9196 45.9103 24.0016 45.9103C36.0804 45.9103 45.9135 36.0804 45.9135 23.9984C45.9135 11.9164 36.0804 2.08967 24.0016 2.08967ZM24.0016 47.9969C10.7701 47.9969 0 37.2299 0 23.9984C0 10.7638 10.7701 0 24.0016 0C37.233 0 48 10.7638 48 23.9984C48 37.2299 37.233 47.9969 24.0016 47.9969Z" fill="#3D3B2F"/>
+
+            <!-- Clover Inner Icon (scaled & centered from 25x25 viewBox to fit inside the 48x48 frame) -->
+            <g transform="translate(11.5, 11.5) scale(0.96)" fill="#3D3B2F" stroke="#3D3B2F" stroke-width="0.5">
+              <path d="M18.2646 0.25C20.0003 0.250118 21.6311 0.948639 22.8555 2.21289C25.3819 4.821 25.3819 9.06214 22.8555 11.6709C22.5912 11.9432 22.2633 12.2192 21.8799 12.5C22.2634 12.7807 22.5916 13.0566 22.8555 13.3291C25.3819 15.9372 25.3818 20.1783 22.8555 22.7871C21.6311 24.0514 20.0003 24.7499 18.2646 24.75C16.5288 24.75 14.8973 24.0515 13.6729 22.7871C13.3085 22.4109 12.9384 21.9114 12.5605 21.3037H12.4424C12.0645 21.9114 11.6944 22.4109 11.3301 22.7871C10.1056 24.0515 8.47408 24.75 6.73828 24.75C5.00266 24.7499 3.37178 24.0514 2.14746 22.7871C0.92334 21.523 0.25 19.8426 0.25 18.0576C0.250048 16.2729 0.923573 14.5931 2.14746 13.3291L2.14844 13.3281C2.41215 13.0565 2.73791 12.7801 3.12012 12.5C2.73761 12.2198 2.41084 11.9429 2.14746 11.6709C0.923563 10.4069 0.25005 8.72636 0.25 6.94238C0.25 5.15819 0.923332 3.47698 2.14746 2.21289C3.37179 0.948638 5.00338 0.25013 6.73828 0.25C8.47337 0.25 10.1056 0.948521 11.3301 2.21289C11.6944 2.58912 12.0645 3.08862 12.4424 3.69629H12.5605C12.9384 3.08863 13.3085 2.58912 13.6729 2.21289C14.8973 0.948532 16.5289 0.25 18.2646 0.25ZM4.68359 13.083C3.98592 13.514 3.45687 13.9202 3.10059 14.2881C2.12688 15.2936 1.58898 16.6308 1.58887 18.0566C1.58887 19.4827 2.12676 20.8206 3.10059 21.8262C4.07409 22.8314 5.36618 23.3837 6.73926 23.3838C8.11248 23.3838 9.40543 22.8321 10.3789 21.8262C10.8355 21.3546 11.3674 20.5629 11.9121 19.5244L12.0732 19.2188L12.1064 19.1553L11.7764 14.3018L6.65234 18.8994L6.29395 18.5518L10.7607 13.2412L5.09473 12.8301L4.68359 13.083ZM14.2422 13.2402L18.71 18.5518L18.3516 18.8984L13.2275 14.3018L12.8965 19.1543L13.0918 19.5244C13.6366 20.563 14.1684 21.3546 14.625 21.8262C15.5986 22.8315 16.8908 23.3838 18.2646 23.3838C19.6383 23.3837 20.9299 22.8314 21.9033 21.8262H21.9043L22.0869 21.627C23.9139 19.5384 23.8532 16.2997 21.9043 14.2871C21.548 13.9192 21.0181 13.5131 20.3203 13.082L19.9092 12.8291L14.2422 13.2402ZM6.73828 1.61523C5.36468 1.61536 4.07305 2.16676 3.09961 3.17188C2.12579 4.17744 1.5879 5.51537 1.58789 6.94141C1.58789 8.36746 2.12578 9.70536 3.09961 10.7109L3.13867 10.751C3.49413 11.1081 4.00936 11.5007 4.68164 11.916L5.09082 12.1689L10.7598 11.7578L6.29297 6.44727L6.65137 6.10059L11.7744 10.6963L12.1055 5.84277L11.9111 5.47363C11.3663 4.43577 10.8352 3.64403 10.3779 3.17188C9.40438 2.16664 8.11206 1.61523 6.73828 1.61523ZM18.2646 1.61523C16.8909 1.61523 15.5986 2.16663 14.625 3.17188C14.1684 3.64335 13.6366 4.43514 13.0918 5.47363L12.9756 5.69434L12.9736 5.69336L12.8955 5.84277L13.2256 10.6953L18.3506 6.09961L18.709 6.44629L14.2402 11.7568L19.9102 12.168L20.3193 11.915C21.0171 11.484 21.547 11.0789 21.9033 10.7109C23.9153 8.63408 23.9153 5.24949 21.9033 3.17188C20.9299 2.16677 19.6383 1.61535 18.2646 1.61523Z"/>
+            </g>
           </svg>
         </span>
         <div class="flex flex-col gap-2">
-          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]">{{ 'about_page.step2_title' | t }}</h3>
-          <p class="mx-auto max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]">{{ 'about_page.step2_text' | t }}</p>
+          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]  text-left">{{ 'about_page.step2_title' | t }}</h3>
+          <p class="max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]  text-left">{{ 'about_page.step2_text' | t }}</p>
         </div>
       </div>
-      <div class="flex flex-col items-center gap-4 px-8 py-10 text-center">
+      <div class="flex flex-col items-left   gap-4 px-8 py-10 text-left">
         <span class="flex h-12 w-12 items-center justify-center text-[#3D3B2F]">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M3 6h11v11H3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-            <path d="M14 9h4l3 3v5h-7V9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-            <circle cx="7" cy="18.5" r="2" stroke="currentColor" stroke-width="1.5" />
-            <circle cx="17.5" cy="18.5" r="2" stroke="currentColor" stroke-width="1.5" />
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24.0016 2.08682C11.9196 2.08682 2.08967 11.918 2.08967 24.0016C2.08967 36.082 11.9196 45.9132 24.0016 45.9132C36.0804 45.9132 45.9135 36.082 45.9135 24.0016C45.9135 11.918 36.0804 2.08682 24.0016 2.08682ZM24.0016 48C10.7701 48 0 37.2379 0 24.0016C0 10.7652 10.7701 0 24.0016 0C37.233 0 48 10.7652 48 24.0016C48 37.2379 37.233 48 24.0016 48Z" fill="#3D3B2F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.25 16.3589H34.25V31.9189H14.25V16.3589ZM15.75 17.8589V30.4189H32.75V17.8589H15.75Z" fill="#3D3B2F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.25 21.1719H34.25V22.6719H14.25V21.1719Z" fill="#3D3B2F"/>
           </svg>
         </span>
         <div class="flex flex-col gap-2">
-          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]">{{ 'about_page.step3_title' | t }}</h3>
-          <p class="mx-auto max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]">{{ 'about_page.step3_text' | t }}</p>
+          <h3 class="font-['Cormorant_Garamond'] text-[30px] font-semibold leading-tight tracking-[-0.4px] text-[#525252]  text-left">{{ 'about_page.step3_title' | t }}</h3>
+          <p class="max-w-[316px] text-sm font-normal leading-relaxed tracking-[-0.3px] text-[#3D3B2F]  text-left">{{ 'about_page.step3_text' | t }}</p>
         </div>
       </div>
     </div>
@@ -91,22 +116,21 @@
 <section class="bg-[#FDF6F1] pb-[120px] lg:pb-[160px]">
   <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
     <div class="relative flex flex-col items-center gap-[19px] sm:flex-row sm:justify-center">
-      <div class="absolute left-[21%] top-1/2 z-0 hidden h-[193px] w-[199px] -translate-y-1/2 sm:block" style="clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); background:#EDEDED" aria-hidden="true"></div>
 
-      <img src="{{ 'about-collage-3.png' | asset_url }}" alt="{{ 'about_page.collage_alt_1' | t }}" width="1140" height="1426" class="relative z-10 aspect-[570/713] w-full max-w-[570px] object-cover" loading="lazy">
+      <img src="{{ 'about-collage-3.png' | asset_url }}" alt="{{ 'about_page.collage_alt_1' | t }}" width="1140" height="1426" class="relative z-10 w-full max-w-[570px] object-cover" loading="lazy" style="height: 700px">
 
-      <div class="relative z-10 flex w-full max-w-[469px] flex-col gap-[19px]">
-        <img src="{{ 'about-collage-1.png' | asset_url }}" alt="{{ 'about_page.collage_alt_2' | t }}" width="938" height="700" class="aspect-[469/350] w-full object-cover" loading="lazy">
-        <img src="{{ 'about-collage-2.png' | asset_url }}" alt="{{ 'about_page.collage_alt_3' | t }}" width="928" height="692" class="aspect-[464/346] w-full object-cover" loading="lazy">
+      <div class="relative z-10 flex w-full max-w-[469px] flex-col gap-[19px] overflow-hidden items-center justify-center"  style="height: 700px">
+        <img src="{{ 'about-collage-1.png' | asset_url }}" alt="{{ 'about_page.collage_alt_2' | t }}" width="938" height="700" class="w-full object-cover" loading="lazy">
+        <img src="{{ 'about-collage-2.png' | asset_url }}" alt="{{ 'about_page.collage_alt_3' | t }}" width="928" height="692" class=" w-full object-cover" loading="lazy">
       </div>
     </div>
   </div>
 </section>
 
 {% comment %} SocialStory — "A Flower for every Story" {% endcomment %}
-<section class="bg-[#FDF6F1] pb-[120px]">
+<section style="background-color: #F6EBE3;-webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); mask-image: linear-gradient(to right, black 85%, transparent 100%);">
   <div class="mx-auto w-full max-w-[1440px]">
-    <div class="border border-[#A8A58C] bg-[#FAFAF2] px-5 py-10 sm:px-8 lg:px-[70px] lg:py-12">
+    <div class="px-5 py-10 sm:px-8 lg:px-[70px] lg:py-12">
       <div class="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-12">
         <div class="max-w-[349px] shrink-0">
           <h2 class="font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.15] text-[#525252] sm:text-5xl lg:text-[60px]">{{ 'about_page.story_heading' | t }}</h2>
@@ -114,51 +138,55 @@
         </div>
 
         <div class="flex flex-col items-center gap-6 sm:flex-row sm:gap-[31px]">
-          <img src="{{ 'about-story-1.png' | asset_url }}" alt="{{ 'about_page.story_img_alt_1' | t }}" width="918" height="948" class="aspect-[459/474] w-full max-w-[459px] border border-[#A8A58C] object-cover sm:w-[459px]" loading="lazy">
-          <img src="{{ 'about-story-2.png' | asset_url }}" alt="{{ 'about_page.story_img_alt_2' | t }}" width="918" height="948" class="aspect-[459/474] w-full max-w-[459px] border border-[#A8A58C] object-cover sm:w-[459px]" loading="lazy">
+          <img src="{{ 'about-story-1.png' | asset_url }}" alt="{{ 'about_page.story_img_alt_1' | t }}" width="918" height="948" class="aspect-[459/474] w-full max-w-[459px] border border-[#A8A58C] object-cover sm:w-[459px]"  style="height:474px;" loading="lazy">
+          <img src="{{ 'about-story-2.png' | asset_url }}" alt="{{ 'about_page.story_img_alt_2' | t }}" width="918" height="948" class="aspect-[459/474] w-full max-w-[459px] border border-[#A8A58C] object-cover sm:w-[459px]" style="height:474px;" loading="lazy">
         </div>
       </div>
+      <div class="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-12 w-full mt-3">
+        <span class="w-[349px] block" style="width:349px"></span>
 
-      <div class="mt-10 flex flex-wrap items-center justify-between gap-6 lg:mt-12">
-        <div class="flex items-center gap-4">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <div class="relative flex items-baseline gap-2 text-sm text-[#A2A2A2]">
-            <span class="relative font-bold text-[#525252]">
-              1
-              <span class="absolute -bottom-[6px] left-0 h-px w-[20px] bg-[#525252]"></span>
-            </span>
-            <span>2</span>
-            <span>3</span>
+        <!-- Changed w-full to flex-1 so it handles the flex gap correctly -->
+        <div class="mt-8 flex items-center justify-between gap-6 lg:mt-0 flex-1 w-full pl-[2.5rem] md:pl-[2.5rem] lg:pl-[5rem]">
+          <div class="flex items-center gap-4">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="relative flex items-baseline gap-2 text-sm text-[#A2A2A2]">
+              <span class="relative font-bold text-[#525252]">
+                1
+                <span class="absolute -bottom-[6px] left-0 h-px w-[20px] bg-[#525252]"></span>
+              </span>
+              <span>2</span>
+              <span>3</span>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </div>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </div>
-
-        <div class="flex items-center gap-6">
-          <p class="whitespace-nowrap text-[13px] font-semibold uppercase tracking-[5.6px] text-[#3D3B2F] sm:text-[14px]">{{ 'about_page.visit_social' | t }}</p>
-          <span class="hidden h-px w-[58px] bg-[#BBCCBF] sm:block" aria-hidden="true"></span>
-          <div class="flex items-center gap-6 text-[#BBCCBF]">
-            <a href="#" aria-label="Instagram" class="transition-opacity hover:opacity-70">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <rect x="2" y="2" width="28" height="28" rx="8" stroke="currentColor" stroke-width="1.5" />
-                <circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5" />
-                <circle cx="23" cy="9" r="1.6" fill="currentColor" />
-              </svg>
-            </a>
-            <a href="#" aria-label="Facebook" class="transition-opacity hover:opacity-70">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <path d="M20.4 5c3.2.2 4.6 2.2 4.6 5.8v10.4c0 3.6-1.4 5.6-4.6 5.8-.4 0-.8-.6-.6-1.2l1.2-6.8c0-1-.9-1.6-2-1L11.5 27c-.5.4-1.1.1-1.3-.4L7.4 15.4c-.1-.8 0-1.5.8-1.5.8.1 1.6.3 1.8 1.2l1.2 5.4c.4-1.8.6-4 .2-6.4-.1-1.2-.3-3.2-.3-4.2 0-1.1.3-1.9 1.5-1.9Z" fill="currentColor" />
-              </svg>
-            </a>
-            <a href="#" aria-label="TikTok" class="transition-opacity hover:opacity-70">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <path d="M19 3a4 4 0 0 0 4 4v7a11 11 0 0 1-11 11v0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                <path d="M19 3h-3v14.5a4.5 4.5 0 0 1-9 .5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-              </svg>
-            </a>
+  
+          <div class="flex items-center gap-6">
+            <p class="whitespace-nowrap text-[13px] font-semibold uppercase tracking-[5.6px] text-[#3D3B2F] sm:text-[14px]">{{ 'about_page.visit_social' | t }}</p>
+            <span class="hidden h-px w-[58px] bg-[#BBCCBF] sm:block" aria-hidden="true"></span>
+            <div class="flex items-center gap-6 text-[#BBCCBF]">
+              <a href="#" aria-label="Instagram" class="transition-opacity hover:opacity-70">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <rect x="2" y="2" width="28" height="28" rx="8" stroke="currentColor" stroke-width="1.5" />
+                  <circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5" />
+                  <circle cx="23" cy="9" r="1.6" fill="currentColor" />
+                </svg>
+              </a>
+              <a href="#" aria-label="Facebook" class="transition-opacity hover:opacity-70">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M20.4 5c3.2.2 4.6 2.2 4.6 5.8v10.4c0 3.6-1.4 5.6-4.6 5.8-.4 0-.8-.6-.6-1.2l1.2-6.8c0-1-.9-1.6-2-1L11.5 27c-.5.4-1.1.1-1.3-.4L7.4 15.4c-.1-.8 0-1.5.8-1.5.8.1 1.6.3 1.8 1.2l1.2 5.4c.4-1.8.6-4 .2-6.4-.1-1.2-.3-3.2-.3-4.2 0-1.1.3-1.9 1.5-1.9Z" fill="currentColor" />
+                </svg>
+              </a>
+              <a href="#" aria-label="TikTok" class="transition-opacity hover:opacity-70">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M19 3a4 4 0 0 0 4 4v7a11 11 0 0 1-11 11v0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                  <path d="M19 3h-3v14.5a4.5 4.5 0 0 1-9 .5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>

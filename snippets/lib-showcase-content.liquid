@@ -1,0 +1,362 @@
+{% comment %}
+  Component Library Showcase — konten (dipisah jadi snippet, bukan section,
+  supaya bisa dipanggil dari sections/page.liquid — Shopify tidak izinkan
+  {% section %} di dalam section lain, tapi {% render %} snippet boleh).
+
+  Dipanggil dari 2 tempat:
+  1. sections/main-components-showcase.liquid (kalau Page pakai template
+     "page.components")
+  2. sections/page.liquid (otomatis kalau handle Page = "components", tidak
+     peduli template apa yang ke-assign di Admin)
+
+  CSS & JS-nya (assets/lib-components.css, assets/lib-components.js) HANYA
+  dimuat di sini — tidak site-wide — dan semua reset elemen dasar di-scope ke
+  #components-showcase supaya tidak bentrok dengan header/footer asli tema
+  yang tetap render di atas & bawah section ini.
+
+  Semua snippet library pakai prefix "lib-" (lib-button.liquid, dst) supaya
+  tidak menimpa snippet production yang sudah dipakai (product-card.liquid,
+  picker-card.liquid tetap punya versi aslinya sendiri, tidak disentuh).
+{% endcomment %}
+
+{{ 'lib-components.css' | asset_url | stylesheet_tag }}
+
+<div id="components-showcase" class="lib-scope">
+
+  <header style="padding: var(--space-10) var(--container-pad); text-align:center; border-bottom:1px solid var(--color-border); background:var(--color-white)">
+    <h1 style="font-family:var(--font-heading); font-size:var(--fs-h1); color:var(--color-heading)">ANIA Component Library</h1>
+    <p style="margin-top:var(--space-3); color:var(--color-text)">Referensi internal — semua komponen CSS/JS/Liquid dari <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">/coba</code>, dirender pakai snippet <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">lib-*.liquid</code> asli.</p>
+  </header>
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; gap:var(--space-4); overflow-x:auto; padding:var(--space-3) var(--container-pad); background:var(--color-white); border-bottom:1px solid var(--color-border)">
+    <a href="#colors" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Colors</a>
+    <a href="#typography" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Typography</a>
+    <a href="#buttons" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Buttons</a>
+    <a href="#badges" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Badges</a>
+    <a href="#navbar" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Navbar</a>
+    <a href="#hero" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Hero</a>
+    <a href="#cards" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Cards</a>
+    <a href="#tabs" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Tabs</a>
+    <a href="#pagination" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Pagination</a>
+    <a href="#filter-sidebar" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Filter Sidebar</a>
+    <a href="#faq" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">FAQ</a>
+    <a href="#footer-demo" style="font-size:0.8125rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--color-text); white-space:nowrap">Footer</a>
+  </nav>
+
+  <main class="lib-container">
+
+    {% comment %} ============ COLORS ============ {% endcomment %}
+    <section id="colors" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Colors</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)">Design tokens di <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">assets/lib-components.css</code></p>
+      <div style="display:flex; flex-wrap:wrap; gap:var(--space-4)">
+        {%- liquid
+          assign swatch_names = 'bg,bg-alt,panel,primary,primary-hover,heading,text,border,announcement' | split: ','
+          assign swatch_hex = '#FAFAF2,#FDF6F1,#F6EBE3,#899B7A,#7A8C6B,#3D3B2F,#525252,#D4D0C8,#BBCCBF' | split: ','
+        -%}
+        {% for name in swatch_names %}
+          <div style="display:flex; flex-direction:column; align-items:center; gap:var(--space-2); width:120px">
+            <div style="width:100%; height:64px; border-radius:var(--radius-md); border:1px solid var(--color-border-soft); background:{{ swatch_hex[forloop.index0] }}"></div>
+            <span style="font-size:0.75rem; color:var(--color-text); text-align:center">--color-{{ name }}<br>{{ swatch_hex[forloop.index0] }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    {% comment %} ============ TYPOGRAPHY ============ {% endcomment %}
+    <section id="typography" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Typography</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)">Cormorant Garamond (heading), Crimson Text (heading alt), Open Sans (body)</p>
+      <div style="display:flex; flex-direction:column; align-items:flex-start; gap:var(--space-4)">
+        <div style="font-family:var(--font-heading); font-size:var(--fs-h1); color:var(--color-heading)">Looking for the Perfect Flowers</div>
+        <div style="font-family:var(--font-heading-alt); font-size:var(--fs-h2); color:var(--color-heading-2)">Flowers They'll Never Forget</div>
+        <p class="eyebrow">Ania Flower Boutique</p>
+        <p style="font-size:var(--fs-body-lg)">Body text — Open Sans regular, dipakai untuk paragraf &amp; deskripsi produk.</p>
+      </div>
+    </section>
+
+    {% comment %} ============ BUTTONS ============ {% endcomment %}
+    <section id="buttons" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Buttons</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)"><code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">{% raw %}{% render 'lib-button', href: '#', label: 'Shop Flowers', variant: 'primary' %}{% endraw %}</code></p>
+      <div style="display:flex; flex-wrap:wrap; gap:var(--space-4); align-items:center; margin-bottom:var(--space-6)">
+        {% render 'lib-button', href: routes.all_products_collection_url, label: 'Shop Flowers', variant: 'primary' %}
+        {% render 'lib-button', href: routes.root_url, label: "Let's Talk Flowers", variant: 'outline' %}
+        {% render 'lib-button', href: '#', label: 'Dark Button', variant: 'dark' %}
+        {% render 'lib-button', href: '#', label: 'Small', variant: 'primary', size: 'sm' %}
+        {% render 'lib-button', href: '#', label: 'Large', variant: 'primary', size: 'lg' %}
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:var(--space-4); align-items:center; background:#3B3A2F; padding:var(--space-8); border-radius:var(--radius-md)">
+        {% render 'lib-button', href: '#', label: 'Outline on Dark', variant: 'outline-light' %}
+      </div>
+    </section>
+
+    {% comment %} ============ BADGES ============ {% endcomment %}
+    <section id="badges" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Badges &amp; Pills</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)"><code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">lib-badge.liquid</code></p>
+      <div style="display:flex; flex-wrap:wrap; gap:var(--space-4); align-items:center">
+        {% render 'lib-badge', label: 'Sale', type: 'badge', variant: 'sale' %}
+        {% render 'lib-badge', label: 'Sold Out', type: 'badge', variant: 'outline' %}
+        {% render 'lib-badge', label: 'Bloom Box', href: '#' %}
+        {% render 'lib-badge', label: 'Premium Wrapped', href: '#' %}
+      </div>
+    </section>
+
+    {% comment %} ============ NAVBAR ============ {% endcomment %}
+    <section id="navbar" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Navbar</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)">Klik "Shop" untuk mega menu, klik ikon kaca pembesar lalu ketik nama produk asli di toko Anda untuk lihat hasil pencarian live (submit ke halaman search bawaan Shopify).</p>
+      <div style="border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden" data-component="navbar">
+        <div class="announcement-bar">
+          <p class="announcement-bar__text">Mother's Day Graduation Sale</p>
+          <a href="{{ routes.root_url }}" class="announcement-bar__link">25% Off! Shop Now →</a>
+        </div>
+        <nav class="navbar">
+          <div class="navbar__menu">
+            {% render 'lib-nav-dropdown', label: 'Shop', id: 'lib-shop-mega-menu', menu: linklists['main-menu'] %}
+            <a href="{{ routes.root_url }}" class="navbar__link">For Occasions</a>
+          </div>
+          <a href="{{ routes.root_url }}" class="navbar__logo"><strong style="font-family:var(--font-heading); font-size:1.5rem">ANIA</strong></a>
+          <div class="navbar__menu navbar__menu--end">
+            <a href="{{ routes.root_url }}" class="navbar__link">About Us</a>
+            <a href="{{ routes.root_url }}" class="navbar__link">Contact</a>
+            <button type="button" class="search-trigger" data-search-trigger aria-label="Search" aria-expanded="false">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.75" cy="7.75" r="5.5" stroke="currentColor" stroke-width="1.5"/><line x1="11.8" y1="11.8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+        </nav>
+        {% render 'lib-search-overlay' %}
+      </div>
+      <p style="font-size:0.75rem; color:var(--color-muted); margin-top:var(--space-3)">Catatan: link "Shop" pakai menu <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">main-menu</code> toko Anda. Kalau kosong, isi dulu di Online Store → Navigation.</p>
+    </section>
+
+    {% comment %} ============ HERO ============ {% endcomment %}
+    <section id="hero" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Hero Slider</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)">Auto-slide, klik progress bar untuk pindah slide. Teks FIXED, tidak ikut geser/berubah — cuma foto di belakangnya yang gonta-ganti. Gambar pakai asset asli tema (hero-1.png, hero-2.png).</p>
+      <div class="hero" style="border-radius:var(--radius-md)" data-component="hero">
+        <div class="hero__track" data-hero-track style="min-height:420px">
+          <div class="hero__slide" data-hero-slide>
+            {{ 'hero-1.png' | asset_url | image_tag: loading: 'eager', alt: '' }}
+          </div>
+          <div class="hero__slide" data-hero-slide>
+            {{ 'hero-2.png' | asset_url | image_tag: loading: 'lazy', alt: '' }}
+          </div>
+        </div>
+        <div class="hero__scrim"></div>
+        <div class="hero__content-wrap" style="padding:32px">
+          <div class="hero__content">
+            <p class="eyebrow eyebrow--on-dark">Ania Flower Boutique</p>
+            <h3 class="hero__title" style="font-size:2rem">Looking for the Perfect Flowers?</h3>
+            <div class="hero__cta">
+              {% render 'lib-button', href: routes.all_products_collection_url, label: 'Shop Flowers', variant: 'primary' %}
+              {% render 'lib-button', href: '#', label: "Let's Talk Flowers", variant: 'outline-light' %}
+            </div>
+          </div>
+        </div>
+        <div class="hero__progress">
+          <button class="hero__progress-bar" data-progress data-progress-index="0"><span class="hero__progress-fill" data-progress-fill></span></button>
+          <button class="hero__progress-bar" data-progress data-progress-index="1"><span class="hero__progress-fill" data-progress-fill></span></button>
+        </div>
+        <button class="btn-circle hero__arrow hero__arrow--prev" data-hero-prev aria-label="Prev" style="border-color:var(--color-on-dark-muted); color:var(--color-on-dark-muted)">←</button>
+        <button class="btn-circle hero__arrow hero__arrow--next" data-hero-next aria-label="Next" style="border-color:var(--color-on-dark-muted); color:var(--color-on-dark-muted)">→</button>
+      </div>
+    </section>
+
+    {% comment %} ============ CARDS ============ {% endcomment %}
+    <section id="cards" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Cards</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)">Product card di bawah pakai produk ASLI dari toko Anda (collections.all.products).</p>
+
+      <h3 style="font-size:1rem; margin-bottom:var(--space-4); color:var(--color-heading)">Product Card — <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px; font-size:0.8em">lib-product-card.liquid</code></h3>
+      <div class="grid grid--4" style="margin-bottom:var(--space-10)">
+        {%- assign showcase_products = collections.all.products | default: empty -%}
+        {% if showcase_products.size > 0 %}
+          {% for product in showcase_products limit: 4 %}
+            {% render 'lib-product-card', product: product %}
+          {% endfor %}
+        {% else %}
+          <p style="color:var(--color-muted); font-size:0.875rem">Belum ada produk di toko ini — tambah produk untuk lihat kartu produk beneran di sini.</p>
+        {% endif %}
+      </div>
+
+      <h3 style="font-size:1rem; margin-bottom:var(--space-4); color:var(--color-heading)">Feature Card — <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px; font-size:0.8em">lib-feature-card.liquid</code></h3>
+      <div class="grid grid--4" style="margin-bottom:var(--space-10)">
+        {% capture icon_heart %}<svg width="42" height="42" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.7-9.7-9C.9 8.9 2.3 5.5 5.5 5.1c2-.3 4 .7 5 2.4 0 0 1-1.8 3.2-2 2.2-.2 4 1.5 4.5 3.6.5 2.1-.9 4.4-2.2 6C13.6 17.9 12 21 12 21Z" fill="currentColor"/></svg>{% endcapture %}
+        {% render 'lib-feature-card', icon_svg: icon_heart, title: 'Happy Customer Guarantee', text: 'Jika bunga Anda rusak, kami ganti gratis.' %}
+        {% capture icon_leaf %}<svg width="39" height="39" viewBox="0 0 24 24" fill="none"><path d="M5 21C5 10 12 4 21 3c0 11-7 18-16 18Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>{% endcapture %}
+        {% render 'lib-feature-card', icon_svg: icon_leaf, title: 'Fresh Flower Guarantee', text: 'Bunga segar, dipilih dengan teliti setiap pesanan.' %}
+      </div>
+
+      <h3 style="font-size:1rem; margin-bottom:var(--space-4); color:var(--color-heading)">Testimonial Card — <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px; font-size:0.8em">lib-testimonial-card.liquid</code></h3>
+      <div class="scroll-row" data-component="scroll-row" style="margin-bottom:var(--space-10)">
+        <div data-scroll-track style="display:flex; gap:var(--space-6)">
+          {% render 'lib-testimonial-card', quote: '"ANIA Flower Boutique benar-benar melebihi ekspektasi saya."', avatar: 'avatar-claudia.png' | asset_url, name: 'Claudia S', location: 'Jakarta Utara' %}
+          {% render 'lib-testimonial-card', quote: '"Pesan untuk anniversary, hasilnya sangat cantik dan tepat waktu."', avatar: 'avatar-daniel.png' | asset_url, name: 'Daniel K', location: 'Tangerang' %}
+        </div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:var(--space-4); align-items:center; margin-bottom:var(--space-10)">
+        <button class="btn-circle" data-scroll-prev aria-label="Prev">←</button>
+        <button class="btn-circle" data-scroll-next aria-label="Next">→</button>
+      </div>
+
+      <h3 style="font-size:1rem; margin-bottom:var(--space-4); color:var(--color-heading)">Picker Card — <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px; font-size:0.8em">lib-picker-card.liquid</code></h3>
+      <div class="grid grid--3">
+        {% render 'lib-picker-card', href: '#', image_src: 'occas-graduation.png' | asset_url, label: 'Graduation', highlighted: true %}
+        {% render 'lib-picker-card', href: '#', image_src: 'occas-birthday.png' | asset_url, label: 'Birthday' %}
+        {% render 'lib-picker-card', href: '#', image_src: 'occas-valentines.png' | asset_url, label: 'Valentines' %}
+      </div>
+
+      <h3 style="font-size:1rem; margin:var(--space-10) 0 var(--space-4); color:var(--color-heading)">Addon Card — <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px; font-size:0.8em">lib-addon-card.liquid</code></h3>
+      <p style="font-size:0.8125rem; color:var(--color-muted); margin-bottom:var(--space-4)">Dipakai di section "Make It Personal". Kalau add-on sudah jadi produk asli di toko, pakai <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">product:</code> param supaya harga &amp; gambar otomatis dari data toko. Di bawah ini pakai mock ilustrasi (<code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">icon_svg:</code>) karena belum ada foto produk add-on asli.</p>
+      <div class="grid grid--3">
+        {% capture icon_bear %}<svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="58" r="30" fill="#F1EDDE"/><circle cx="28" cy="30" r="12" fill="#F1EDDE"/><circle cx="72" cy="30" r="12" fill="#F1EDDE"/><circle cx="28" cy="30" r="6" fill="#E8C4C4"/><circle cx="72" cy="30" r="6" fill="#E8C4C4"/><circle cx="38" cy="52" r="3" fill="#3D3B2F"/><circle cx="62" cy="52" r="3" fill="#3D3B2F"/><ellipse cx="50" cy="62" rx="5" ry="4" fill="#3D3B2F"/><path d="M45 68q5 4 10 0" stroke="#3D3B2F" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M50 78 42 84 50 82 58 84Z" fill="#C98A9A"/></svg>{% endcapture %}
+        {% render 'lib-addon-card', icon_svg: icon_bear, title: 'Plush Doll', price_html: 'Rp 50,000', href: '#' %}
+
+        {% capture icon_balloon %}<svg viewBox="0 0 100 100" fill="none"><ellipse cx="50" cy="42" rx="26" ry="32" fill="#E8B4C8"/><path d="M50 74v20" stroke="#A2A2A2" stroke-width="1.5"/><path d="M46 74q4 4 8 0" fill="#525252"/></svg>{% endcapture %}
+        {% render 'lib-addon-card', icon_svg: icon_balloon, title: 'Balloon', price_html: 'Rp 100,000', href: '#' %}
+
+        {% capture icon_cake %}<svg viewBox="0 0 100 100" fill="none"><rect x="22" y="55" width="56" height="28" rx="4" fill="#F1EDDE"/><rect x="22" y="42" width="56" height="16" rx="4" fill="#E8C4C4"/><rect x="47" y="20" width="6" height="18" rx="2" fill="#CCC8A8"/><path d="M50 14q5 4 0 8q-5-4 0-8Z" fill="#E8B4C8"/></svg>{% endcapture %}
+        {% render 'lib-addon-card', icon_svg: icon_cake, title: 'Cake', price_html: 'Rp 300,000', href: '#' %}
+      </div>
+    </section>
+
+    {% comment %} ============ TABS (contoh gabungan: Occasions panel utuh) ============ {% endcomment %}
+    <section id="tabs" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Tabs</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)">Pola "folder tab": tab aktif dapat background cream yang menyambung ke panel di bawahnya.</p>
+      <div class="tab-card" data-component="tabs">
+        <div class="tabs">
+          <button class="tab" data-tab="occasions" aria-pressed="true">Ocassions<span class="tab__underline"></span></button>
+          <button class="tab" data-tab="category" aria-pressed="false">Category<span class="tab__underline"></span></button>
+          <button class="tab" data-tab="flower" aria-pressed="false">Flower<span class="tab__underline"></span></button>
+        </div>
+
+        <div class="tab-panel is-active" data-tab-panel="occasions">
+          <p style="font-size:0.875rem; color:var(--color-text); max-width:630px">Find flowers for birthdays, anniversaries, congratulations, romance &amp; every meaningful moment.</p>
+          <div class="grid grid--3" style="margin-top:var(--space-6)">
+            {% render 'lib-picker-card', href: '#', image_src: 'occas-graduation.png' | asset_url, label: 'Graduation', highlighted: true %}
+            {% render 'lib-picker-card', href: '#', image_src: 'occas-birthday.png' | asset_url, label: 'Anniversary' %}
+            {% render 'lib-picker-card', href: '#', image_src: 'occas-valentines.png' | asset_url, label: 'Just For Me' %}
+          </div>
+          <div style="display:flex; justify-content:flex-end; margin-top:var(--space-4)">
+            {% render 'lib-pagination', current: 1, total: 3, base_url: routes.root_url %}
+          </div>
+          <div style="display:flex; justify-content:center; margin-top:var(--space-6)">
+            {% render 'lib-button', href: '#', label: 'Check Other Occasions', variant: 'primary' %}
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab-panel="category">Panel: Category content here.</div>
+        <div class="tab-panel" data-tab-panel="flower">Panel: Flower content here.</div>
+      </div>
+    </section>
+
+    {% comment %} ============ PAGINATION ============ {% endcomment %}
+    <section id="pagination" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Pagination</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)"><code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">lib-pagination.liquid</code> — teaser style</p>
+      <div style="margin-bottom:var(--space-8)">
+        {% render 'lib-pagination', current: 1, total: 3, base_url: routes.root_url %}
+      </div>
+
+      <h3 style="font-size:1rem; margin-bottom:var(--space-4); color:var(--color-heading)">Pagination Bar — <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px; font-size:0.8em">lib-pagination-bar.liquid</code></h3>
+      <p style="font-size:0.8125rem; color:var(--color-muted); margin-bottom:var(--space-4)">Butuh Shopify <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">paginate</code> object (dari <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">{% raw %}{% paginate %}{% endraw %}</code>) — biasanya dipasang di halaman koleksi, bukan halaman statis seperti ini. Contoh visual (markup sama persis, data statis):</p>
+      <nav class="pagination-bar" aria-label="Pagination">
+        <div class="pagination-bar__row">
+          <div class="pagination-bar__col pagination-bar__col--active"><span class="pagination-bar__num">1</span><span class="pagination-bar__underline"></span></div>
+          <div class="pagination-bar__col"><a href="#" class="pagination-bar__num">2</a></div>
+          <div class="pagination-bar__col"><a href="#" class="pagination-bar__num">3</a></div>
+          <div class="pagination-bar__col"><span class="pagination-bar__ellipsis">...</span></div>
+          <div class="pagination-bar__col"><a href="#" class="pagination-bar__num">19</a></div>
+          <a href="#" class="pagination-bar__next" aria-label="Next page"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <div class="pagination-bar__divider"></div>
+      </nav>
+    </section>
+
+    {% comment %} ============ FILTER SIDEBAR ============ {% endcomment %}
+    <section id="filter-sidebar" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Filter Sidebar</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)"><code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">lib-filter-sidebar.liquid</code> — butuh linklist menu asli (mis. dibuat di Online Store → Navigation) buat isi Category/For Occasions/Add On. Contoh visual (markup sama, data statis) sampai menu-nya dibuat:</p>
+      <nav class="filter-sidebar" data-component="filter-sidebar" aria-label="Product filters">
+        <a href="{{ routes.all_products_collection_url }}" class="filter-link is-active">All Products</a>
+        <a href="#" class="filter-link">Sale</a>
+        <div class="filter-group" data-filter-group>
+          <button type="button" class="filter-group__toggle" data-filter-toggle aria-expanded="false">
+            Category
+            <span class="filter-group__chevron" aria-hidden="true"><svg width="11" height="6" viewBox="0 0 11 6" fill="none"><path d="M1 1l4.5 4L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+          <div class="filter-group__list">
+            <a href="#" class="filter-item"><span class="filter-item__dot"></span>Bloom Box &amp; Basket</a>
+            <a href="#" class="filter-item is-active"><span class="filter-item__dot"></span>Premium Wrapped Bloom</a>
+            <a href="#" class="filter-item"><span class="filter-item__dot"></span>Preserved Flower</a>
+          </div>
+        </div>
+        <div class="filter-group is-open" data-filter-group>
+          <button type="button" class="filter-group__toggle" data-filter-toggle aria-expanded="true">
+            For Occasions
+            <span class="filter-group__chevron" aria-hidden="true"><svg width="11" height="6" viewBox="0 0 11 6" fill="none"><path d="M1 1l4.5 4L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+          <div class="filter-group__list">
+            <a href="#" class="filter-item"><span class="filter-item__dot"></span>Anniversary</a>
+            <a href="#" class="filter-item"><span class="filter-item__dot"></span>Birthday</a>
+            <a href="#" class="filter-item"><span class="filter-item__dot"></span>Graduation</a>
+          </div>
+        </div>
+      </nav>
+    </section>
+
+    {% comment %} ============ FAQ ============ {% endcomment %}
+    <section id="faq" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
+      <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">FAQ Accordion</h2>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)"><code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">lib-faq-accordion.liquid</code> — di sini dirender manual (markup sama) karena datanya bukan dari metaobject; lihat komentar di file snippet untuk contoh <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">{% raw %}{% render 'lib-faq-accordion', faqs: faq_array %}{% endraw %}</code></p>
+      <div class="faq-list" data-component="faq">
+        <div class="faq-item is-open" data-faq-item>
+          <button type="button" class="faq-item__toggle" data-faq-toggle aria-expanded="true">
+            <span class="faq-item__heading">
+              <span class="faq-item__question">How Long Does Delivery Take, and How Much Will It Cost?</span>
+              <span class="faq-item__category">Delivery</span>
+            </span>
+            <span class="faq-item__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">Pengiriman kami mulai pukul 10.00–22.00 WIB untuk layanan Same Day Delivery. Jika bunga dibutuhkan sebelum jam 10 pagi, selesaikan pembelian minimal H-1.</div>
+          </div>
+        </div>
+        <div class="faq-item" data-faq-item>
+          <button type="button" class="faq-item__toggle" data-faq-toggle aria-expanded="false">
+            <span class="faq-item__heading">
+              <span class="faq-item__question">Bisakah saya request custom bouquet?</span>
+              <span class="faq-item__category">Custom Order</span>
+            </span>
+            <span class="faq-item__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">Tentu, hubungi tim kami lewat halaman Custom Order untuk konsultasi gratis.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  {% comment %} ============ FOOTER (contoh, bukan footer asli tema) ============ {% endcomment %}
+  <footer id="footer-demo" class="footer">
+    <div class="lib-container footer__order">
+      <h2 class="footer__order-heading">Find your Perfect Bouquet today!</h2>
+      {% render 'lib-input-newsletter', label: 'Get exclusive offers & news', id: 'lib-footer-email' %}
+      <div class="footer__cta">
+        {% render 'lib-button', href: '#', label: 'Ask a Florist Now', variant: 'primary' %}
+        {% render 'lib-button', href: routes.all_products_collection_url, label: 'Shop Fresh Blooms', variant: 'outline' %}
+      </div>
+    </div>
+    <div class="lib-container footer__bottom">
+      <p class="footer__copyright">© {{ 'now' | date: '%Y' }} ANIA Flower Boutique — Component Library</p>
+    </div>
+  </footer>
+
+</div>
+
+{{ 'lib-components.js' | asset_url | script_tag }}

@@ -1,0 +1,13 @@
+{% comment %}
+  [Component Library] Section Heading snippet
+  Params:
+    heading       — judul utama (required)
+    subheading    — teks deskripsi di bawah judul (optional)
+    alt_font      — true untuk pakai Crimson Text alih-alih Cormorant Garamond (optional)
+  Usage:
+    {% render 'lib-section-heading', heading: "Flowers They'll Never Forget", subheading: '...' %}
+{% endcomment %}
+<h2 class="section-heading{% if alt_font %} section-heading--alt{% endif %}">{{ heading }}</h2>
+{% if subheading %}
+  <p class="section-subheading">{{ subheading }}</p>
+{% endif %}

@@ -1,0 +1,41 @@
+{% comment %}
+  [Component Library] Pagination snippet (numbered, teaser-style — bukan
+  pagination bawaan Shopify `paginate`, lihat lib-pagination-bar untuk itu).
+  Params:
+    current   — nomor halaman aktif (required, integer)
+    total     — total halaman (required, integer)
+    base_url  — url dasar, nomor halaman ditambahkan sebagai ?page=N (required)
+  Usage:
+    {% render 'lib-pagination', current: 1, total: 3, base_url: shop_url %}
+{% endcomment %}
+<nav class="pagination" aria-label="Pagination">
+  <a
+    href="{% if current > 1 %}{{ base_url }}?page={{ current | minus: 1 }}{% else %}#{% endif %}"
+    class="pagination__arrow"
+    {% if current <= 1 %}aria-disabled="true" disabled{% endif %}
+    aria-label="Previous page"
+  >
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M7 2 3 6l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </a>
+
+  {% for i in (1..total) %}
+    {% if i == current %}
+      <span class="pagination__item pagination__item--current">{{ i }}</span>
+    {% else %}
+      <a href="{{ base_url }}?page={{ i }}" class="pagination__item">{{ i }}</a>
+    {% endif %}
+  {% endfor %}
+
+  <a
+    href="{% if current < total %}{{ base_url }}?page={{ current | plus: 1 }}{% else %}#{% endif %}"
+    class="pagination__arrow"
+    {% if current >= total %}aria-disabled="true" disabled{% endif %}
+    aria-label="Next page"
+  >
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="m5 2 4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </a>
+</nav>

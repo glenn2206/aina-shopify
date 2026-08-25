@@ -29,6 +29,10 @@
       "type": "main-testimonials",
       "settings": {}
     },
+    "main-faq": {
+      "type": "main-faq",
+      "settings": {}
+    },
     "main-custom-order": {
       "type": "main-custom-order",
       "settings": {}
@@ -40,6 +44,7 @@
     "main-occasions",
     "main-why-ania",
     "main-testimonials",
+    "main-faq",
     "main-custom-order"
   ]
 }

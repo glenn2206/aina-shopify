@@ -1,0 +1,37 @@
+{% comment %}
+  [Component Library] Mega Menu snippet (trigger + panel, mis. "Shop")
+  Panel FULL-WIDTH — dirender sebagai sibling setelah <nav> (bukan nested di
+  dalam trigger-nya), 2 kolom: list kategori (bg blush) + area preview putih.
+
+  Params:
+    label   — teks trigger, mis. 'Shop' (required)
+    id      — id unik utk panel, dipakai trigger utk data-dropdown-target (required)
+    menu    — linklist object, mis. linklists['shop-dropdown'] (required)
+
+  Usage — trigger di dalam <nav>, panel dipanggil lagi tepat SETELAH </nav>.
+  Butuh data-component="navbar" di elemen leluhur supaya lib-components.js
+  → initNavDropdown menemukan & meng-aktifkan toggle-nya.
+{% endcomment %}
+
+{% comment %} — Bagian trigger (taruh di dalam <nav>) — {% endcomment %}
+<button
+  type="button"
+  class="navbar__link nav-dropdown__trigger"
+  data-dropdown-trigger
+  data-dropdown-target="{{ id }}"
+  aria-expanded="false"
+  aria-controls="{{ id }}"
+>{{ label }}</button>
+
+{% comment %} — Bagian panel (taruh tepat setelah </nav>) — {% endcomment %}
+<div id="{{ id }}" class="mega-menu" hidden>
+  <div class="mega-menu__list">
+    {% for link in menu.links %}
+      <a href="{{ link.url }}" class="mega-menu__item">
+        {{ link.title }}
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    {% endfor %}
+  </div>
+  <div class="mega-menu__preview" aria-hidden="true"></div>
+</div>

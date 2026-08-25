@@ -1,0 +1,23 @@
+{% comment %}
+  [Component Library] FAQ Accordion snippet
+  Params:
+    faqs — array of objects with .question, .category, .answer
+  Usage:
+    {% render 'lib-faq-accordion', faqs: faq_array %}
+{% endcomment %}
+<div class="faq-list" data-component="faq">
+  {% for faq in faqs %}
+    <div class="faq-item{% if forloop.first %} is-open{% endif %}" data-faq-item>
+      <button type="button" class="faq-item__toggle" data-faq-toggle aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+        <span class="faq-item__heading">
+          <span class="faq-item__question">{{ faq.question }}</span>
+          {% if faq.category %}<span class="faq-item__category">{{ faq.category }}</span>{% endif %}
+        </span>
+        <span class="faq-item__icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-item__answer">
+        <div class="faq-item__answer-inner">{{ faq.answer }}</div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

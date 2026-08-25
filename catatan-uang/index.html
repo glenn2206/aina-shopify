@@ -1,0 +1,1153 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catatan Uang</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#F6F3EC;
+    --surface:#FFFFFF;
+    --surface-2:#EFEAE0;
+    --border:#DDD5C4;
+    --text:#231F1B;
+    --text-muted:#6B6355;
+    --accent:#2F6F5E;
+    --accent-soft:#E1EEE9;
+    --out:#B5533C;
+    --out-soft:#F5E5DF;
+    --focus:#2F6F5E;
+    --shadow: 0 1px 2px rgba(35,31,27,0.06), 0 8px 24px -12px rgba(35,31,27,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#15181A; --surface:#1D2220; --surface-2:#242A27; --border:#333B37;
+      --text:#EEEAE1; --text-muted:#9CA39C; --accent:#5FB79B; --accent-soft:#1E3129;
+      --out:#E08668; --out-soft:#3A241D; --focus:#5FB79B;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#15181A; --surface:#1D2220; --surface-2:#242A27; --border:#333B37;
+    --text:#EEEAE1; --text-muted:#9CA39C; --accent:#5FB79B; --accent-soft:#1E3129;
+    --out:#E08668; --out-soft:#3A241D; --focus:#5FB79B;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:600px;
+    margin:0 auto;
+    padding:24px 18px 72px;
+  }
+
+  /* Top bar: title + icon nav */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+    gap:10px;
+  }
+  .brand{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    font-size:20px;
+    letter-spacing:-0.01em;
+  }
+  .sub-note{
+    font-size:11px;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+  .nav-icons{
+    display:flex;
+    gap:6px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:4px;
+    box-shadow:var(--shadow);
+  }
+  .nav-icons button{
+    width:38px; height:38px;
+    display:flex; align-items:center; justify-content:center;
+    background:transparent;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    color:var(--text-muted);
+    font-size:17px;
+    line-height:1;
+  }
+  .nav-icons button.active{
+    background:var(--accent);
+    color:var(--surface);
+  }
+  .nav-icons button:hover:not(.active){ background:var(--surface-2); color:var(--text); }
+
+  /* Views */
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  /* Input page */
+  .input-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:24px 22px;
+  }
+  .input-card h1{
+    font-family:'Fraunces', Georgia, serif;
+    font-size:22px;
+    font-weight:600;
+    margin:0 0 4px;
+    text-wrap:balance;
+  }
+  .input-card .hint{
+    color:var(--text-muted);
+    font-size:13.5px;
+    margin-bottom:20px;
+  }
+  form{ display:flex; flex-direction:column; gap:14px; }
+  .row2{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:8px;
+    align-items:end;
+  }
+  .field{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+  label{
+    font-size:11.5px;
+    color:var(--text-muted);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-weight:600;
+  }
+  input, select{
+    font-family:inherit;
+    font-size:16px;
+    padding:11px 12px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text);
+    width:100%;
+  }
+  input:focus, select:focus, button:focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:1px;
+  }
+  input[type="number"]{ font-variant-numeric:tabular-nums; }
+  .swap-btn{
+    width:40px; height:40px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    cursor:pointer;
+    color:var(--text-muted);
+    font-size:16px;
+    margin-bottom:1px;
+  }
+  .swap-btn:hover{ color:var(--text); }
+  button.submit{
+    background:var(--accent);
+    color:var(--surface);
+    border:none;
+    border-radius:10px;
+    padding:13px;
+    font-size:15.5px;
+    font-weight:600;
+    font-family:inherit;
+    cursor:pointer;
+    margin-top:4px;
+  }
+  button.submit:hover{ filter:brightness(1.06); }
+  button.cancel-edit{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    border-radius:10px;
+    padding:10px;
+    font-size:14px;
+    font-family:inherit;
+    cursor:pointer;
+  }
+
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:-4px;
+  }
+  .chip{
+    font-family:inherit;
+    font-size:12px;
+    font-weight:500;
+    padding:4px 10px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text-muted);
+    cursor:pointer;
+  }
+  .chip:hover{ background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  .date-toggle{
+    background:none;
+    border:none;
+    color:var(--text-muted);
+    font-size:12.5px;
+    text-decoration:underline;
+    cursor:pointer;
+    padding:0;
+    align-self:flex-start;
+  }
+  .date-toggle:hover{ color:var(--text); }
+
+  /* Toast */
+  .toast{
+    position:fixed;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%) translateY(-12px);
+    background:var(--text);
+    color:var(--bg);
+    padding:12px 18px;
+    border-radius:12px;
+    font-size:14px;
+    font-weight:500;
+    box-shadow:0 8px 24px -8px rgba(0,0,0,0.4);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.22s ease, transform 0.22s ease;
+    z-index:100;
+    max-width:90vw;
+    text-align:center;
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+  .toast .tick{ color:var(--accent); margin-right:6px; }
+
+  .recent{ margin-top:18px; }
+  .recent .section-label{ margin-bottom:8px; display:block; }
+  .recent-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:9px 0;
+    border-bottom:1px solid var(--border);
+    font-size:13.5px;
+  }
+  .recent-item:last-child{ border-bottom:none; }
+  .recent-item .flow{ color:var(--text-muted); }
+  .recent-item .amt{ font-variant-numeric:tabular-nums; font-weight:600; white-space:nowrap; }
+
+  .section-label{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--text-muted);
+    font-weight:600;
+  }
+
+  /* Sub-tabs (Recap/Detail) */
+  .subtabs{
+    display:inline-flex;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:3px;
+    gap:2px;
+    margin-bottom:16px;
+  }
+  .subtabs button{
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    border:none;
+    background:transparent;
+    color:var(--text-muted);
+    padding:7px 14px;
+    border-radius:7px;
+    cursor:pointer;
+  }
+  .subtabs button.active{
+    background:var(--surface);
+    color:var(--text);
+    box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .recap-period{ display:flex; align-items:center; gap:6px; }
+  .ghost-btn{
+    font-family:inherit;
+    font-size:13px;
+    font-weight:600;
+    padding:7px 11px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text-muted);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .ghost-btn:hover{ color:var(--text); background:var(--surface-2); }
+  .month-picker, .acct-filter, .recap-period select{
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:500;
+    padding:7px 10px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+  }
+
+  /* Recap groups */
+  .group{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .group.drag-over > .group-head{ border-color:var(--accent); }
+  .group-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 16px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .group-head .chev{
+    color:var(--text-muted);
+    font-size:11px;
+    transition:transform 0.15s ease;
+    flex:none;
+    width:12px;
+  }
+  .group.open .group-head .chev{ transform:rotate(90deg); }
+  .group-head .gname{
+    font-weight:600;
+    font-size:14.5px;
+    flex:1;
+  }
+  .group-head .gcount{
+    color:var(--text-muted);
+    font-size:12px;
+    font-weight:500;
+  }
+  .group-head .gtotal{
+    font-variant-numeric:tabular-nums;
+    font-weight:600;
+    font-size:14.5px;
+    white-space:nowrap;
+  }
+  .group-body{
+    display:none;
+    border-top:1px solid var(--border);
+  }
+  .group.open .group-body{ display:block; }
+  .acct-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:11px 16px 11px 34px;
+    border-bottom:1px solid var(--border);
+    font-size:14px;
+    cursor:grab;
+  }
+  .acct-row:active{ cursor:grabbing; }
+  .acct-row:last-child{ border-bottom:none; }
+  .acct-row.dragging{ opacity:0.4; }
+  .acct-row .aname{ display:flex; align-items:center; gap:8px; }
+  .acct-row .grip{ color:var(--text-muted); opacity:0.45; font-size:12px; }
+  .acct-row .avals{ display:flex; gap:16px; align-items:baseline; }
+  .acct-row .avals .a-month{ font-size:12px; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+  .acct-row .avals .a-all{ font-variant-numeric:tabular-nums; font-weight:600; }
+  .num.neg{ color:var(--out); }
+  .num.pos{ color:var(--accent); }
+  .group-empty-hint{
+    padding:12px 16px 12px 34px;
+    font-size:12.5px;
+    color:var(--text-muted);
+    font-style:italic;
+  }
+
+  /* Detail tab */
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .stat-tile{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    box-shadow:var(--shadow);
+  }
+  .stat-tile .label{ font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin-bottom:6px; }
+  .stat-tile .value{ font-family:'Fraunces', Georgia, serif; font-size:18px; font-weight:600; font-variant-numeric:tabular-nums; }
+
+  .table-wrap{
+    overflow-x:auto;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--surface);
+    box-shadow:var(--shadow);
+  }
+  table{ border-collapse:collapse; width:100%; min-width:480px; font-size:13.5px; }
+  thead th{
+    text-align:left;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--text-muted);
+    padding:11px 12px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-2);
+  }
+  tbody td{ padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:var(--surface-2); }
+  td.num{ font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; }
+  td.desc{ color:var(--text-muted); }
+  .pill{
+    display:inline-flex; align-items:center; gap:4px;
+    padding:2px 8px; border-radius:999px; font-size:12px; font-weight:500;
+    background:var(--surface-2); border:1px solid var(--border);
+  }
+  .arrow{ color:var(--text-muted); padding:0 2px; }
+  .row-actions{ white-space:nowrap; text-align:right; }
+  .icon-btn{
+    background:none; border:none; cursor:pointer; color:var(--text-muted);
+    font-size:13px; padding:4px 6px; border-radius:6px;
+  }
+  .icon-btn:hover{ background:var(--surface-2); color:var(--text); }
+  .icon-btn.danger:hover{ color:var(--out); }
+  .empty{ padding:36px 20px; text-align:center; color:var(--text-muted); font-size:13.5px; }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"><span class="tick">✓</span><span id="toastMsg"></span></div>
+
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <div class="brand">Catatan Uang</div>
+      <div class="sub-note">Tersimpan di browser ini · export CSV untuk backup</div>
+    </div>
+    <div class="nav-icons">
+      <button type="button" id="navInput" class="active" title="Input Transaksi">✏️</button>
+      <button type="button" id="navLihat" title="Lihat Rekap &amp; Detail">📊</button>
+    </div>
+  </div>
+
+  <!-- INPUT VIEW -->
+  <div class="view active" id="view-input">
+    <div class="input-card">
+      <h1>Catat Transaksi</h1>
+      <div class="hint">Dari siapa, ke siapa, berapa. Selesai.</div>
+      <form id="txForm">
+        <div class="row2">
+          <div class="field">
+            <label for="f-from">Dari</label>
+            <input list="account-list" id="f-from" placeholder="mis. Glenn" required autocomplete="off">
+          </div>
+          <button type="button" class="swap-btn" id="swapBtn" title="Tukar Dari/Ke">⇄</button>
+          <div class="field">
+            <label for="f-to">Ke</label>
+            <input list="account-list" id="f-to" placeholder="mis. Kas" required autocomplete="off">
+          </div>
+        </div>
+        <div class="chips" id="chipsFrom" title="5 akun paling sering dipakai — klik buat isi cepat"></div>
+        <datalist id="account-list"></datalist>
+
+        <div class="field">
+          <label for="f-total">Jumlah (Rp)</label>
+          <input type="number" id="f-total" min="0" step="1" placeholder="0" required inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="f-desc">Keterangan (opsional)</label>
+          <input type="text" id="f-desc" placeholder="mis. Glenn investasi" autocomplete="off">
+        </div>
+
+        <button type="button" class="date-toggle" id="dateToggle">Pakai tanggal hari ini · ubah?</button>
+        <div class="field" id="dateField" style="display:none;">
+          <label for="f-date">Tanggal</label>
+          <input type="date" id="f-date">
+        </div>
+
+        <button type="submit" class="submit">+ Tambah Transaksi</button>
+        <button type="button" class="cancel-edit" id="cancelEditBtn" style="display:none;">Batal ubah</button>
+      </form>
+
+      <div class="recent" id="recentWrap" style="display:none;">
+        <span class="section-label">Baru ditambahkan</span>
+        <div id="recentList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIHAT VIEW (Recap / Detail) -->
+  <div class="view" id="view-lihat">
+    <div class="subtabs" id="subtabs">
+      <button type="button" data-sub="recap" class="active">Recap</button>
+      <button type="button" data-sub="detail">Detail</button>
+    </div>
+
+    <!-- RECAP SUB-TAB -->
+    <div id="sub-recap">
+      <div class="toolbar">
+        <span class="section-label">Klik grup untuk buka, seret akun buat pindah/urutkan</span>
+        <div class="recap-period">
+          <select id="recapPeriod">
+            <option value="all" selected>Semua Waktu</option>
+            <option value="month">Bulan Tertentu</option>
+          </select>
+          <input type="month" class="month-picker" id="monthPicker" style="display:none;">
+        </div>
+      </div>
+      <div id="groupsWrap"></div>
+      <div class="empty" id="recapEmpty" style="display:none;">Belum ada transaksi. Tambahkan dulu di tab Input.</div>
+    </div>
+
+    <!-- DETAIL SUB-TAB -->
+    <div id="sub-detail" style="display:none;">
+      <div class="toolbar">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <select class="acct-filter" id="acctFilter">
+            <option value="">Semua Akun</option>
+          </select>
+          <select class="acct-filter" id="periodFilter">
+            <option value="all">Semua Waktu</option>
+            <option value="30">30 Hari Terakhir</option>
+          </select>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="ghost-btn" id="exportBtn">⬇ Export CSV</button>
+          <button type="button" class="ghost-btn" id="importBtn">⬆ Import CSV</button>
+          <input type="file" id="importFile" accept=".csv,text/csv,.txt" style="display:none;">
+        </div>
+      </div>
+
+      <div class="stat-row" id="detailStats" style="display:none;">
+        <div class="stat-tile">
+          <div class="label">Masuk</div>
+          <div class="value" id="stat-in">Rp0</div>
+        </div>
+        <div class="stat-tile">
+          <div class="label">Keluar</div>
+          <div class="value" id="stat-out">Rp0</div>
+        </div>
+        <div class="stat-tile">
+          <div class="label">Saldo</div>
+          <div class="value" id="stat-net">Rp0</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Dari → Ke</th>
+              <th style="text-align:right;">Jumlah</th>
+              <th>Keterangan</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="txBody"></tbody>
+        </table>
+        <div class="empty" id="detailEmpty" style="display:none;">Tidak ada transaksi.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'catatan-uang-tx-v1';
+  const CATEGORY_KEY = 'catatan-uang-category-v1';
+  const CAT_ORDER_KEY = 'catatan-uang-catorder-v1';
+  const OPEN_KEY = 'catatan-uang-open-v1';
+  const DEFAULT_CATS = ['Pengeluaran', 'Utang', 'Asset', 'Pemasukan', 'Lainnya'];
+  let editingId = null;
+
+  function cryptoId(){ return 'x' + Math.random().toString(36).slice(2) + Date.now().toString(36); }
+
+  function seedTxs(){
+    const base = Date.now();
+    return [
+      {id:cryptoId(), date:'2024-11-27', from:'Glenn', to:'Kas', total:5000000, desc:'Glenn investasi', createdAt: base+1},
+      {id:cryptoId(), date:'2024-12-05', from:'Glenn', to:'Kas', total:5000000, desc:'Meyfang investasi', createdAt: base+2},
+      {id:cryptoId(), date:'2024-12-27', from:'Glenn', to:'Kas', total:3000000, desc:'Glenn investasi', createdAt: base+3},
+      {id:cryptoId(), date:'2025-01-05', from:'Meyfang', to:'Kas', total:3085107, desc:'Meyfang investasi', createdAt: base+4},
+      {id:cryptoId(), date:'2025-02-27', from:'Kas', to:'Glenn', total:5000000, desc:'Ambil duit', createdAt: base+5},
+      {id:cryptoId(), date:'2025-07-31', from:'Glenn', to:'Kas', total:20000000, desc:'Glenn investasi', createdAt: base+6},
+      {id:cryptoId(), date:'2025-07-31', from:'Glenn', to:'Kas', total:5000000, desc:'Glenn ngutang di stockbit nanti tarik lagi', createdAt: base+7},
+    ];
+  }
+
+  function readLocal(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return fallback;
+  }
+
+  let txs = readLocal(STORAGE_KEY, null) || seedTxs();
+  let categoryMap = readLocal(CATEGORY_KEY, {Kas:'Asset', Glenn:'Pemasukan', Meyfang:'Pemasukan'});
+  let catOrder = readLocal(CAT_ORDER_KEY, null) || DEFAULT_CATS.slice();
+  let openGroups = new Set(readLocal(OPEN_KEY, []));
+
+  function persist(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(txs));
+      localStorage.setItem(CATEGORY_KEY, JSON.stringify(categoryMap));
+      localStorage.setItem(CAT_ORDER_KEY, JSON.stringify(catOrder));
+      localStorage.setItem(OPEN_KEY, JSON.stringify(Array.from(openGroups)));
+    }catch(e){}
+  }
+
+  const rupiah = n => 'Rp' + Math.round(n).toLocaleString('id-ID');
+  const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const formatDate = iso => {
+    const d = new Date(iso + 'T00:00:00');
+    return isNaN(d) ? iso : d.toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'});
+  };
+
+  function accounts(){
+    const set = new Set();
+    txs.forEach(t => { set.add(t.from); set.add(t.to); });
+    return Array.from(set).sort((a,b)=>a.localeCompare(b,'id'));
+  }
+  function categoryOf(a){ return categoryMap[a] || 'Lainnya'; }
+
+  // ---------- Elements ----------
+  const dateInput = document.getElementById('f-date');
+  const fromInput = document.getElementById('f-from');
+  const toInput = document.getElementById('f-to');
+  const totalInput = document.getElementById('f-total');
+  const descInput = document.getElementById('f-desc');
+  const form = document.getElementById('txForm');
+  const accountList = document.getElementById('account-list');
+  const submitBtn = form.querySelector('.submit');
+  const cancelEditBtn = document.getElementById('cancelEditBtn');
+  const recentWrap = document.getElementById('recentWrap');
+  const recentList = document.getElementById('recentList');
+  const chipsFrom = document.getElementById('chipsFrom');
+  const dateToggle = document.getElementById('dateToggle');
+  const dateField = document.getElementById('dateField');
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+  const recapPeriod = document.getElementById('recapPeriod');
+
+  const navInput = document.getElementById('navInput');
+  const navLihat = document.getElementById('navLihat');
+  const viewInput = document.getElementById('view-input');
+  const viewLihat = document.getElementById('view-lihat');
+  const subtabs = document.getElementById('subtabs');
+  const subRecap = document.getElementById('sub-recap');
+  const subDetail = document.getElementById('sub-detail');
+
+  const monthPicker = document.getElementById('monthPicker');
+  const groupsWrap = document.getElementById('groupsWrap');
+  const recapEmpty = document.getElementById('recapEmpty');
+
+  const acctFilter = document.getElementById('acctFilter');
+  const periodFilter = document.getElementById('periodFilter');
+  const detailStats = document.getElementById('detailStats');
+  const txBody = document.getElementById('txBody');
+  const detailEmpty = document.getElementById('detailEmpty');
+  const exportBtn = document.getElementById('exportBtn');
+  const importBtn = document.getElementById('importBtn');
+  const importFile = document.getElementById('importFile');
+
+  dateInput.value = new Date().toISOString().slice(0,10);
+  monthPicker.value = new Date().toISOString().slice(0,7);
+
+  document.getElementById('swapBtn').addEventListener('click', () => {
+    const a = fromInput.value; fromInput.value = toInput.value; toInput.value = a;
+  });
+
+  // ---------- Quick-fill chips ----------
+  let lastFocused = fromInput;
+  fromInput.addEventListener('focus', () => lastFocused = fromInput);
+  toInput.addEventListener('focus', () => lastFocused = toInput);
+
+  function topAccounts(limit){
+    const freq = {};
+    txs.forEach(t => {
+      freq[t.from] = (freq[t.from]||0) + 1;
+      freq[t.to] = (freq[t.to]||0) + 1;
+    });
+    return Object.keys(freq)
+      .sort((a,b) => freq[b] - freq[a] || a.localeCompare(b,'id'))
+      .slice(0, limit);
+  }
+
+  function renderChips(){
+    const names = topAccounts(5);
+    if(names.length === 0){ chipsFrom.innerHTML = ''; return; }
+    chipsFrom.innerHTML = names.map(n =>
+      `<button type="button" class="chip" data-name="${escapeHtml(n)}">${escapeHtml(n)}</button>`
+    ).join('');
+    chipsFrom.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        lastFocused.value = chip.dataset.name;
+        lastFocused.focus();
+      });
+    });
+  }
+
+  // ---------- Optional date override ----------
+  dateToggle.addEventListener('click', () => {
+    const showing = dateField.style.display !== 'none';
+    dateField.style.display = showing ? 'none' : 'block';
+    dateToggle.style.display = showing ? '' : 'none';
+    if(!showing) dateInput.focus();
+  });
+
+  // ---------- Toast ----------
+  let toastTimer = null;
+  function showToast(msg){
+    toastMsg.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+  }
+
+  // ---------- Nav ----------
+  function showView(v){
+    navInput.classList.toggle('active', v === 'input');
+    navLihat.classList.toggle('active', v === 'lihat');
+    viewInput.classList.toggle('active', v === 'input');
+    viewLihat.classList.toggle('active', v === 'lihat');
+    if(v === 'lihat') renderLihat();
+  }
+  navInput.addEventListener('click', () => showView('input'));
+  navLihat.addEventListener('click', () => showView('lihat'));
+
+  let subView = 'recap';
+  subtabs.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-sub]');
+    if(!btn) return;
+    subView = btn.dataset.sub;
+    subtabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    subRecap.style.display = subView === 'recap' ? 'block' : 'none';
+    subDetail.style.display = subView === 'detail' ? 'block' : 'none';
+    renderLihat();
+  });
+
+  function renderLihat(){
+    renderAccountList();
+    if(subView === 'recap') renderGroups(); else renderDetail();
+  }
+
+  function renderAccountList(){
+    accountList.innerHTML = accounts().map(a => `<option value="${escapeHtml(a)}">`).join('');
+  }
+
+  function resetForm(){
+    form.reset();
+    dateInput.value = new Date().toISOString().slice(0,10);
+    dateField.style.display = 'none';
+    dateToggle.style.display = '';
+    editingId = null;
+    submitBtn.textContent = '+ Tambah Transaksi';
+    cancelEditBtn.style.display = 'none';
+  }
+
+  // ---------- Input form ----------
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const from = fromInput.value.trim();
+    const to = toInput.value.trim();
+    const total = parseFloat(totalInput.value);
+    const date = dateInput.value || new Date().toISOString().slice(0,10);
+    const desc = descInput.value.trim();
+    if(!from || !to || !(total > 0)) return;
+
+    const existing = accounts();
+    const newNames = Array.from(new Set([from, to])).filter(n => !existing.includes(n));
+    if(newNames.length > 0){
+      const label = newNames.length === 1 ? `Akun baru "${newNames[0]}"` : `Akun baru: ${newNames.join(', ')}`;
+      const ok = confirm(`${label} belum pernah dipakai. Tambahkan sebagai akun baru?`);
+      if(!ok) return;
+    }
+
+    const wasEditing = !!editingId;
+    if(editingId){
+      const t = txs.find(x => x.id === editingId);
+      Object.assign(t, {date, from, to, total, desc});
+    } else {
+      txs.push({id:cryptoId(), date, from, to, total, desc, createdAt: Date.now()});
+    }
+    persist();
+    resetForm();
+    renderRecent();
+    renderAccountList();
+    renderChips();
+    showToast(wasEditing
+      ? `Perubahan disimpan: ${from} → ${to}, ${rupiah(total)}`
+      : `Ditambahkan: ${from} → ${to}, ${rupiah(total)}`);
+    fromInput.focus();
+  });
+
+  cancelEditBtn.addEventListener('click', resetForm);
+
+  function renderRecent(){
+    const recent = [...txs]
+      .sort((a,b) => (b.createdAt||0) - (a.createdAt||0))
+      .slice(0,4);
+    if(recent.length === 0){ recentWrap.style.display = 'none'; return; }
+    recentWrap.style.display = 'block';
+    recentList.innerHTML = recent.map(t => `
+      <div class="recent-item">
+        <span class="flow">${escapeHtml(t.from)} → ${escapeHtml(t.to)}${t.desc ? ' · ' + escapeHtml(t.desc) : ''}</span>
+        <span class="amt">${rupiah(t.total)}</span>
+      </div>
+    `).join('');
+  }
+
+  // ---------- Recap tab: draggable groups ----------
+  recapPeriod.addEventListener('change', () => {
+    const isMonth = recapPeriod.value === 'month';
+    monthPicker.style.display = isMonth ? '' : 'none';
+    renderGroups();
+  });
+  monthPicker.addEventListener('change', renderGroups);
+
+  function renderGroups(){
+    const useMonth = recapPeriod.value === 'month';
+    const monthStr = monthPicker.value;
+    const names = accounts();
+    if(names.length === 0){
+      groupsWrap.innerHTML = '';
+      recapEmpty.style.display = 'block';
+      return;
+    }
+    recapEmpty.style.display = 'none';
+
+    const balAll = {}, balMonth = {};
+    names.forEach(n => { balAll[n] = 0; balMonth[n] = 0; });
+    txs.forEach(t => {
+      balAll[t.from] -= t.total; balAll[t.to] += t.total;
+      if(useMonth && t.date.slice(0,7) === monthStr){
+        balMonth[t.from] -= t.total; balMonth[t.to] += t.total;
+      }
+    });
+
+    const grouped = {};
+    catOrder.forEach(c => grouped[c] = []);
+    names.forEach(n => {
+      const c = categoryOf(n);
+      if(!grouped[c]) grouped[c] = [];
+      grouped[c].push(n);
+    });
+    Object.keys(grouped).forEach(c => { if(!catOrder.includes(c)) catOrder.push(c); });
+
+    groupsWrap.innerHTML = catOrder.map(cat => {
+      const list = (grouped[cat] || []).slice().sort((a,b)=>a.localeCompare(b,'id'));
+      const gAll = list.reduce((s,n) => s + balAll[n], 0);
+      const isOpen = openGroups.has(cat);
+      const rowsHtml = list.length ? list.map(n => `
+        <div class="acct-row" draggable="true" data-account="${escapeHtml(n)}">
+          <span class="aname"><span class="grip">⠿</span>${escapeHtml(n)}</span>
+          <span class="avals">
+            ${useMonth ? `<span class="a-month num ${balMonth[n]>0?'pos':(balMonth[n]<0?'neg':'')}">${rupiah(balMonth[n])}</span>` : ''}
+            <span class="a-all num ${balAll[n]>0?'pos':(balAll[n]<0?'neg':'')}">${rupiah(balAll[n])}</span>
+          </span>
+        </div>
+      `).join('') : `<div class="group-empty-hint">Seret akun ke sini untuk masukkan ke kategori ini.</div>`;
+
+      return `<div class="group ${isOpen ? 'open' : ''}" data-category="${escapeHtml(cat)}">
+        <div class="group-head" data-toggle="${escapeHtml(cat)}">
+          <span class="chev">▶</span>
+          <span class="gname">${escapeHtml(cat)}</span>
+          <span class="gcount">${list.length} akun</span>
+          <span class="gtotal num ${gAll>0?'pos':(gAll<0?'neg':'')}">${rupiah(gAll)}</span>
+        </div>
+        <div class="group-body">${rowsHtml}</div>
+      </div>`;
+    }).join('');
+
+    attachGroupHandlers();
+  }
+
+  function attachGroupHandlers(){
+    groupsWrap.querySelectorAll('.group-head').forEach(head => {
+      head.addEventListener('click', () => {
+        const cat = head.dataset.toggle;
+        if(openGroups.has(cat)) openGroups.delete(cat); else openGroups.add(cat);
+        persist();
+        renderGroups();
+      });
+    });
+
+    let dragSrc = null;
+    const rows = Array.from(groupsWrap.querySelectorAll('.acct-row'));
+    rows.forEach(row => {
+      row.addEventListener('dragstart', e => {
+        dragSrc = row;
+        e.stopPropagation();
+        setTimeout(() => row.classList.add('dragging'), 0);
+      });
+      row.addEventListener('dragend', () => row.classList.remove('dragging'));
+      row.addEventListener('dragover', e => { e.preventDefault(); e.stopPropagation(); });
+      row.addEventListener('drop', e => {
+        e.preventDefault(); e.stopPropagation();
+        if(!dragSrc || dragSrc === row) return;
+        const targetCat = row.closest('.group').dataset.category;
+        categoryMap[dragSrc.dataset.account] = targetCat;
+        openGroups.add(targetCat);
+        persist();
+        renderGroups();
+      });
+    });
+
+    const groupEls = Array.from(groupsWrap.querySelectorAll('.group'));
+    groupEls.forEach(g => {
+      g.addEventListener('dragover', e => { e.preventDefault(); g.classList.add('drag-over'); });
+      g.addEventListener('dragleave', () => g.classList.remove('drag-over'));
+      g.addEventListener('drop', e => {
+        e.preventDefault();
+        g.classList.remove('drag-over');
+        if(!dragSrc) return;
+        const targetCat = g.dataset.category;
+        categoryMap[dragSrc.dataset.account] = targetCat;
+        openGroups.add(targetCat);
+        persist();
+        renderGroups();
+      });
+    });
+  }
+
+  // ---------- Detail tab ----------
+  function renderDetail(){
+    const names = accounts();
+    const current = acctFilter.value;
+    acctFilter.innerHTML = '<option value="">Semua Akun</option>' +
+      names.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+    if(names.includes(current)) acctFilter.value = current;
+
+    const acct = acctFilter.value;
+    const periodDays = periodFilter.value;
+    const startDate = periodDays === 'all' ? null : (() => {
+      const d = new Date(); d.setDate(d.getDate() - parseInt(periodDays,10)); return d.toISOString().slice(0,10);
+    })();
+
+    let list = txs.filter(t => !startDate || t.date >= startDate);
+    if(acct) list = list.filter(t => t.from === acct || t.to === acct);
+
+    if(acct){
+      let inflow = 0, outflow = 0;
+      list.forEach(t => { if(t.to === acct) inflow += t.total; if(t.from === acct) outflow += t.total; });
+      detailStats.style.display = 'grid';
+      document.getElementById('stat-in').textContent = rupiah(inflow);
+      document.getElementById('stat-out').textContent = rupiah(outflow);
+      const net = inflow - outflow;
+      const netEl = document.getElementById('stat-net');
+      netEl.textContent = (net>0?'+':'') + rupiah(net);
+      netEl.className = 'value ' + (net>0?'num pos':(net<0?'num neg':''));
+    } else {
+      detailStats.style.display = 'none';
+    }
+
+    const sorted = [...list].sort((a,b) => a.date === b.date ? 0 : (a.date < b.date ? 1 : -1));
+    if(sorted.length === 0){
+      txBody.innerHTML = '';
+      detailEmpty.style.display = 'block';
+      return;
+    }
+    detailEmpty.style.display = 'none';
+    txBody.innerHTML = sorted.map(t => {
+      const signed = acct ? (t.to === acct ? t.total : -t.total) : null;
+      return `<tr data-id="${t.id}">
+        <td>${formatDate(t.date)}</td>
+        <td><span class="pill">${escapeHtml(t.from)}</span><span class="arrow">→</span><span class="pill">${escapeHtml(t.to)}</span></td>
+        <td class="num ${signed===null?'':(signed>0?'pos':'neg')}">${signed===null ? rupiah(t.total) : (signed>0?'+':'') + rupiah(signed)}</td>
+        <td class="desc">${escapeHtml(t.desc || '—')}</td>
+        <td class="row-actions">
+          <button class="icon-btn" data-action="edit" title="Ubah">✎</button>
+          <button class="icon-btn danger" data-action="delete" title="Hapus">✕</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  acctFilter.addEventListener('change', renderDetail);
+  periodFilter.addEventListener('change', renderDetail);
+
+  // ---------- Export / Import CSV ----------
+  function csvField(v){
+    const s = String(v == null ? '' : v);
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+
+  function buildCsv(){
+    const header = ['Tanggal','Dari','Ke','Jumlah','Keterangan'];
+    const sorted = [...txs].sort((a,b) => a.date < b.date ? -1 : (a.date > b.date ? 1 : 0));
+    const lines = [header.join(',')];
+    sorted.forEach(t => {
+      lines.push([t.date, csvField(t.from), csvField(t.to), t.total, csvField(t.desc || '')].join(','));
+    });
+    return lines.join('\r\n');
+  }
+
+  function parseCsvLine(line){
+    const out = [];
+    let cur = '', inQuotes = false;
+    for(let i = 0; i < line.length; i++){
+      const c = line[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(line[i+1] === '"'){ cur += '"'; i++; } else { inQuotes = false; }
+        } else cur += c;
+      } else {
+        if(c === '"') inQuotes = true;
+        else if(c === ','){ out.push(cur); cur = ''; }
+        else cur += c;
+      }
+    }
+    out.push(cur);
+    return out;
+  }
+
+  function parseCsv(text){
+    const lines = text.replace(/^﻿/, '').split(/\r\n|\n|\r/).filter(l => l.trim() !== '');
+    if(lines.length === 0) return [];
+    const rows = lines.map(parseCsvLine);
+    const header = rows[0].map(h => h.trim().toLowerCase());
+    const iDate = header.indexOf('tanggal');
+    const iFrom = header.indexOf('dari');
+    const iTo = header.indexOf('ke');
+    const iTotal = header.indexOf('jumlah');
+    const iDesc = header.indexOf('keterangan');
+    const dataRows = (iDate >= 0 && iFrom >= 0 && iTo >= 0 && iTotal >= 0) ? rows.slice(1) : rows;
+    const out = [];
+    dataRows.forEach(r => {
+      const date = (iDate >= 0 ? r[iDate] : r[0] || '').trim();
+      const from = (iFrom >= 0 ? r[iFrom] : r[1] || '').trim();
+      const to = (iTo >= 0 ? r[iTo] : r[2] || '').trim();
+      const totalRaw = (iTotal >= 0 ? r[iTotal] : r[3] || '').replace(/[^0-9.-]/g, '');
+      const total = parseFloat(totalRaw);
+      const desc = (iDesc >= 0 ? r[iDesc] : r[4] || '').trim();
+      if(!from || !to || !(total > 0)) return;
+      const normDate = /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : new Date().toISOString().slice(0,10);
+      out.push({date: normDate, from, to, total, desc});
+    });
+    return out;
+  }
+
+  exportBtn.addEventListener('click', () => {
+    if(txs.length === 0){ showToast('Belum ada transaksi untuk di-export.'); return; }
+    const csv = buildCsv();
+    const filename = `catatan-uang-${new Date().toISOString().slice(0,10)}.csv`;
+    const blob = new Blob(['﻿' + csv], {type: 'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(`Export berhasil: ${filename}`);
+  });
+
+  importBtn.addEventListener('click', () => importFile.click());
+
+  importFile.addEventListener('change', () => {
+    const file = importFile.files && importFile.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const rows = parseCsv(String(reader.result || ''));
+      if(rows.length === 0){
+        showToast('Tidak ada baris valid ditemukan di file itu.');
+        importFile.value = '';
+        return;
+      }
+      const ok = confirm(`Ditemukan ${rows.length} transaksi di file ini. Tambahkan ke data yang sudah ada?`);
+      if(ok){
+        const now = Date.now();
+        rows.forEach((r, i) => txs.push({id:cryptoId(), ...r, createdAt: now + i}));
+        persist();
+        renderRecent();
+        renderAccountList();
+        renderChips();
+        renderLihat();
+        showToast(`${rows.length} transaksi berhasil di-import.`);
+      }
+      importFile.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  txBody.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-action]');
+    if(!btn) return;
+    const tr = e.target.closest('tr');
+    const id = tr.getAttribute('data-id');
+    const t = txs.find(x => x.id === id);
+    if(!t) return;
+
+    if(btn.dataset.action === 'delete'){
+      if(confirm(`Hapus transaksi "${t.desc || (t.from + ' → ' + t.to)}" senilai ${rupiah(t.total)}?`)){
+        txs = txs.filter(x => x.id !== id);
+        persist();
+        renderDetail();
+      }
+    } else if(btn.dataset.action === 'edit'){
+      dateInput.value = t.date;
+      fromInput.value = t.from;
+      toInput.value = t.to;
+      totalInput.value = t.total;
+      descInput.value = t.desc || '';
+      editingId = id;
+      submitBtn.textContent = '✓ Simpan Perubahan';
+      cancelEditBtn.style.display = 'block';
+      dateField.style.display = 'block';
+      dateToggle.style.display = 'none';
+      showView('input');
+      fromInput.focus();
+    }
+  });
+
+  // ---------- Init ----------
+  renderRecent();
+  renderAccountList();
+  renderChips();
+})();
+</script>
+</body>
+</html>

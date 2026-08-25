@@ -1,0 +1,21 @@
+{% comment %}
+  Component Library Showcase — wrapper section (dipakai kalau Page di-assign
+  template "page.components" lewat Admin). Isinya di snippets/lib-showcase-content.liquid
+  supaya bisa juga dipanggil langsung dari sections/page.liquid (section tidak
+  boleh {% section %} section lain, tapi boleh {% render %} snippet).
+{% endcomment %}
+
+{% render 'lib-showcase-content' %}
+
+{% schema %}
+{
+  "name": "Components Showcase",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Components Showcase",
+      "category": "Dev"
+    }
+  ]
+}
+{% endschema %}

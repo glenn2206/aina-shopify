@@ -1,0 +1,77 @@
+{% comment %}
+  [Component Library] Filter Sidebar snippet — navigasi filter di halaman koleksi
+  Params:
+    all_products_url   — url (required)
+    sale_url            — url (optional)
+    active_handle        — handle/label yang sedang aktif, buat highlight (optional)
+    category_menu        — linklist object, mis. linklists['filter-category'] (optional)
+    occasion_menu         — linklist object, mis. linklists['filter-occasions'] (optional)
+    addon_menu             — linklist object, mis. linklists['filter-addon'] (optional)
+  Usage:
+    {% render 'lib-filter-sidebar',
+       all_products_url: routes.all_products_collection_url,
+       active_handle: 'all',
+       category_menu: linklists['filter-category']
+    %}
+{% endcomment %}
+<nav class="filter-sidebar" data-component="filter-sidebar" aria-label="Product filters">
+  <a href="{{ all_products_url }}" class="filter-link{% if active_handle == 'all' %} is-active{% endif %}">All Products</a>
+
+  {% if sale_url %}
+    <a href="{{ sale_url }}" class="filter-link{% if active_handle == 'sale' %} is-active{% endif %}">Sale</a>
+  {% endif %}
+
+  {% if category_menu %}
+    <div class="filter-group" data-filter-group>
+      <button type="button" class="filter-group__toggle" data-filter-toggle aria-expanded="false">
+        Category
+        <span class="filter-group__chevron" aria-hidden="true">
+          <svg width="11" height="6" viewBox="0 0 11 6" fill="none"><path d="M1 1l4.5 4L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="filter-group__list">
+        {% for link in category_menu.links %}
+          <a href="{{ link.url }}" class="filter-item{% if link.handle == active_handle %} is-active{% endif %}">
+            <span class="filter-item__dot" aria-hidden="true"></span>{{ link.title }}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if occasion_menu %}
+    <div class="filter-group is-open" data-filter-group>
+      <button type="button" class="filter-group__toggle" data-filter-toggle aria-expanded="true">
+        For Occasions
+        <span class="filter-group__chevron" aria-hidden="true">
+          <svg width="11" height="6" viewBox="0 0 11 6" fill="none"><path d="M1 1l4.5 4L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="filter-group__list">
+        {% for link in occasion_menu.links %}
+          <a href="{{ link.url }}" class="filter-item{% if link.handle == active_handle %} is-active{% endif %}">
+            <span class="filter-item__dot" aria-hidden="true"></span>{{ link.title }}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if addon_menu %}
+    <div class="filter-group is-open" data-filter-group>
+      <button type="button" class="filter-group__toggle" data-filter-toggle aria-expanded="true">
+        Add On
+        <span class="filter-group__chevron" aria-hidden="true">
+          <svg width="11" height="6" viewBox="0 0 11 6" fill="none"><path d="M1 1l4.5 4L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="filter-group__list">
+        {% for link in addon_menu.links %}
+          <a href="{{ link.url }}" class="filter-item{% if link.handle == active_handle %} is-active{% endif %}">
+            <span class="filter-item__dot" aria-hidden="true"></span>{{ link.title }}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</nav>

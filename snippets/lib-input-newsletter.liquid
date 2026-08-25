@@ -1,0 +1,21 @@
+{% comment %}
+  [Component Library] Newsletter input group snippet
+  Params:
+    label         — label field (required)
+    placeholder   — placeholder input (optional)
+    id            — id unik untuk input+label (default: 'newsletter-email')
+  Usage:
+    {% render 'lib-input-newsletter', label: 'Get exclusive offers & news', id: 'footer-email' %}
+{% endcomment %}
+{%- assign field_id = id | default: 'newsletter-email' -%}
+<form class="field" onsubmit="return false">
+  <label for="{{ field_id }}" class="field__label">{{ label }}</label>
+  <div class="input-group">
+    <input id="{{ field_id }}" type="email" placeholder="{{ placeholder | default: 'Enter your email' }}">
+    <button type="submit" class="input-group__submit" aria-label="Subscribe">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 12h16m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+</form>

@@ -1,0 +1,24 @@
+{% comment %}
+  [Component Library] Badge / Pill snippet
+  Params:
+    label   — teks (required)
+    type    — 'badge' | 'pill' | 'eyebrow' (default: 'pill')
+    variant — untuk badge: 'sale' | 'outline'
+    href    — jika diisi, pill jadi link
+{% endcomment %}
+{%- liquid
+  assign b_type = type | default: 'pill'
+-%}
+{%- case b_type -%}
+  {%- when 'badge' -%}
+    {%- assign b_variant = variant | default: 'sale' -%}
+    <span class="badge badge--{{ b_variant }}">{{ label }}</span>
+  {%- when 'eyebrow' -%}
+    <p class="eyebrow{% if variant == 'on-dark' %} eyebrow--on-dark{% endif %}">{{ label }}</p>
+  {%- else -%}
+    {%- if href -%}
+      <a href="{{ href }}" class="pill">{{ label }}</a>
+    {%- else -%}
+      <span class="pill">{{ label }}</span>
+    {%- endif -%}
+{%- endcase -%}

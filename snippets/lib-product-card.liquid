@@ -1,0 +1,58 @@
+{% comment %}
+  [Component Library] Product Card snippet — pakai class dari lib-components.css
+  Params:
+    product         — Product object (required)
+    category_label  — override label kategori (optional)
+  Usage:
+    {% render 'lib-product-card', product: product %}
+{% endcomment %}
+{%- liquid
+  assign card_badge = ''
+  if product.compare_at_price > product.price
+    assign card_badge = 'Sale'
+  elsif product.available == false
+    assign card_badge = 'Sold Out'
+  endif
+  assign card_category = category_label | default: product.type | default: 'Flowers'
+-%}
+<div class="product-card">
+  <a href="{{ product.url }}" class="product-card__media" aria-label="{{ product.title | escape }}">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 640 | image_tag: loading: 'lazy', alt: product.title | escape }}
+    {% endif %}
+    {% if card_badge != blank %}
+      <span class="badge badge--{% if card_badge == 'Sale' %}sale{% else %}outline{% endif %} product-card__badge">{{ card_badge }}</span>
+    {% endif %}
+  </a>
+
+  <div class="product-card__body">
+    <a href="{{ product.url }}" class="pill">{{ card_category }}</a>
+
+    <a href="{{ product.url }}">
+      <h3 class="product-card__title">{{ product.title }}</h3>
+      <p class="product-card__price">
+        {% if product.compare_at_price > product.price %}
+          <del>{{ product.compare_at_price | money }}</del>
+        {% endif %}
+        {{ product.price | money }}
+      </p>
+    </a>
+
+    {% if product.variants.size > 1 %}
+      <div class="product-card__variants">
+        {% for variant in product.variants limit: 2 %}
+          <a href="{{ variant.url }}" class="product-card__variant">
+            <span class="product-card__variant-swatch">
+              {% if variant.featured_image %}
+                {{ variant.featured_image | image_url: width: 76 | image_tag: alt: '' }}
+              {% elsif product.featured_image %}
+                {{ product.featured_image | image_url: width: 76 | image_tag: alt: '' }}
+              {% endif %}
+            </span>
+            <span class="product-card__variant-label{% if forloop.first %} product-card__variant-label--active{% endif %}">{{ variant.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,18 @@
+{% comment %}
+  [Component Library] Button snippet
+  Params:
+    href      — url tujuan (required)
+    label     — teks tombol (required)
+    variant   — 'primary' | 'outline' | 'outline-light' | 'dark' (default: primary)
+    size      — 'sm' | 'lg' (optional)
+  Usage:
+    {% render 'lib-button', href: routes.all_products_collection_url, label: 'Shop Flowers', variant: 'primary' %}
+{% endcomment %}
+{%- liquid
+  assign btn_variant = variant | default: 'primary'
+  assign btn_class = 'btn btn--' | append: btn_variant
+  if size
+    assign btn_class = btn_class | append: ' btn--' | append: size
+  endif
+-%}
+<a href="{{ href }}" class="{{ btn_class }}">{{ label }}</a>

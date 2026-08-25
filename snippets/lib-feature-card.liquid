@@ -1,0 +1,15 @@
+{% comment %}
+  [Component Library] Feature Card snippet (mis. section "Why Ania?")
+  Params:
+    icon_svg  — raw SVG markup untuk ikon (required)
+    title     — judul (required)
+    text      — deskripsi (required)
+  Usage:
+    {% capture icon %}<svg width="42" height="42" ...>...</svg>{% endcapture %}
+    {% render 'lib-feature-card', icon_svg: icon, title: 'Happy Customer Guarantee', text: '...' %}
+{% endcomment %}
+<div class="feature-card">
+  <span class="feature-card__icon">{{ icon_svg }}</span>
+  <h3 class="feature-card__title">{{ title }}</h3>
+  <p class="feature-card__text">{{ text }}</p>
+</div>

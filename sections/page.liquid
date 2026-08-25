@@ -7,7 +7,8 @@
   the About page shows the new design even when the default "page" template is
   assigned — no manual template assignment needed in the admin. Same for the
   handle "occasions" (snippets/occasions-page.liquid) — the standalone
-  destination for the "For Occasions" nav link.
+  destination for the "For Occasions" nav link. Same for handle "components"
+  (snippets/lib-showcase-content.liquid) — internal dev reference page.
 
   https://shopify.dev/docs/storefronts/themes/architecture/templates/page
 {% endcomment %}
@@ -18,6 +19,8 @@
   {% render 'occasions-page' %}
 {% elsif page.handle == 'terms-and-condition' %}
   {% render 'terms-and-condition-page' %}
+{% elsif page.handle == 'components' %}
+  {% render 'lib-showcase-content' %}
 {% else %}
   <h1>{{ page.title }}</h1>
 

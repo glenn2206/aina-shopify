@@ -1,0 +1,20 @@
+{% comment %}
+  [Component Library] Testimonial Card snippet
+  Params:
+    quote     — teks testimoni (required)
+    avatar    — url gambar, mis. 'avatar-claudia.png' | asset_url (required)
+    name      — nama customer (required)
+    location  — kota customer (required)
+  Usage:
+    {% render 'lib-testimonial-card', quote: quote, avatar: 'avatar-claudia.png' | asset_url, name: 'Claudia S', location: 'Jakarta Utara' %}
+{% endcomment %}
+<article class="testimonial-card">
+  <p class="testimonial-card__quote">{{ quote }}</p>
+  <div class="testimonial-card__author">
+    <img class="testimonial-card__avatar" src="{{ avatar }}" alt="{{ name }}" width="48" height="48" loading="lazy">
+    <div>
+      <span class="testimonial-card__name">{{ name }}</span>
+      <span class="testimonial-card__location">{{ location }}</span>
+    </div>
+  </div>
+</article>

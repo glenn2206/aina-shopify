@@ -1,0 +1,44 @@
+{% comment %}
+  [Component Library] Addon Card snippet — dipakai di section "Make It
+  Personal" (Plush Doll, Balloon, Cake, dst). Tombol tambah (+) numpang di
+  pojok kanan-bawah gambar.
+
+  3 mode:
+  A) product — kalau add-on-nya produk Shopify beneran (recommended)
+     {% render 'lib-addon-card', product: product %}
+  B) image_src — foto asli, bukan produk (mis. asset statis)
+     {% render 'lib-addon-card', image_src: 'x.png' | asset_url, title: 'Balloon', price_html: 'Rp 100,000', href: '#' %}
+  C) icon_svg — mock/ilustrasi (belum ada foto produk), background otomatis
+     cream, ikon di-center
+     {% capture icon %}<svg viewBox="0 0 100 100">...</svg>{% endcapture %}
+     {% render 'lib-addon-card', icon_svg: icon, title: 'Balloon', price_html: 'Rp 100,000', href: '#' %}
+{% endcomment %}
+{%- liquid
+  if product
+    assign card_href = product.url
+    assign card_image = product.featured_image | image_url: width: 292
+    assign card_title = product.title
+    assign card_price = product.price | money
+  else
+    assign card_href = href | default: '#'
+    assign card_image = image_src
+    assign card_title = title
+    assign card_price = price_html
+  endif
+-%}
+<div class="addon-card">
+  <a href="{{ card_href }}" class="addon-card__media" aria-label="{{ card_title | escape }}">
+    {% if card_image %}
+      <img src="{{ card_image }}" alt="{{ card_title | escape }}" loading="lazy">
+    {% elsif icon_svg %}
+      {{ icon_svg }}
+    {% endif %}
+    <span class="addon-card__action" aria-label="Add {{ card_title | escape }}">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </span>
+  </a>
+  <a href="{{ card_href }}" class="addon-card__body">
+    <span class="addon-card__title">{{ card_title }}</span>
+    <span class="addon-card__price">{{ card_price }}</span>
+  </a>
+</div>

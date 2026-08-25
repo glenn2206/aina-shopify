@@ -1,0 +1,45 @@
+{% comment %}
+  [Component Library] Pagination Bar snippet — full-width dengan ellipsis
+  "...", dipakai di bawah grid produk yang banyak halamannya. Otomatis pakai
+  Shopify `paginate` object (native ellipsis-nya).
+  Params:
+    paginate  — Shopify `paginate` object (required)
+  Usage:
+    {% paginate collection.products by 12 %}
+      ... product grid ...
+      {% render 'lib-pagination-bar', paginate: paginate %}
+    {% endpaginate %}
+{% endcomment %}
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination-bar" aria-label="Pagination">
+    <div class="pagination-bar__row">
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <div class="pagination-bar__col">
+            <a href="{{ part.url }}" class="pagination-bar__num">{{ part.title }}</a>
+          </div>
+        {%- else -%}
+          {%- if part.title == paginate.current_page -%}
+            <div class="pagination-bar__col pagination-bar__col--active">
+              <span class="pagination-bar__num">{{ part.title }}</span>
+              <span class="pagination-bar__underline"></span>
+            </div>
+          {%- else -%}
+            <div class="pagination-bar__col">
+              <span class="pagination-bar__ellipsis">{{ part.title }}</span>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if paginate.next -%}
+        <a href="{{ paginate.next.url }}" class="pagination-bar__next" aria-label="Next page">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+    <div class="pagination-bar__divider"></div>
+  </nav>
+{%- endif -%}

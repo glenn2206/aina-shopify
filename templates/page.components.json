@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-components-showcase",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

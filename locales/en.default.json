@@ -215,7 +215,7 @@
   },
   "most_popular": {
     "heading": "Flowers They'll Never Forget",
-    "subheading": "Our most-loved flower arrangements — beautiful choices that never fail to impress someone special.",
+    "subheading": "Discover our ready-to-send bouquets, thoughtfully arranged and ready to make someone’s day.",
     "button": "View All Product"
   },
   "occasions": {
@@ -242,8 +242,8 @@
   "occasions_page": {
     "hero_eyebrow": "What's the Occasion?",
     "hero_heading": "Tell us the moment, and we'll help you find flowers that say it beautifully.",
-    "shop_flowers": "Shop Flowers",
-    "custom_order": "Custom Order",
+    "shop_flowers": "SHOP FRESH BLOOMS",
+    "custom_order": "LET'S TALK FLOWERS",
     "hero_img_alt": "ANIA flower arrangement for a special moment",
     "say_heading": "What Do You Want to Say?",
     "recipients_heading": "Who Are You Sending Flowers To?",
@@ -269,8 +269,8 @@
     "recipient_difficult_title": "Someone Going Through a Difficult Time",
     "recipient_difficult_text": "Let the flowers speak gently. Choose elegant, understated arrangements in soft or calming tones. The gesture is more important than the size — thoughtful flowers can quietly communicate that you're thinking of them.",
     "recipient_difficult_best": "Best for: Sympathy · Condolences · Get Well Soon · Thinking of You",
-    "cta_title": "Have Someone Special in Mind?",
-    "cta_text": "Tell our florist what you have in mind, and we'll help you create a thoughtful arrangement made just for them.",
+    "cta_title": "Let your Flowers Speak First",
+    "cta_text": "Because the most meaningful messages aren't always spoken, they're beautifully delivered. From love and gratitude to congratulations and comfort, our handcrafted bouquets will help you say what words can't. ",
     "cta_button": "Talk to Our Florist",
     "pagination_prev": "Previous",
     "pagination_next": "Next"
@@ -285,10 +285,10 @@
     "next": "Next testimonial"
   },
   "custom_order": {
-    "eyebrow": "Have Something Special in Mind?",
-    "heading": "We'd love to make it personal.",
-    "body": "Have a specific flower, colour, budget, or special request in mind? Tell us the details, and our florist will help create something made just for you.",
-    "cta": "Let's Create Your Flowers",
+    "eyebrow": "FOR THOSE UNSPOKEN WORDS",
+    "heading": "Let your Flowers Speak First",
+    "body": "Because the most meaningful messages aren't always spoken, they're beautifully delivered. From love and gratitude to congratulations and comfort, our handcrafted bouquets will help you say what words can't. ",
+    "cta": "LET'S TALK TO FLOWERS",
     "img_alt": "ANIA custom flower arrangement"
   },
   "products_page": {
@@ -304,7 +304,9 @@
     "flowers": "Flowers",
     "grid_label": "Product grid",
     "whatsapp_label": "Chat WhatsApp",
-    "showing_html": "Showing {shown} of {total} products"
+    "showing_html": "Showing {shown} of {total} products",
+    "pagination_prev": "Previous page",
+    "pagination_next": "Next page"
   },
   "product_details": {
     "description": "Description",
@@ -352,6 +354,22 @@
     "sale": "Sale",
     "sold_out": "Sold Out",
     "flowers": "Flowers"
+  },
+  "home_faq": {
+    "heading": "Frequently Asked Questions",
+    "subheading": "Everything you need to know before ordering flowers from ANIA.",
+    "q1_question": "How Long Does Delivery Take, and How Much Will It Cost?",
+    "q1_category": "Delivery",
+    "q1_answer": "Our delivery starts from 10 a.m. to 10 p.m. (WIB) for Same-Day Delivery. If you need flowers before 10 a.m., please complete your purchase at least one day before (D-1).",
+    "q2_question": "Can I request a custom bouquet?",
+    "q2_category": "Custom Order",
+    "q2_answer": "Of course! Reach out to our team via the Custom Order page for a free consultation about your dream bouquet.",
+    "q3_question": "Are the flowers guaranteed fresh on arrival?",
+    "q3_category": "Freshness Guarantee",
+    "q3_answer": "Yes — every order is hand-picked and arranged with fresh flowers on the delivery day. If anything's wrong, we'll replace it for free.",
+    "q4_question": "What payment methods are available?",
+    "q4_category": "Payment",
+    "q4_answer": "We accept credit/debit cards, bank transfer, QRIS, and popular e-wallets through Shopify checkout."
   },
   "about_page": {
     "hero_subheading": "Who We Are?",

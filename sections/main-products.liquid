@@ -5,7 +5,7 @@
     - Category reads the product metafield (default custom.category, configurable)
     - For Occassions / Flowers read product tags
     - Sale = compare_at_price > price
-    - Instant client-side filtering + sorting + pagination (9 per page)
+    - Instant client-side filtering + sorting + pagination (6 per page)
 {% endcomment %}
 {%- liquid
   assign page_heading = section.settings.heading | default: collection.title
@@ -221,8 +221,22 @@
 
         <p data-result-count data-i18n-showing="{{ 'products_page.showing_html' | t }}" class="mt-10 text-center text-xs tracking-wide text-[#6D6D6D]"></p>
 
-        {% comment %} Pagination (diisi oleh JS) {% endcomment %}
-        <div data-pagination class="relative mt-10 pb-8"></div>
+        {% comment %}
+          Pagination (diisi oleh JS). Hover state pakai <style> statis
+          (bukan Tailwind) karena isi div ini di-generate lewat innerHTML —
+          class Tailwind arbitrary-value baru tidak akan pernah ke-compile
+          kalau cuma dipakai lewat JS string, jadi hover-nya taruh di sini.
+        {% endcomment %}
+        <style>
+          .ania-pg-num:hover { color: #3D3B2F !important; }
+          .ania-pg-arrow:not(:disabled):hover { color: #3D3B2F !important; }
+        </style>
+        <div
+          data-pagination
+          data-i18n-prev="{{ 'products_page.pagination_prev' | t }}"
+          data-i18n-next="{{ 'products_page.pagination_next' | t }}"
+          class="relative mt-10 pb-8"
+        ></div>
       </div>
     </div>
 
@@ -255,7 +269,7 @@
     const sortMenu = document.querySelector('[data-sort-menu]');
     const sortLabel = document.querySelector('[data-sort-label]');
 
-    const PAGE_SIZE = 9;
+    const PAGE_SIZE = 6;
     const state = { category: null, occasion: null, flower: null, sale: false, sort: 'default', page: 1 };
 
     const escapeHtml = (str) =>
@@ -361,22 +375,62 @@
 
     const isVisible = (card) => !card.classList.contains('hidden');
 
+    // Numbered pagination bar: first/last + current's neighbours always
+    // shown, gaps collapsed into "..." — same look as the collection-page
+    // Figma reference (right-aligned, underline on the active page, prev/
+    // next arrows, divider line below).
+    //
+    // Pakai inline style (bukan class Tailwind arbitrary-value) dengan
+    // sengaja: class Tailwind yang di-generate lewat JS innerHTML TIDAK
+    // ke-scan oleh build Tailwind (assets/ania.css itu hasil compile
+    // statis), jadi kalau classnya belum pernah dipakai di tempat lain
+    // di project, CSS-nya tidak akan pernah ada. Inline style selalu jalan
+    // tanpa tergantung rebuild apapun. Hover state-nya lewat class kecil
+    // (.ania-pg-num / .ania-pg-arrow) yang di-define di <style> statis di
+    // bawah (bukan lewat Tailwind), jadi tetap aman juga.
+    const colStyle = 'display:flex;flex-direction:column;align-items:center;gap:8px;width:40px;flex-shrink:0;';
+    const arrowStyle = 'display:flex;align-items:center;justify-content:center;width:36px;height:44px;flex-shrink:0;color:#D0D0D0;background:none;border:0;padding:0;';
+
     const renderPagination = (pages) => {
       if (!pagination) return;
       if (pages <= 1) {
         pagination.innerHTML = '';
         return;
       }
-      let html = '<div class="flex items-center justify-center gap-5 text-[10px] font-normal text-[#6D6D6D]/50">';
-      for (let i = 1; i <= pages; i++) {
-        if (i === state.page) {
-          html += `<span class="relative font-bold text-[#3D3B2F]">${i}<span class="absolute -bottom-1 left-1/2 h-[2px] w-5 -translate-x-1/2 bg-[#3D3B2F]"></span></span>`;
-        } else {
-          html += `<button type="button" data-page="${i}" class="cursor-pointer transition-colors hover:text-[#3D3B2F]">${i}</button>`;
+
+      const keep = new Set([1, pages, state.page - 1, state.page, state.page + 1]);
+      const numbers = [...keep].filter((p) => p >= 1 && p <= pages).sort((a, b) => a - b);
+
+      let cols = '';
+      let prevNum = 0;
+      numbers.forEach((p) => {
+        if (prevNum && p - prevNum > 1) {
+          cols += `<div style="${colStyle}"><span style="font-size:10px;color:rgba(109,109,109,.5)">…</span></div>`;
         }
-      }
-      html += '</div><span class="absolute -bottom-0.5 left-0 h-px w-full bg-[#CCC8A8]"></span>';
-      pagination.innerHTML = html;
+        cols +=
+          p === state.page
+            ? `<div style="${colStyle}"><span style="font-size:10px;color:#3D3B2F">${p}</span><span style="height:2px;width:100%;background:#3D3B2F"></span></div>`
+            : `<div style="${colStyle}"><button type="button" data-page="${p}" class="ania-pg-num" style="cursor:pointer;font-size:10px;color:rgba(109,109,109,.5);background:none;border:0;padding:0;">${p}</button></div>`;
+        prevNum = p;
+      });
+
+      const prevDisabled = state.page <= 1;
+      const nextDisabled = state.page >= pages;
+
+      pagination.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:flex-end;">
+          <div style="display:flex;align-items:center;">
+            <button type="button" data-page="${state.page - 1}" ${prevDisabled ? 'disabled' : ''} aria-label="${pagination.dataset.i18nPrev || 'Previous page'}" class="ania-pg-arrow" style="${arrowStyle}${prevDisabled ? 'cursor:not-allowed;opacity:.4;' : 'cursor:pointer;'}">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 6 8l4 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+            ${cols}
+            <button type="button" data-page="${state.page + 1}" ${nextDisabled ? 'disabled' : ''} aria-label="${pagination.dataset.i18nNext || 'Next page'}" class="ania-pg-arrow" style="${arrowStyle}${nextDisabled ? 'cursor:not-allowed;opacity:.4;' : 'cursor:pointer;'}">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+          </div>
+          <div style="margin-top:4px;height:1px;width:100%;background:#CCC8A8;"></div>
+        </div>
+      `;
     };
 
     let renderToken = 0;

@@ -1,15 +1,16 @@
 {% comment %}
-  Occasions — "Find the Perfect Flowers for Every Moment."
-  Rebuild of src astro/components/sections/Occasions.astro (pixel-by-pixel).
-  Homepage teaser only — the full standalone page lives at
-  snippets/occasions-page.liquid (pages.occasions.url), which this section's
-  "Check Other occasions" button links to.
+  Occasions — "Find the Perfect Flowers for Every Moment." (component-based).
+  Rebuild pakai Component Library:
+    - heading: class .section-heading (dari lib-components.css)
+    - tabs: .tab-card / .tabs / .tab / .tab-panel — perilaku di-handle
+      assets/lib-components.js → initTabs
+    - kartu: lib-picker-card (sama dengan halaman /pages/components)
+    - CTA: markup sama dengan lib-button (.btn btn--primary btn--sm)
+  Script kecil di bawah cuma memperbarui label CTA sesuai tab aktif.
 
-  The Occasions / Category / Flower tabs are functional: each switches to a
-  real, product-backed panel and every link deep-links into the product grid
-  with ?occasion=/?category=/?flower=, which sections/main-products.liquid
-  already reads on load to pre-apply that filter (same mechanism used by the
-  standalone Occasions page).
+  Tab Occasions / Category / Flower tetap fungsional: setiap panel diisi data
+  produk asli dan semua link deep-link ke grid produk dengan
+  ?occasion=/?category=/?flower= (dibaca sections/main-products.liquid).
 {% endcomment %}
 {%- liquid
   assign occasions_url = pages.occasions.url | default: '/pages/occasions'
@@ -42,82 +43,88 @@
 {%- assign flower_list = flower_raw | split: '||' | uniq | sort -%}
 {%- assign flower_top = flower_list | slice: 0, 3 -%}
 
-<section id="occasions" class="bg-[#FAFAF2] pb-[90px] pt-[60px] lg:pb-[110px]">
-  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
-    <h2 class="mx-auto max-w-[620px] text-center font-['Cormorant_Garamond'] text-[32px] font-medium leading-tight text-[#1E2934]">
+{% stylesheet %}
+  #occasions .lib-panel-intro { margin-bottom: var(--space-6); max-width: 630px; }
+  #occasions .lib-panel-empty { margin-top: var(--space-6); color: var(--color-muted); }
+{% endstylesheet %}
+
+<section id="occasions" class="lib-scope" style="background:var(--color-bg); padding-block:60px">
+  <div class="lib-container">
+    <h2 class="section-heading">
       {{ 'occasions.heading' | t }}
-      <span class="mt-1 block font-normal italic">{{ 'occasions.heading_italic' | t }}</span>
+      <span style="display:block; font-style:italic">{{ 'occasions.heading_italic' | t }}</span>
     </h2>
 
-    <div class="relative mt-10 rounded-[6px] border border-[#CCC8A8] px-5 pb-8 pt-6 sm:px-8 lg:px-[30px] lg:pt-7">
+    <div class="tab-card" data-component="tabs" style="margin-top:var(--space-10)">
       {% comment %} Tabs {% endcomment %}
-      <div class="flex items-baseline gap-8 lg:gap-[170px]">
-        <button type="button" data-teaser-tab data-tab="occasions" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]" aria-pressed="true">
+      <div class="">
+        <button type="button" class="tab" data-tab="occasions" aria-pressed="true">
           {{ 'occasions.tab_occasions' | t }}
-          <span class="tab-underline absolute -bottom-2 left-0 h-px w-[118px] bg-[#525252]" aria-hidden="true"></span>
+          <span class="tab__underline" aria-hidden="true"></span>
         </button>
-        <button type="button" data-teaser-tab data-tab="category" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]/55" aria-pressed="false">
+        <button type="button" class="tab" data-tab="category" aria-pressed="false">
           {{ 'occasions.tab_category' | t }}
-          <span class="tab-underline absolute -bottom-2 left-0 hidden h-px w-[118px] bg-[#525252]" aria-hidden="true"></span>
+          <span class="tab__underline" aria-hidden="true"></span>
         </button>
-        <button type="button" data-teaser-tab data-tab="flower" class="relative cursor-pointer border-0 bg-transparent p-0 font-['Crimson_Text'] text-2xl text-[#1E2934]/55" aria-pressed="false">
+        <button type="button" class="tab" data-tab="flower" aria-pressed="false">
           {{ 'occasions.tab_flower' | t }}
-          <span class="tab-underline absolute -bottom-2 left-0 hidden h-px w-[118px] bg-[#525252]" aria-hidden="true"></span>
+          <span class="tab__underline" aria-hidden="true"></span>
         </button>
       </div>
 
       {% comment %} Panel: Occasions (curated cards) {% endcomment %}
-      <div data-teaser-panel data-panel="occasions">
-        <p class="mt-8 max-w-[630px] text-sm font-normal leading-relaxed text-[#525252]">
-          {{ 'occasions.body' | t }}
-        </p>
+      <div class="tab-panel is-active" data-tab-panel="occasions">
+        <p class="lib-panel-intro">{{ 'occasions.body' | t }}</p>
+        {%- liquid
+          assign graduation_href = shop_url | append: '?occasion=Graduation'
+          assign graduation_img = 'occas-graduation.png' | asset_url
+          assign graduation_alt = 'occasions.img_alt_graduation' | t
+          assign graduation_label = 'occasions.card_graduation' | t
+          assign birthday_href = shop_url | append: '?occasion=Birthday'
+          assign birthday_img = 'occas-birthday.png' | asset_url
+          assign birthday_alt = 'occasions.img_alt_birthday' | t
+          assign birthday_label = 'occasions.card_birthday' | t
+          assign valentines_href = shop_url | append: '?occasion=Valentines'
+          assign valentines_img = 'occas-valentines.png' | asset_url
+          assign valentines_alt = 'occasions.img_alt_valentines' | t
+          assign valentines_label = 'occasions.card_valentines' | t
+        -%}
 
-        <div class="mt-6 grid grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
-          {%- liquid
-            assign graduation_href = shop_url | append: '?occasion=Graduation'
-            assign graduation_img = 'occas-graduation.png' | asset_url
-            assign graduation_alt = 'occasions.img_alt_graduation' | t
-            assign graduation_label = 'occasions.card_graduation' | t
-            assign birthday_href = shop_url | append: '?occasion=Birthday'
-            assign birthday_img = 'occas-birthday.png' | asset_url
-            assign birthday_alt = 'occasions.img_alt_birthday' | t
-            assign birthday_label = 'occasions.card_birthday' | t
-            assign valentines_href = shop_url | append: '?occasion=Valentines'
-            assign valentines_img = 'occas-valentines.png' | asset_url
-            assign valentines_alt = 'occasions.img_alt_valentines' | t
-            assign valentines_label = 'occasions.card_valentines' | t
-          -%}
-          {% render 'picker-card', href: graduation_href, image_src: graduation_img, alt: graduation_alt, label: graduation_label, highlighted: true %}
-          {% render 'picker-card', href: birthday_href, image_src: birthday_img, alt: birthday_alt, label: birthday_label, highlighted: false %}
-          {% render 'picker-card', href: valentines_href, image_src: valentines_img, alt: valentines_alt, label: valentines_label, highlighted: false %}
-        </div>
-
-        {% comment %} Pagination (kanan bawah) {% endcomment %}
-        <div class="mt-8 hidden items-center gap-4 lg:absolute lg:bottom-[76px] lg:right-9 lg:mt-0 lg:flex">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M7 2 3 6l4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <div class="relative flex items-baseline gap-2 text-sm text-[#A2A2A2]">
-            <span class="relative font-bold text-[#525252]">
-              1
-              <span class="absolute -bottom-[6px] left-0 h-px w-[20px] bg-[#525252]"></span>
-            </span>
-            <span>2</span>
-            <span>3</span>
+        {% comment %}
+          Navigasi 3 halaman (client-side, tanpa reload) — cuma 3 foto occasion
+          yang ada di assets/, jadi tiap "halaman" nampilin 3 kartu yang sama
+          dengan urutan/highlight dirotasi. Kalau nanti nambah foto occasion
+          baru, tinggal bikin blok data-pagination-panel="3", "4", dst dan
+          update total: di lib-pagination-client.
+        {% endcomment %}
+        <div data-component="pagination">
+          <div class="grid grid--3" data-pagination-panel="0">
+            {% render 'lib-picker-card', href: graduation_href, image_src: graduation_img, alt: graduation_alt, label: graduation_label, highlighted: true %}
+            {% render 'lib-picker-card', href: birthday_href, image_src: birthday_img, alt: birthday_alt, label: birthday_label %}
+            {% render 'lib-picker-card', href: valentines_href, image_src: valentines_img, alt: valentines_alt, label: valentines_label %}
           </div>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="m5 2 4 4-4 4" stroke="#A2A2A2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          <div class="grid grid--3" data-pagination-panel="1" hidden>
+            {% render 'lib-picker-card', href: birthday_href, image_src: birthday_img, alt: birthday_alt, label: birthday_label, highlighted: true %}
+            {% render 'lib-picker-card', href: valentines_href, image_src: valentines_img, alt: valentines_alt, label: valentines_label %}
+            {% render 'lib-picker-card', href: graduation_href, image_src: graduation_img, alt: graduation_alt, label: graduation_label %}
+          </div>
+          <div class="grid grid--3" data-pagination-panel="2" hidden>
+            {% render 'lib-picker-card', href: valentines_href, image_src: valentines_img, alt: valentines_alt, label: valentines_label, highlighted: true %}
+            {% render 'lib-picker-card', href: graduation_href, image_src: graduation_img, alt: graduation_alt, label: graduation_label %}
+            {% render 'lib-picker-card', href: birthday_href, image_src: birthday_img, alt: birthday_alt, label: birthday_label %}
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; margin-top:var(--space-4)">
+            {% render 'lib-pagination-client', total: 3 %}
+          </div>
         </div>
       </div>
 
-      {% comment %} Panel: Category (real product categories, photo cards like the Occasions tab) {% endcomment %}
-      <div data-teaser-panel data-panel="category" class="hidden">
-        <p class="mt-8 max-w-[630px] text-sm font-normal leading-relaxed text-[#525252]">
-          {{ 'occasions.body_category' | t }}
-        </p>
+      {% comment %} Panel: Category (real product categories) {% endcomment %}
+      <div class="tab-panel" data-tab-panel="category">
+        <p class="lib-panel-intro">{{ 'occasions.body_category' | t }}</p>
         {% if category_top.size > 0 %}
-          <div class="mt-6 grid grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
+          <div class="grid grid--3">
             {% for cat in category_top %}
               {% assign cat_image = nil %}
               {% for product in collections.all.products %}
@@ -130,21 +137,19 @@
               {% assign cat_encoded = cat | url_encode %}
               {% assign cat_href = shop_url | append: '?category=' | append: cat_encoded %}
               {% assign cat_image_url = cat_image | image_url: width: 640 %}
-              {% render 'picker-card', href: cat_href, image_src: cat_image_url, alt: cat, label: cat, highlighted: forloop.first %}
+              {% render 'lib-picker-card', href: cat_href, image_src: cat_image_url, alt: cat, label: cat, highlighted: forloop.first %}
             {% endfor %}
           </div>
         {% else %}
-          <p class="mt-6 text-sm text-[#6D6D6D]">{{ 'occasions.empty_category' | t }}</p>
+          <p class="lib-panel-empty">{{ 'occasions.empty_category' | t }}</p>
         {% endif %}
       </div>
 
-      {% comment %} Panel: Flower (real flower/plant types, photo cards like the Occasions tab) {% endcomment %}
-      <div data-teaser-panel data-panel="flower" class="hidden">
-        <p class="mt-8 max-w-[630px] text-sm font-normal leading-relaxed text-[#525252]">
-          {{ 'occasions.body_flower' | t }}
-        </p>
+      {% comment %} Panel: Flower (real flower/plant types) {% endcomment %}
+      <div class="tab-panel" data-tab-panel="flower">
+        <p class="lib-panel-intro">{{ 'occasions.body_flower' | t }}</p>
         {% if flower_top.size > 0 %}
-          <div class="mt-6 grid grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
+          <div class="grid grid--3">
             {% for f in flower_top %}
               {% assign f_image = nil %}
               {% for product in collections.all.products %}
@@ -167,57 +172,56 @@
               {% assign f_encoded = f | url_encode %}
               {% assign f_href = shop_url | append: '?flower=' | append: f_encoded %}
               {% assign f_image_url = f_image | image_url: width: 640 %}
-              {% render 'picker-card', href: f_href, image_src: f_image_url, alt: f, label: f, highlighted: forloop.first %}
+              {% render 'lib-picker-card', href: f_href, image_src: f_image_url, alt: f, label: f, highlighted: forloop.first %}
             {% endfor %}
           </div>
         {% else %}
-          <p class="mt-6 text-sm text-[#6D6D6D]">{{ 'occasions.empty_flower' | t }}</p>
+          <p class="lib-panel-empty">{{ 'occasions.empty_flower' | t }}</p>
         {% endif %}
       </div>
+    </div>
 
-      <div class="mt-8 flex justify-center lg:mt-10">
-        <a
-          href="{{ occasions_url }}"
-          data-teaser-cta
-          data-label-occasions="{{ 'occasions.check_other' | t }}"
-          data-label-category="{{ 'occasions.check_other_category' | t }}"
-          data-label-flower="{{ 'occasions.check_other_flower' | t }}"
-          class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
-        >
-          {{ 'occasions.check_other' | t }}
-        </a>
-      </div>
+    <div style="margin-top:var(--space-10); text-align:center">
+      {% comment %} Markup sama dengan lib-button (btn btn--primary btn--sm); perlu data-label-* untuk script di bawah. {% endcomment %}
+      <a
+        href="{{ occasions_url }}"
+        data-teaser-cta
+        data-label-occasions="{{ 'occasions.check_other' | t }}"
+        data-label-category="{{ 'occasions.check_other_category' | t }}"
+        data-label-flower="{{ 'occasions.check_other_flower' | t }}"
+        class="btn btn--primary btn--sm"
+      >{{ 'occasions.check_other' | t }}</a>
     </div>
   </div>
 </section>
 
 <script>
-  // Occasions / Category / Flower tabs — switches which real, product-backed
-  // panel is shown. Every link inside a panel deep-links into the product
-  // grid (?occasion=/?category=/?flower=), which main-products.liquid reads
-  // on load to pre-apply that filter.
+  // Perilaku tab (aria-pressed + tampil/sembunyi panel) di-handle
+  // lib-components.js → initTabs. Script ini cuma memperbarui label CTA.
   (() => {
-    const tabs = Array.from(document.querySelectorAll('[data-teaser-tab]'));
-    const panels = Array.from(document.querySelectorAll('[data-teaser-panel]'));
+    const tabs = Array.from(document.querySelectorAll('#occasions [data-tab]'));
     const cta = document.querySelector('[data-teaser-cta]');
-    if (!tabs.length) return;
-
-    const activate = (name) => {
-      tabs.forEach((tab) => {
-        const active = tab.dataset.tab === name;
-        tab.setAttribute('aria-pressed', String(active));
-        tab.classList.toggle('text-[#1E2934]', active);
-        tab.classList.toggle('text-[#1E2934]/55', !active);
-        tab.querySelector('.tab-underline')?.classList.toggle('hidden', !active);
-      });
-      panels.forEach((panel) => panel.classList.toggle('hidden', panel.dataset.panel !== name));
-      if (cta) {
-        const label = cta.dataset[`label${name.charAt(0).toUpperCase()}${name.slice(1)}`];
-        if (label) cta.textContent = label;
-      }
+    if (!tabs.length || !cta) return;
+    const update = (name) => {
+      const key = `label${name.charAt(0).toUpperCase()}${name.slice(1)}`;
+      const label = cta.dataset[key];
+      if (label) cta.textContent = label;
     };
+    tabs.forEach((tab) => tab.addEventListener('click', () => update(tab.dataset.tab)));
+  })();
 
-    tabs.forEach((tab) => tab.addEventListener('click', () => activate(tab.dataset.tab)));
+  // Perilaku pagination (aktif/disabled + dispatch event) di-handle
+  // lib-components.js → initPagination. Script ini cuma toggle panel kartu
+  // mana yang tampil sesuai halaman yang diklik.
+  (() => {
+    const root = document.querySelector('#occasions [data-component="pagination"]');
+    if (!root) return;
+    const panels = Array.from(root.querySelectorAll('[data-pagination-panel]'));
+    root.addEventListener('pagination:change', (e) => {
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.paginationPanel !== String(e.detail.index);
+      });
+    });
   })();
 </script>
 

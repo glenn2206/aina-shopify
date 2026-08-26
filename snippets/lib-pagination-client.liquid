@@ -1,0 +1,35 @@
+{% comment %}
+  [Component Library] Pagination — versi CLIENT-SIDE (tanpa reload), dipakai
+  buat navigasi antar-set kartu kurasi statis (mis. panel "Find the Perfect
+  Flowers for Every Moment" — bukan collection asli, jadi tidak ada
+  `paginate` object Shopify). Untuk pagination collection asli pakai
+  lib-pagination-bar.liquid, untuk pagination link ?page=N pakai
+  lib-pagination.liquid.
+
+  Params:
+    total  — jumlah halaman (required, integer)
+
+  Cara pakai: bungkus grup kartu dengan [data-pagination-panel="0"],
+  [data-pagination-panel="1"], dst, lalu render ini SEBAGAI SIBLING (bukan di
+  dalamnya) dengan wrapper luar ber-data-component="pagination". Section
+  perlu skrip kecil sendiri dengar 'pagination:change' buat toggle panel
+  (lihat sections/main-occasions.liquid untuk contoh nyata).
+
+  Usage:
+    <div data-component="pagination">
+      <div data-pagination-panel="0">...</div>
+      <div data-pagination-panel="1" hidden>...</div>
+      {% render 'lib-pagination-client', total: 2 %}
+    </div>
+{% endcomment %}
+<nav class="pagination" aria-label="Pagination">
+  <button type="button" class="pagination__arrow" data-pagination-prev aria-label="Previous page">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M7 2 3 6l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  {% for i in (1..total) %}
+    <button type="button" class="pagination__item{% if forloop.first %} pagination__item--current{% endif %}" data-pagination-index="{{ forloop.index0 }}">{{ i }}</button>
+  {% endfor %}
+  <button type="button" class="pagination__arrow" data-pagination-next aria-label="Next page">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m5 2 4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</nav>

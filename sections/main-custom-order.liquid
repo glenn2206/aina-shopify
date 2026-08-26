@@ -1,35 +1,41 @@
-{% comment %}
-  Custom Order — "Have Something Special in Mind?" (Figma node 137:1006).
-  Rebuild of src astro/components/sections/CustomOrder.astro (pixel-by-pixel).
-{% endcomment %}
 {%- liquid
   assign co_link = section.settings.link | default: routes.root_url
+  assign co_eyebrow = 'custom_order.eyebrow' | t
+  assign co_cta_label = 'custom_order.cta' | t
+  assign co_cta_href = co_link | append: '#contact'
 -%}
 
-<section id="contact" class="bg-[#FAFAF2] py-[60px] lg:py-[90px]">
-  <div class="mx-auto grid w-full max-w-[1440px] grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-[50px] lg:px-[70px]">
-    <div class="relative">
+{% stylesheet %}
+  #contact .co-grid { display: grid; grid-template-columns: 1fr; align-items: center; gap: var(--space-10); }
+  #contact .co-heading { font-family: var(--font-heading); font-size: clamp(2.25rem, 1.9rem + 1.6vw, 3.75rem); line-height: 1.12; color: var(--color-heading); margin-top: var(--space-6); }
+  #contact .co-body { margin-top: var(--space-8); max-width: 449px; }
+  #contact .co-media { display: block; width: 100%; height: auto; object-fit: cover; }
+  #contact .co-cta { margin-top: var(--space-8); }
+  @media (min-width: 1024px) {
+    #contact .co-grid { grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+  }
+{% endstylesheet %}
+
+<section id="contact" class="lib-scope" style="background:var(--color-bg); padding-block:60px">
+  <div class="lib-container co-grid">
+    <div>
       <img
+        class="co-media"
         src="{{ 'custom.png' | asset_url }}"
         alt="{{ 'custom_order.img_alt' | t }}"
-        class="w-full object-cover"
         width="1538"
         height="992"
         loading="lazy"
       >
     </div>
 
-    <div class="max-w-[535px]">
-      <p class="text-[13px] font-semibold uppercase tracking-[5.6px] text-[#525252] sm:text-[14px]">{{ 'custom_order.eyebrow' | t }}</p>
-      <h2 class="mt-6 font-['Cormorant_Garamond'] text-4xl font-normal leading-[1.12] text-[#525252] sm:text-5xl lg:text-[60px]">{{ 'custom_order.heading' | t }}</h2>
-      <p class="mt-7 max-w-[449px] text-sm font-normal leading-relaxed text-[#525252]">{{ 'custom_order.body' | t }}</p>
-
-      <a
-        href="{{ co_link }}#contact"
-        class="mt-9 flex h-9 w-fit items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-white transition-colors duration-200 hover:bg-[#7a8c6b]"
-      >
-        {{ 'custom_order.cta' | t }}
-      </a>
+    <div style="max-width:535px">
+      {% render 'lib-badge', label: co_eyebrow, type: 'eyebrow' %}
+      <h2 class="co-heading">{{ 'custom_order.heading' | t }}</h2>
+      <p class="co-body">{{ 'custom_order.body' | t }}</p>
+      <div class="co-cta">
+        {% render 'lib-button', href: co_cta_href, label: co_cta_label, variant: 'primary', size: 'sm' %}
+      </div>
     </div>
   </div>
 </section>

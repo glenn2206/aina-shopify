@@ -72,7 +72,7 @@
       {% comment %} Kanan: title/price + delivery + CTA {% endcomment %}
       <div class="flex flex-col gap-5">
         {% comment %} Title & price card {% endcomment %}
-        <div class="rounded-lg border border-[#CCC8A8] bg-white p-6 text-center shadow-[0_1px_3px_rgba(61,59,47,0.06)]">
+        <div class="rounded-lg border border-[#CCC8A8] p-6 text-center shadow-[0_1px_3px_rgba(61,59,47,0.06)]">
           <h1 class="font-['Crimson_Text'] text-2xl text-[#3D3B2F]">{{ product.title }}</h1>
           <span class="mt-3 inline-block rounded-full border border-[#EAE8E8] px-4 py-1 text-xs text-[#3D3B2F]">{{ product.type | default: flowers_fallback }}</span>
           <p class="mt-3 font-['Crimson_Text'] text-xl text-[#3D3B2F]" data-product-price-display>
@@ -120,7 +120,7 @@
 
 
         {% comment %} Delivery information {% endcomment %}
-        <div class="rounded-lg border border-[#CCC8A8] bg-white p-5 shadow-[0_1px_3px_rgba(61,59,47,0.06)] sm:p-6">
+        <div class="rounded-lg border border-[#CCC8A8] p-5 shadow-[0_1px_3px_rgba(61,59,47,0.06)] sm:p-6">
           <h2 class="font-['Crimson_Text'] text-lg text-[#3D3B2F]">{{ 'product_details.delivery_information' | t }}</h2>
 
           <div class="mt-4 grid grid-cols-2 gap-3">
@@ -137,7 +137,7 @@
           <div data-delivery-panel>
             <p class="mt-5 text-xs text-[#6D6D6D]">{{ 'product_details.delivery_city' | t }}</p>
             <div class="relative mt-2">
-              <select class="w-full appearance-none rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 pr-9 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 focus:border-[#3D3B2F]">
+              <select class="w-full appearance-none rounded-lg border border-[#CCC8A8] px-3.5 py-2.5 pr-9 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 focus:border-[#3D3B2F]">
                 <option>{{ 'product_details.select_city' | t }}</option>
                 {% for city in cities_list %}<option>{{ city }}</option>{% endfor %}
               </select>
@@ -164,15 +164,15 @@
           <div class="mt-5 space-y-3 border-t border-[#EAE8E8] pt-5">
             <div>
               <label for="sender-name" class="text-xs text-[#6D6D6D]">{{ 'product_details.sender_name' | t }}</label>
-              <input id="sender-name" type="text" placeholder="{{ 'product_details.sender_name_placeholder' | t }}" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
+              <input id="sender-name" type="text" placeholder="{{ 'product_details.sender_name_placeholder' | t }}" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
             </div>
             <div>
               <label for="sender-wa" class="text-xs text-[#6D6D6D]">{{ 'product_details.sender_wa' | t }}</label>
-              <input id="sender-wa" type="text" placeholder="{{ 'product_details.sender_wa_placeholder' | t }}" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
+              <input id="sender-wa" type="text" placeholder="{{ 'product_details.sender_wa_placeholder' | t }}" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
             </div>
             <div>
               <label for="sender-email" class="text-xs text-[#6D6D6D]">{{ 'product_details.sender_email' | t }}</label>
-              <input id="sender-email" type="email" placeholder="{{ 'product_details.sender_email_placeholder' | t }}" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] bg-white px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
+              <input id="sender-email" type="email" placeholder="{{ 'product_details.sender_email_placeholder' | t }}" class="mt-1.5 w-full rounded-lg border border-[#CCC8A8] px-3.5 py-2.5 text-sm text-[#3D3B2F] outline-none transition-colors duration-150 placeholder:text-[#A2A2A2] focus:border-[#3D3B2F]">
             </div>
           </div>
         </div>
@@ -207,12 +207,72 @@
     <section class="mt-20 lg:mt-28">
       <h2 class="text-center font-['Crimson_Text'] text-3xl text-[#3D3B2F]">{{ 'product_details.you_may_also_like' | t }}</h2>
       <div class="mt-10 grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
-        {% for rp in related limit: 4 %}
+        {% for rp in collections['all'].products limit: 4 %}
           {% render 'product-card', product: rp %}
         {% endfor %}
       </div>
       <div class="mt-10 flex justify-center">
         <a href="{{ routes.all_products_collection_url }}" class="flex h-10 items-center justify-center rounded-full bg-[#BBCCBF] px-8 text-xs font-semibold uppercase tracking-[1px] text-white outline-none transition-colors duration-200 hover:bg-[#A8BCAE] focus-visible:ring-2 focus-visible:ring-[#3D3B2F] focus-visible:ring-offset-2">{{ 'product_details.view_all' | t }}</a>
+      </div>
+    </section>
+
+    {% comment %} You may also like {% endcomment %}
+    <section class="mt-20 lg:mt-28">
+      <h2 class="text-center font-['Crimson_Text'] text-3xl text-[#3D3B2F]">{{ 'Add On Cute Extras to Your Bouquet!' }}</h2>
+      <div class="mt-10 grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+        {% assign addon_count = 0 %}
+        {% for product in collections['all'].products %}
+          {% if product.category.name contains 'Add-on' or product.category.name contains 'Customization' %}
+          {% if addon_count < 4 %}
+            <div
+              style="display: flex; flex-direction: column; justify-content: space-between; padding: 15px; border: 1px solid {{ card_border_color | default: '#E0E0E0' }}; border-radius: 8px; min-height: 382px; background: transparent; box-sizing: border-box;"
+              {{ block.shopify_attributes }}>
+              {%- comment -%} Gambar Produk {%- endcomment -%}
+              <div
+                style="width: 100%; aspect-ratio: 1/1; border-radius: 8px; overflow: hidden; background-color: #EBE8D8; margin-bottom: 16px;">
+                {%- assign featured_img = product.featured_image | default: product.images.first -%}
+                {% if featured_img != blank %}
+                <img src="{{ featured_img | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy"
+                  style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                <div
+                  style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #8C886B; font-family: sans-serif;">
+                  {{ product.title | default: 'Add-on' }}
+                </div>
+                {% endif %}
+              </div>
+      
+              {%- comment -%} Detail Produk & Tombol {%- endcomment -%}
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%;">
+                <div>
+                  <h3
+                    style="color: {{ title_font_color | default: '#1E2934' }}; font-family: 'Crimson Text', serif; font-size: 20px; font-weight: 400; margin: 0 0 4px 0;">
+                    {{ product.title }}
+                  </h3>
+                  <span style="color: #1E2934; font-family: 'Open Sans', sans-serif; font-size: 16px;">
+                    {{ product.price | money }}
+                  </span>
+                </div>
+      
+                {%- comment -%} Tombol Add to Cart / Select Variant {%- endcomment -%}
+                {% assign current_variant = product.selected_or_first_available_variant %}
+                <button type="button" class="js-add-addon-btn" data-variant-id="{{ current_variant.id }}" {% unless
+                  product.available %}disabled{% endunless %}
+                  style="width: 24px; height: 24px; border-radius: 50%; background-color: {% if product.available %}#CCC8A8{% else %}#E0E0E0{% endif %}; border: none; color: white; display: flex; align-items: center; justify-content: center; cursor: {% if product.available %}pointer{% else %}not-allowed{% endif %}; opacity: {% if product.available %}1{% else %}0.5{% endif %}; padding: 0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 5v14m-7-7h14" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          {% assign addon_count = addon_count | plus: 1 %}
+          {% else %}
+            {% break %} {% comment %} Hentikan loop jika sudah mencapai 3 produk {% endcomment %}
+          {% endif %}
+  
+  
+        {% endif %}
+        {% endfor %}
       </div>
     </section>
 
@@ -222,32 +282,32 @@
       <h2 class="text-center font-['Crimson_Text'] text-3xl text-[#3D3B2F]">{{ 'product_details.care_instructions' | t }}</h2>
       <div class="mt-10 grid grid-cols-1 border-l border-t border-[#CCC8A8] sm:grid-cols-2 lg:grid-cols-3">
         <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M25.0437 11.3166H22.9619V6.72827H25.0437V11.3166Z" fill="#3D3B2F"/><path d="M25.0437 41.2697H22.9619V36.6814H25.0437V41.2697Z" fill="#3D3B2F"/><path d="M41.2758 25.0433H36.6875V22.9551H41.2758V25.0433Z" fill="#3D3B2F"/><path d="M11.32 25.0433H6.72852V22.9551H11.32V25.0433Z" fill="#3D3B2F"/><path d="M23.9952 33.5534C21.5175 33.5534 19.1706 32.6178 17.3826 30.884C15.5434 29.1183 14.4993 26.7332 14.4514 24.182C14.3971 21.634 15.3455 19.2137 17.1112 17.3746C18.8801 15.5322 21.2589 14.4913 23.8068 14.4434C24.455 14.4306 25.1064 14.4785 25.7418 14.5967L25.3618 16.6498C24.8637 16.5635 24.356 16.5188 23.8515 16.5316C21.8591 16.5699 20.0008 17.3873 18.6151 18.821C17.2389 20.261 16.4949 22.1513 16.5364 24.1469C16.5779 26.1425 17.389 27.9976 18.8258 29.3801C20.2626 30.7659 22.1625 31.5003 24.1485 31.4652C26.1409 31.4268 28.0056 30.6094 29.385 29.1694C30.7707 27.7326 31.5083 25.8423 31.4732 23.8467C31.4221 21.6276 30.4067 19.5554 28.6666 18.1664L29.9757 16.538C32.1916 18.3197 33.5039 20.9667 33.5582 23.8084C33.6125 26.3596 32.6674 28.7767 30.8953 30.6158C29.1231 32.455 26.7444 33.4959 24.1932 33.5534H23.9952Z" fill="#3D3B2F"/><path d="M33.7105 15.7705L32.2354 14.2922L35.4826 11.0481L36.9578 12.5201L33.7105 15.7705Z" fill="#3D3B2F"/><path d="M12.5323 36.9487L11.0508 35.4736L14.3012 32.2263L15.7796 33.7015L12.5323 36.9487Z" fill="#3D3B2F"/><path d="M35.4826 36.9487L32.2354 33.7015L33.7105 32.2263L36.9578 35.4736L35.4826 36.9487Z" fill="#3D3B2F"/><path d="M14.3012 15.7705L11.0508 12.5201L12.5323 11.0481L15.7796 14.2922L14.3012 15.7705Z" fill="#3D3B2F"/><path d="M24.0016 2.08821C11.9226 2.08821 2.0914 11.9162 2.0914 23.9952C2.0914 36.0774 11.9226 45.9054 24.0016 45.9054C36.0806 45.9054 45.9118 36.0774 45.9118 23.9952C45.9118 11.9162 36.0806 2.08821 24.0016 2.08821ZM24.0016 47.9936C10.7667 47.9936 0 37.2301 0 23.9952C0 10.7699 10.7667 0 24.0016 0C37.2365 0 48 10.7699 48 23.9952C48 37.2301 37.2365 47.9936 24.0016 47.9936Z" fill="#3D3B2F"/><path d="M24.0021 16.55C19.896 16.55 16.5561 19.8899 16.5561 23.996C16.5561 28.099 19.896 31.4388 24.0021 31.4388C28.1083 31.4388 31.4481 28.099 31.4481 23.996C31.4481 19.8899 28.1083 16.55 24.0021 16.55ZM24.0021 33.6707C18.6635 33.6707 14.3242 29.3315 14.3242 23.996C14.3242 18.6574 18.6635 14.3181 24.0021 14.3181C29.3408 14.3181 33.68 18.6574 33.68 23.996C33.68 29.3315 29.3408 33.6707 24.0021 33.6707Z" fill="#3D3B2F"/></svg>
           <p class="text-sm font-semibold text-[#3D3B2F]">{{ 'product_details.care_1_title' | t }}</p>
           <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'product_details.care_1_text' | t }}</p>
         </div>
         <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M12 3s6 7.2 6 11a6 6 0 0 1-12 0c0-3.8 6-11 6-11Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24.0016 2.08967C11.9196 2.08967 2.08967 11.9164 2.08967 23.9984C2.08967 36.0804 11.9196 45.9103 24.0016 45.9103C36.0804 45.9103 45.9135 36.0804 45.9135 23.9984C45.9135 11.9164 36.0804 2.08967 24.0016 2.08967ZM24.0016 47.9969C10.7701 47.9969 0 37.2299 0 23.9984C0 10.7638 10.7701 0 24.0016 0C37.233 0 48 10.7638 48 23.9984C48 37.2299 37.233 47.9969 24.0016 47.9969Z" fill="#3D3B2F"/><path d="M14.1324 35.0732L13.489 36.3132C13.4202 36.4382 13.3859 36.5631 13.389 36.6912C13.389 36.8911 13.4671 37.0754 13.6139 37.2159C13.7576 37.3503 13.945 37.4315 14.1449 37.4221C14.3761 37.4159 14.5385 37.3128 14.6322 37.2253C14.6416 37.2191 14.854 37.0129 14.8758 36.7162C14.8727 36.5475 14.8446 36.4382 14.7759 36.3164L14.1324 35.0732ZM14.1262 39.5087C13.3953 39.5087 12.6987 39.2307 12.1646 38.7184C11.6211 38.1936 11.3149 37.4877 11.2993 36.7287C11.29 36.2414 11.4118 35.7541 11.6523 35.3137L14.1324 30.5315L16.5875 35.2731C16.8312 35.7166 16.9561 36.1602 16.9624 36.6225C16.9655 36.7037 16.9624 36.7849 16.9561 36.863C16.8749 38.0187 16.1065 38.709 16.0191 38.7871C15.5349 39.2338 14.8727 39.4962 14.1855 39.5087H14.1262Z" fill="#3D3B2F"/><path d="M28.9216 11.3261L34.0474 15.2774L32.7698 16.9329L26.1416 11.8196L26.5602 11.0418C26.8069 10.5858 27.0756 10.2172 27.3848 9.90796" fill="#3D3B2F"/><path d="M32.7682 16.9324L26.8428 12.3626L28.1172 10.7102L34.0426 15.2769L32.7682 16.9324Z" fill="#3D3B2F"/><path d="M12.9803 29.1372L12.6836 18.2078L17.3096 20.8409L19.3962 20.3162L17.6095 18.0828C17.2097 17.6518 16.7224 16.6959 17.5095 14.9124C17.9812 13.8504 18.8245 12.679 19.8772 11.6201C21.3484 10.1552 23.4974 8.65898 25.1841 8.84015L24.9624 10.9142C24.4345 10.858 22.957 11.4983 21.3546 13.0945C19.5617 14.8874 19.0838 16.4023 19.1775 16.7303L23.0539 21.5281L17.0066 23.0712L14.8701 21.8592L14.9607 25.0047L16.5756 23.7646L25.0717 24.3581L26.5866 26.3291C27.0177 26.5633 29.2198 25.8574 31.6687 23.4085C34.1207 20.9596 34.8235 18.7544 34.5892 18.3296L32.7744 16.9333L34.0426 15.2778L36.0511 16.8303C37.8221 18.5982 35.7887 22.2497 33.1461 24.886C31.7874 26.2416 30.3006 27.3161 28.9356 27.9158C26.6928 28.9091 25.5652 28.2626 25.0936 27.7909L25.0061 27.6878L23.9909 26.3759L17.219 25.9074L12.9803 29.1372Z" fill="#3D3B2F"/><path d="M34.9031 16.2676L33.0852 15.0463C33.3882 14.6028 33.5444 14.0811 33.5444 13.5439C33.5444 12.0602 32.3387 10.8545 30.855 10.8545C30.0835 10.8545 29.3494 11.1856 28.8403 11.7634L27.1973 10.3172C28.125 9.2677 29.4587 8.66797 30.855 8.66797C33.5412 8.66797 35.7309 10.8576 35.7309 13.5439C35.7309 14.5153 35.4435 15.4586 34.9031 16.2676Z" fill="#3D3B2F"/><path d="M24.9635 10.9144L26.8439 12.3637H29.5833L25.1853 8.84033L24.2139 9.76179L24.9635 10.9144Z" fill="#3D3B2F"/></svg>
           <p class="text-sm font-semibold text-[#3D3B2F]">{{ 'product_details.care_2_title' | t }}</p>
           <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'product_details.care_2_text' | t }}</p>
         </div>
         <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M12 3c3.5 4.6 6 7.4 6 10.5A6 6 0 0 1 6 13.5C6 10.4 8.5 7.6 12 3Zm0 5.5c1.8 2.4 3 3.9 3 5.5a3 3 0 0 1-6 0c0-1.6 1.2-3.1 3-5.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M26.3477 25.6562C24.8047 25.6562 23.3366 25.0658 22.2277 24.0288C21.1251 25.0658 19.657 25.6562 18.114 25.6562C16.5709 25.6562 15.0997 25.0658 13.9971 24.0288C12.8851 25.0658 11.4233 25.6562 9.88023 25.6562C8.33094 25.6562 6.86598 25.0658 5.75711 24.0288C4.65761 25.0658 3.18953 25.6562 1.64648 25.6562V23.5634C2.94902 23.5634 4.16096 22.9262 4.90125 21.8454L5.75711 20.5835L6.62547 21.8454C7.36263 22.9262 8.5777 23.5634 9.88023 23.5634C11.1828 23.5634 12.3947 22.9262 13.135 21.8454L13.9971 20.5835L14.8561 21.8454C15.5964 22.9262 16.8114 23.5634 18.114 23.5634C19.4134 23.5634 20.6316 22.9262 21.3687 21.8454L22.2277 20.5835L23.093 21.8454C23.8301 22.9262 25.0452 23.5634 26.3477 23.5634V25.6562Z" fill="#3D3B2F"/><path d="M42.8171 25.6562C41.2741 25.6562 39.806 25.0658 38.7034 24.0288C37.5945 25.0658 36.1295 25.6562 34.5865 25.6562C33.0372 25.6562 31.5754 25.0658 30.4665 24.0288C29.3607 25.0658 27.8927 25.6562 26.3496 25.6562V23.5634C27.6521 23.5634 28.8672 22.9262 29.6044 21.8454L30.4665 20.5835L31.3255 21.8454C32.0658 22.9262 33.2839 23.5634 34.5865 23.5634C35.8828 23.5634 37.0978 22.9262 37.835 21.8454L38.7034 20.5835L39.5623 21.8454C40.2995 22.9262 41.5146 23.5634 42.8171 23.5634V25.6562Z" fill="#3D3B2F"/><path d="M42.8145 25.6565V23.5637C44.117 23.5637 45.3383 22.9265 46.0723 21.8457L47.7934 23.0264C46.6721 24.6725 44.8073 25.6565 42.8145 25.6565Z" fill="#3D3B2F"/><path d="M24.0016 2.08682C11.9196 2.08682 2.08967 11.918 2.08967 24.0016C2.08967 36.082 11.9196 45.9132 24.0016 45.9132C36.0804 45.9132 45.9135 36.082 45.9135 24.0016C45.9135 11.918 36.0804 2.08682 24.0016 2.08682ZM24.0016 48C10.7701 48 0 37.2379 0 24.0016C0 10.7652 10.7701 0 24.0016 0C37.233 0 48 10.7652 48 24.0016C48 37.2379 37.233 48 24.0016 48Z" fill="#3D3B2F"/></svg>
           <p class="text-sm font-semibold text-[#3D3B2F]">{{ 'product_details.care_3_title' | t }}</p>
           <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'product_details.care_3_text' | t }}</p>
         </div>
         <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M4 9.5h16V15a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V9.5Zm4 0V7a2 2 0 0 1 4 0v2.5m2 0V6a2 2 0 0 1 4 0v3.5M8.5 13.5h.01M12 15h.01M15.5 13.5h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M23.995 25.7699C22.277 25.7699 20.6559 25.1171 19.4095 23.9208C18.1351 22.6963 17.4198 21.0408 17.3823 19.2791C17.3574 18.1203 17.6478 16.9896 18.2351 15.9307C18.5193 15.4278 19.1565 15.2466 19.6594 15.5277C20.1623 15.8089 20.3435 16.4492 20.0624 16.949C19.6501 17.6799 19.4502 18.4483 19.472 19.2354C19.4939 20.4442 19.9874 21.5719 20.8589 22.4152C21.7304 23.2555 22.8892 23.7271 24.0887 23.6834C25.3006 23.6522 26.4251 23.1586 27.2685 22.2872C28.1025 21.4125 28.5585 20.2662 28.5304 19.0605C28.5179 18.339 28.318 17.633 27.9338 16.949C27.6527 16.4492 27.8338 15.812 28.3367 15.5277C28.8427 15.2529 29.4768 15.4278 29.7611 15.9307C30.3077 16.9177 30.5982 17.9485 30.6169 19.0168C30.6544 20.7785 29.9985 22.4558 28.7709 23.7334C27.5465 25.0078 25.9003 25.7262 24.1293 25.7699H23.995Z" fill="#3D3B2F"/><path d="M28.8763 17.485C28.4203 17.485 28.0267 17.1914 27.883 16.7822L24.0035 9.33562L20.1334 16.7822C19.9897 17.1914 19.6087 17.485 19.1526 17.485C18.784 17.485 18.4342 17.2945 18.2468 16.9853C18.0594 16.6729 18.0313 16.2825 18.203 15.9607L23.0758 6.59C23.435 5.89969 24.5689 5.89969 24.9312 6.59L29.804 15.9607C29.9758 16.2825 29.9633 16.6729 29.7728 16.9853C29.5822 17.2945 29.2449 17.485 28.8763 17.485Z" fill="#3D3B2F"/><path d="M23.9984 2.0928C11.9196 2.0928 2.08967 11.9164 2.08967 24.0016C2.08967 36.0804 11.9196 45.9072 23.9984 45.9072C36.0804 45.9072 45.9135 36.0804 45.9135 24.0016C45.9135 11.9164 36.0804 2.0928 23.9984 2.0928ZM23.9984 48C10.7701 48 0 37.2393 0 24.0016C0 10.767 10.7701 0 23.9984 0C37.2299 0 48 10.767 48 24.0016C48 37.2393 37.2299 48 23.9984 48Z" fill="#3D3B2F"/><path d="M43.6943 36.8548H4.74328C4.16854 36.8548 3.70312 36.3863 3.70312 35.8053C3.70312 35.2305 4.16854 34.7651 4.74328 34.7651H43.6943C44.2721 34.7651 44.7375 35.2305 44.7375 35.8053C44.7375 36.3863 44.2721 36.8548 43.6943 36.8548Z" fill="#3D3B2F"/><path d="M45.4439 31.5013H2.23859C1.66073 31.5013 1.19531 31.0391 1.19531 30.4581C1.19531 29.8833 1.66073 29.4148 2.23859 29.4148H45.4439C46.0218 29.4148 46.4903 29.8833 46.4903 30.4581C46.4903 31.0391 46.0218 31.5013 45.4439 31.5013Z" fill="#3D3B2F"/></svg>
           <p class="text-sm font-semibold text-[#3D3B2F]">{{ 'product_details.care_4_title' | t }}</p>
           <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'product_details.care_4_text' | t }}</p>
         </div>
         <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M6 7.5a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5Zm0 12a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5ZM20 4 8.3 10.1M20 20 8.3 13.9M13.5 12h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M33.8327 17.1544C31.2214 20.1624 29.0412 23.8201 27.3451 28.0057C26.3892 30.1828 24.4151 31.6634 22.0662 31.9726H22.0631C21.9819 31.982 21.8944 31.9914 21.807 31.9976C21.0417 32.0663 19.7392 32.0195 18.321 31.3479C20.7949 22.4801 27.7636 18.5162 28.1416 18.307L27.142 16.4766C27.0421 16.5297 19.4799 20.7808 16.525 30.1328C15.3443 28.9927 14.5915 27.4497 14.4666 25.7848C14.4041 24.9602 14.5009 24.1324 14.7289 23.3672C14.8539 23.0142 14.9882 22.6581 15.1444 22.3145C17.84 16.1173 24.1996 12.2347 30.9465 12.6658C32.0429 12.7314 33.1518 12.925 34.3325 13.2624C35.2071 13.5154 36.0411 13.8246 36.8282 14.1901C36.0473 14.8398 35.0009 15.8081 33.8327 17.1544ZM39.3084 13.1406C37.9808 12.3441 36.4971 11.7131 34.901 11.2539C33.5766 10.8791 32.324 10.6573 31.0746 10.5792C23.4718 10.1013 16.2782 14.4806 13.2234 21.4836C13.0578 21.8741 12.9016 22.2677 12.7486 22.7175C12.4237 23.7701 12.3019 24.8571 12.3863 25.941C12.5549 28.2462 13.6669 30.3515 15.3755 31.8633L15.3537 31.8976C15.3537 31.8976 15.5598 32.0913 15.9315 32.3599C15.4005 34.8244 15.1912 37.5919 15.4911 40.6811L17.5714 40.4812C17.3184 37.8574 17.4652 35.5116 17.8525 33.3907C18.8864 33.7999 20.2296 34.1029 21.8476 34.0435L21.8507 34.0904C22.0162 34.0779 22.1787 34.0623 22.3348 34.0373C25.4178 33.6406 28.0073 31.7009 29.2348 28.8928L29.2817 28.7991C30.8872 24.8103 32.9519 21.3556 35.407 18.5225C37.5904 16.008 39.3021 14.9398 39.3146 14.9273L40.7889 14.0339L39.3084 13.1406Z" fill="#3D3B2F"/><path d="M23.9984 45.9103C11.9196 45.9103 2.08967 36.0804 2.08967 23.9953C2.08967 11.9133 11.9196 2.08967 23.9984 2.08967C36.0804 2.08967 45.9135 11.9133 45.9135 23.9953C45.9135 36.0804 36.0804 45.9103 23.9984 45.9103ZM23.9984 0C10.767 0 0 10.7638 0 23.9953C0 37.2299 10.767 47.9969 23.9984 47.9969C37.2299 47.9969 48 37.2299 48 23.9953C48 10.7638 37.2299 0 23.9984 0Z" fill="#3D3B2F"/></svg>
           <p class="text-sm font-semibold text-[#3D3B2F]">{{ 'product_details.care_5_title' | t }}</p>
           <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'product_details.care_5_text' | t }}</p>
         </div>
         <div class="flex flex-col items-center gap-3 border-b border-r border-[#CCC8A8] p-8 text-center">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-[#3D3B2F]"><path d="M9 3l-.7 3m7.4-3l.7 3M4 6h16l-1.2 12a2 2 0 0 1-2 1.8H7.2A2 2 0 0 1 5.2 18L4 6Zm3.5 6.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm7 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24.0016 2.08682C11.9196 2.08682 2.08967 11.918 2.08967 24.0016C2.08967 36.082 11.9196 45.9132 24.0016 45.9132C36.0804 45.9132 45.9135 36.082 45.9135 24.0016C45.9135 11.918 36.0804 2.08682 24.0016 2.08682ZM24.0016 48C10.7701 48 0 37.2379 0 24.0016C0 10.7652 10.7701 0 24.0016 0C37.2299 0 48 10.7652 48 24.0016C48 37.2379 37.2299 48 24.0016 48Z" fill="#3D3B2F"/><path d="M33.3281 14.36C33.806 14.7067 34.2308 15.1378 34.5776 15.6221C34.9305 15.1378 35.3491 14.7067 35.8364 14.36C35.3491 14.0132 34.9305 13.5883 34.5776 13.1072C34.2308 13.5883 33.806 14.0132 33.3281 14.36ZM35.6271 19.8925H33.5374L33.528 18.8491C33.528 17.0497 32.1505 15.5752 30.4013 15.4065C30.292 15.4159 30.1827 15.4221 30.0765 15.4221H29.0332V13.3322L30.0765 13.3072C30.1827 13.3072 30.292 13.3103 30.4013 13.3134C32.1505 13.151 33.528 11.6733 33.528 9.87393V8.82739H35.6177L35.6271 9.87393C35.6271 11.6733 37.0077 13.151 38.76 13.3134C38.8662 13.3103 38.9755 13.3072 39.0849 13.3072H40.1313V15.394L39.0849 15.4221C38.9755 15.4221 38.8662 15.4159 38.76 15.4065C37.0077 15.5752 35.6271 17.0497 35.6271 18.8491V19.8925Z" fill="#3D3B2F"/><path d="M5.93555 27.4113L13.9132 18.408L15.6499 23.9999L17.7208 25.1433L17.9707 22.0099C17.9707 21.357 18.3018 20.2292 20.2728 19.3858C21.4535 18.8859 23.0121 18.5798 24.6583 18.5204C26.9385 18.4517 29.7934 18.8672 31.0085 20.2792L29.2718 21.7787C28.8876 21.3414 27.2196 20.7385 24.7332 20.8197C21.9439 20.9103 20.4196 21.7631 20.2447 22.1036L19.7511 28.8796L13.732 25.565L12.9261 22.9846L10.6334 25.5775L12.8636 25.7993L19.2482 32.6658L18.9859 35.3931C19.1545 35.9085 21.4535 36.9925 25.2611 36.8645C29.075 36.7395 31.3021 35.4961 31.4333 34.9807L31.021 32.4909L33.2887 32.1191L33.7323 34.8745C33.8291 37.6298 29.4436 39.0356 25.3361 39.1637C23.2277 39.2324 21.2255 38.9794 19.6762 38.4327C17.1273 37.5455 16.7088 36.1772 16.6775 35.4399L16.6869 35.2931L16.8587 33.4749L11.7735 27.9986L5.93555 27.4113Z" fill="#3D3B2F"/><path d="M34.1057 30.2664C33.8246 30.5695 33.4716 30.7725 33.0968 30.9318L32.2191 25.5461C32.8688 25.5961 33.4998 25.8023 33.9745 26.2521C34.5337 26.7707 34.846 27.4736 34.8741 28.2327C34.8991 28.9887 34.6274 29.7104 34.1057 30.2664ZM35.7831 24.3184C34.7523 23.3499 33.3748 22.8595 31.9817 22.8626C31.9817 22.8626 31.7256 22.8439 31.61 22.8563C31.5788 22.8595 31.5475 22.8532 31.5163 22.8563L31.5194 22.8782C31.1758 22.9219 30.8385 22.9532 30.4636 23.0844L29.5391 23.3937L29.6984 24.3559H29.6952L31.0228 32.4907L32.9188 32.1783L33.2624 33.6778C34.3306 33.431 35.2896 32.8781 36.0423 32.0783C38.107 29.8666 37.9946 26.3864 35.7831 24.3184Z" fill="#3D3B2F"/><path d="M29.2715 21.7791L29.6932 24.3561L31.8922 26.4145L31.0113 20.2798L29.537 20.286L29.2715 21.7791Z" fill="#3D3B2F"/></svg>
           <p class="text-sm font-semibold text-[#3D3B2F]">{{ 'product_details.care_6_title' | t }}</p>
           <p class="text-xs leading-relaxed text-[#6D6D6D]">{{ 'product_details.care_6_text' | t }}</p>
         </div>

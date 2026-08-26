@@ -1,6 +1,8 @@
 {% comment %}
-  Most Popular — "Flowers They'll Never Forget" (bg #FDF6F1).
-  Rebuild of src astro/components/sections/MostPopular.astro (pixel-by-pixel).
+  Most Popular — "Flowers They'll Never Forget" (component-based).
+  Rebuild pakai Component Library: lib-section-heading + lib-product-card +
+  lib-button — snippet yang SAMA PERSIS dengan halaman /pages/components.
+  CSS & JS library dimuat sekali oleh layout/theme.liquid untuk halaman index.
 {% endcomment %}
 {%- liquid
   assign mp_heading_default = 'most_popular.heading' | t
@@ -16,28 +18,22 @@
   assign mp_button_url = section.settings.collection.url | default: routes.all_products_collection_url
 -%}
 
-<section class="bg-[#FDF6F1] py-[50px] lg:py-[70px]">
-  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-[70px]">
-    <h2 class="text-center font-['Crimson_Text'] text-3xl font-normal text-[#3D3B2F] lg:text-[32px]">{{ mp_heading }}</h2>
-    <p class="mx-auto mt-4 max-w-[657px] text-center text-sm font-normal leading-relaxed text-[#525252]">{{ mp_subheading }}</p>
+<section class="lib-scope" style="background:var(--color-bg-alt); padding-block:50px">
+  <div class="lib-container">
+    {% render 'lib-section-heading', heading: mp_heading, subheading: mp_subheading, alt_font: true %}
 
-    <div class="mt-12 grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
-      {% for product in collections['all'].products limit: 8 %}
-        {% render 'product-card', product: product %}
+    <div class="grid grid--4" style="margin-top:var(--space-12)">
+      {% for product in collections['all'].products limit: 4 %}
+        {% render 'lib-product-card', product: product %}
       {% endfor %}
     </div>
 
-    <div class="mt-14 flex justify-center">
-      <a
-        href="{{ mp_button_url }}"
-        class="flex h-9 items-center justify-center rounded-lg bg-[#899B7A] px-[18px] text-xs font-semibold uppercase tracking-[0.5px] text-[#FDF6F1] transition-colors duration-200 hover:bg-[#7a8c6b]"
-      >
-        {{ mp_button }}
-      </a>
+    <div style="margin-top:var(--space-12); text-align:center">
+      {% render 'lib-button', href: mp_button_url, label: mp_button, variant: 'primary' %}
     </div>
   </div>
 
-  <div class="mt-14 h-px w-full bg-[#CCC8A8] lg:mt-16"></div>
+  <div style="margin-top:var(--space-12); height:1px; background:var(--color-border)"></div>
 </section>
 
 {% schema %}
@@ -60,7 +56,7 @@
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Our most-loved flower arrangements — beautiful choices that never fail to impress someone special."
+      "default": "Discover our ready-to-send bouquets, thoughtfully arranged and ready to make someone’s day."
     },
     {
       "type": "text",

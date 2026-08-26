@@ -1,47 +1,52 @@
 {% comment %}
-  FAQ — contoh implementasi Component Library (/coba) di homepage.
-  Pakai lib-faq-accordion.liquid + assets/lib-components.css/.js — komponen
-  yang SAMA PERSIS dengan yang ada di halaman /pages/components.
+  FAQ — contoh implementasi Component Library di homepage.
+  Pakai komponen asli lib-faq-accordion.liquid (sama PERSIS dengan yang
+  dirender di /pages/components) dalam mode parallel array
+  (questions/categories/answers).
 
-  Section ini BARU — tidak mengubah section homepage yang sudah ada sama
-  sekali. Reset CSS dasar di-scope ke #home-faq supaya tidak bentrok dengan
-  Tailwind (ania.css) yang dipakai section lain di halaman yang sama.
+  Semua teks lewat locale (locales/en.default.json + locales/id.json, key
+  "home_faq") — bukan hardcode di Liquid — supaya language toggle ENG/IND
+  di navbar konsisten seperti section lain. Setting "heading"/"subheading"
+  di Theme Editor tetap bisa override manual kalau perlu.
+
+  CSS & JS library dimuat SEKALI oleh layout/theme.liquid untuk halaman index —
+  tidak perlu (dan tidak boleh) di-load ulang di sini supaya lib-components.js
+  tidak mengeksekusi init dua kali (event listener ganda).
 {% endcomment %}
+{%- liquid
+  assign heading_default = 'home_faq.heading' | t
+  assign subheading_default = 'home_faq.subheading' | t
+  assign heading = section.settings.heading | default: heading_default
+  assign subheading = section.settings.subheading | default: subheading_default
 
-{{ 'lib-components.css' | asset_url | stylesheet_tag }}
+  assign faq_q1 = 'home_faq.q1_question' | t
+  assign faq_q2 = 'home_faq.q2_question' | t
+  assign faq_q3 = 'home_faq.q3_question' | t
+  assign faq_q4 = 'home_faq.q4_question' | t
+  assign faq_c1 = 'home_faq.q1_category' | t
+  assign faq_c2 = 'home_faq.q2_category' | t
+  assign faq_c3 = 'home_faq.q3_category' | t
+  assign faq_c4 = 'home_faq.q4_category' | t
+  assign faq_a1 = 'home_faq.q1_answer' | t
+  assign faq_a2 = 'home_faq.q2_answer' | t
+  assign faq_a3 = 'home_faq.q3_answer' | t
+  assign faq_a4 = 'home_faq.q4_answer' | t
+
+  assign faq_questions = faq_q1 | append: '||' | append: faq_q2 | append: '||' | append: faq_q3 | append: '||' | append: faq_q4 | split: '||'
+  assign faq_categories = faq_c1 | append: '||' | append: faq_c2 | append: '||' | append: faq_c3 | append: '||' | append: faq_c4 | split: '||'
+  assign faq_answers = faq_a1 | append: '||' | append: faq_a2 | append: '||' | append: faq_a3 | append: '||' | append: faq_a4 | split: '||'
+-%}
 
 <section id="home-faq" class="lib-scope" style="background:var(--color-bg-alt); padding-block:60px">
-  <div class="lib-container" style="max-width:1440px">
-    <h2 class="section-heading">{{ section.settings.heading | default: 'Frequently Asked Questions' }}</h2>
-    <p class="section-subheading">{{ section.settings.subheading | default: 'Semua yang perlu Anda tahu sebelum memesan bunga di ANIA.' }}</p>
+  <div class="lib-container">
+    <h2 class="section-heading">{{ heading }}</h2>
+    <p class="section-subheading">{{ subheading }}</p>
 
-    <div style="margin-top:40px">
-      {%- liquid
-        assign faq_questions = 'How Long Does Delivery Take, and How Much Will It Cost?,Bisakah saya request custom bouquet?,Apakah bunga dijamin segar sampai tujuan?,Metode pembayaran apa saja yang tersedia?' | split: ','
-        assign faq_categories = 'Delivery,Custom Order,Freshness Guarantee,Payment' | split: ','
-        assign faq_answers = 'Our delivery starts from 10 a.m. to 10 p.m. (WIB) for Same-Day Delivery. If you need flowers before 10 a.m., please complete your purchase at least one day before (D-1).,Tentu! Hubungi tim kami lewat halaman Custom Order untuk konsultasi gratis mengenai bouquet impian Anda.,Ya — setiap pesanan dipilih dan dirangkai dengan bunga segar pilihan pada hari pengiriman. Kalau ada masalah, kami ganti gratis.,Kami menerima kartu kredit/debit, transfer bank, QRIS, dan e-wallet populer melalui checkout Shopify.' | split: ','
-      -%}
-      <div class="faq-list" data-component="faq">
-        {% for question in faq_questions %}
-          <div class="faq-item{% if forloop.first %} is-open{% endif %}" data-faq-item>
-            <button type="button" class="faq-item__toggle" data-faq-toggle aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
-              <span class="faq-item__heading">
-                <span class="faq-item__question">{{ question }}</span>
-                <span class="faq-item__category">{{ faq_categories[forloop.index0] }}</span>
-              </span>
-              <span class="faq-item__icon" aria-hidden="true"></span>
-            </button>
-            <div class="faq-item__answer">
-              <div class="faq-item__answer-inner">{{ faq_answers[forloop.index0] }}</div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
+    <div style="margin-top:var(--space-10)">
+      {% render 'lib-faq-accordion', questions: faq_questions, categories: faq_categories, answers: faq_answers %}
     </div>
   </div>
 </section>
-
-{{ 'lib-components.js' | asset_url | script_tag }}
 
 {% schema %}
 {
@@ -51,13 +56,13 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Frequently Asked Questions"
+      "info": "Kosongkan untuk pakai teks default dari locale (home_faq.heading)"
     },
     {
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Semua yang perlu Anda tahu sebelum memesan bunga di ANIA."
+      "info": "Kosongkan untuk pakai teks default dari locale (home_faq.subheading)"
     }
   ],
   "presets": [

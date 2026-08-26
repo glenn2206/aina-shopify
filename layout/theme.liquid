@@ -12,6 +12,15 @@
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'ania.css' | asset_url | stylesheet_tag }}
 
+    {% comment %} {% # ANIA Component Library — dimuat SEKALI untuk halaman index (landing page).
+       Semua section homepage (main-hero, main-most-popular, main-occasions,
+       main-why-ania, main-testimonials, main-faq, main-custom-order) dibangun dari
+       snippet lib-*.liquid dan butuh CSS ini. Halaman lain yang memakai library
+       (mis. /pages/components) meng-import sendiri via section-nya. %} {% endcomment %}
+    {% if request.page_type == 'index' %}
+      {{ 'lib-components.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+
     {% # Social, title, etc. (includes charset + viewport) %}
     {% render 'meta-tags' %}
 
@@ -24,5 +33,12 @@
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
+
+    {% comment %} {% # JS Component Library — di-load di sini (sekali) untuk halaman index, BUKAN
+       per-section: lib-components.js meng-init tiap data-component pada
+       DOMContentLoaded, jadi load berulang = event listener ganda. %} {% endcomment %}
+    {% if request.page_type == 'index' %}
+      <script src="{{ 'lib-components.js' | asset_url }}" defer></script>
+    {% endif %}
   </body>
 </html>

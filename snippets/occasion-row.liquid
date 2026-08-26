@@ -51,8 +51,14 @@
         {%- endfor -%}
 
         {%- if match_count == 0 -%}
-          {%- comment %} Nothing tagged for this occasion yet — show real products anyway rather than an empty row. {% endcomment -%}
-          {%- for product in collections.all.products limit: 3 -%}
+          {%- comment %}
+            Nothing tagged for this occasion yet — show real products anyway
+            rather than an empty row. Limit 9 (bukan 3) supaya pagination
+            tetap muncul & FUNGSIONAL (3 halaman produk asli) sampai
+            produk-produk beneran di-tag Occasion-nya nanti — bukan cuma 1
+            halaman yang bikin pagination-nya disembunyikan (pages <= 1).
+          {% endcomment -%}
+          {%- for product in collections.all.products limit: 9 -%}
             <div data-row-card>{% render 'product-card', product: product %}</div>
           {%- endfor -%}
         {%- endif -%}

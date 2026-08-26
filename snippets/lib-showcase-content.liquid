@@ -256,10 +256,26 @@
     {% comment %} ============ PAGINATION ============ {% endcomment %}
     <section id="pagination" style="padding-block:var(--space-12); border-bottom:1px solid var(--color-border-soft)">
       <h2 style="font-family:var(--font-heading); font-size:1.75rem; color:var(--color-heading); margin-bottom:var(--space-2)">Pagination</h2>
-      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-8)"><code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">lib-pagination.liquid</code> — teaser style</p>
+      <p style="font-size:0.875rem; color:var(--color-muted); margin-bottom:var(--space-4)"><code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">lib-pagination.liquid</code> — reload halaman (link ?page=N)</p>
       <div style="margin-bottom:var(--space-8)">
         {% render 'lib-pagination', current: 1, total: 3, base_url: routes.root_url %}
       </div>
+
+      <h3 style="font-size:1rem; margin-bottom:var(--space-4); color:var(--color-heading)">Pagination (client-side) — <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px; font-size:0.8em">lib-pagination-client.liquid</code></h3>
+      <p style="font-size:0.8125rem; color:var(--color-muted); margin-bottom:var(--space-4)">Dipakai di panel "Find the Perfect Flowers for Every Moment" — klik nomor/panah TIDAK reload halaman, cuma switch tampilan set kartu (lihat di section aslinya di homepage). Coba klik, teks di bawah ikut berubah:</p>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:var(--space-3); margin-bottom:var(--space-8)" data-component="pagination">
+        <p data-pagination-demo-text style="font-size:0.875rem; color:var(--color-text)">Menampilkan set kartu <strong>1</strong> dari 3</p>
+        {% render 'lib-pagination-client', total: 3 %}
+      </div>
+      <script>
+        (() => {
+          const root = document.currentScript.previousElementSibling;
+          root?.addEventListener('pagination:change', (e) => {
+            const el = document.querySelector('[data-pagination-demo-text]');
+            if (el) el.innerHTML = `Menampilkan set kartu <strong>${e.detail.index + 1}</strong> dari 3`;
+          });
+        })();
+      </script>
 
       <h3 style="font-size:1rem; margin-bottom:var(--space-4); color:var(--color-heading)">Pagination Bar — <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px; font-size:0.8em">lib-pagination-bar.liquid</code></h3>
       <p style="font-size:0.8125rem; color:var(--color-muted); margin-bottom:var(--space-4)">Butuh Shopify <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">paginate</code> object (dari <code style="background:var(--color-bg-alt); padding:2px 6px; border-radius:4px">{% raw %}{% paginate %}{% endraw %}</code>) — biasanya dipasang di halaman koleksi, bukan halaman statis seperti ini. Contoh visual (markup sama persis, data statis):</p>

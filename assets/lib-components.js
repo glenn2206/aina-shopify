@@ -178,6 +178,40 @@ function initSearchOverlay(root) {
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) close(); });
 }
 
+// --- Pagination (client-side, tanpa reload — dipakai di panel kurasi
+// mis. "Find the Perfect Flowers for Every Moment") ---
+// Klik nomor/panah cuma ubah state (aktif + disabled) & dispatch custom
+// event 'pagination:change' { index } — komponen lain (grid kartu, dll)
+// tinggal dengar event ini di root yang sama untuk tampilkan halamannya.
+function initPagination(root) {
+  const items = Array.from(root.querySelectorAll('[data-pagination-index]'));
+  const prevBtn = root.querySelector('[data-pagination-prev]');
+  const nextBtn = root.querySelector('[data-pagination-next]');
+  if (!items.length) return;
+
+  const total = items.length;
+  let current = items.findIndex((el) => el.classList.contains('pagination__item--current'));
+  if (current < 0) current = 0;
+
+  const render = () => {
+    items.forEach((el, i) => el.classList.toggle('pagination__item--current', i === current));
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current === total - 1;
+    root.dispatchEvent(new CustomEvent('pagination:change', { detail: { index: current } }));
+  };
+
+  const goTo = (idx) => {
+    current = Math.max(0, Math.min(total - 1, idx));
+    render();
+  };
+
+  items.forEach((el, i) => el.addEventListener('click', () => goTo(i)));
+  prevBtn?.addEventListener('click', () => goTo(current - 1));
+  nextBtn?.addEventListener('click', () => goTo(current + 1));
+
+  render();
+}
+
 // --- Mobile nav toggle ---
 function initNavToggle(root) {
   const toggle = root.querySelector('[data-nav-toggle]');
@@ -201,4 +235,5 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-component="navbar"]').forEach(initSearchOverlay);
   document.querySelectorAll('[data-component="filter-sidebar"]').forEach(initFilterSidebar);
   document.querySelectorAll('[data-component="faq"]').forEach(initFaq);
+  document.querySelectorAll('[data-component="pagination"]').forEach(initPagination);
 });

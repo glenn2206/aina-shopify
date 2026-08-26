@@ -1,14 +1,47 @@
 {% comment %}
   [Component Library] Feature Card snippet (mis. section "Why Ania?")
   Params:
+    decor     — pola ornamen dekoratif di atas ikon:
+                'single' | 'pair' | 'grid' | 'grid-all' (optional, default: 'single')
     icon_svg  — raw SVG markup untuk ikon (required)
     title     — judul (required)
     text      — deskripsi (required)
   Usage:
     {% capture icon %}<svg width="42" height="42" ...>...</svg>{% endcapture %}
-    {% render 'lib-feature-card', icon_svg: icon, title: 'Happy Customer Guarantee', text: '...' %}
+    {% render 'lib-feature-card', icon_svg: icon, title: '...', text: '...' %}
+    {% render 'lib-feature-card', decor: 'grid-all', icon_svg: icon, title: '...', text: '...' %}
 {% endcomment %}
+
+{%- assign decor_pattern = decor | default: 'single' -%}
+
+{% comment %} Path ornamen (swash) dipakai ulang; varian hanya beda transform mirror. {% endcomment %}
+{%- capture decor_path -%}
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.55097 11.249C3.78766 12.4858 5.41551 13.0847 7.03319 13.0498C9.23001 13.0023 13.083 13.0368 13.083 13.0368C13.083 13.0368 13.0492 9.13862 13.0509 6.90361C13.0521 5.3286 12.4524 3.75392 11.2486 2.55041C8.84904 0.149967 4.95053 0.149967 2.55097 2.54979C0.147081 4.95394 0.151408 8.84917 2.55097 11.249Z" stroke="#CCC8A8" stroke-width="1.5" stroke-linecap="round"/>
+{%- endcapture -%}
+{%- capture decor_path_h -%}
+  {{ decor_path | replace: 'stroke-linecap="round"/>', 'stroke-linecap="round" transform="translate(28, 0) scale(-1, 1)"/>' }}
+{%- endcapture -%}
+{%- capture decor_path_v -%}
+  {{ decor_path | replace: 'stroke-linecap="round"/>', 'stroke-linecap="round" transform="translate(0, 28) scale(1, -1)"/>' }}
+{%- endcapture -%}
+{%- capture decor_path_hv -%}
+  {{ decor_path | replace: 'stroke-linecap="round"/>', 'stroke-linecap="round" transform="translate(28, 28) scale(-1, -1)"/>' }}
+{%- endcapture -%}
+
 <div class="feature-card">
+  <span class="feature-card__decor" aria-hidden="true">
+    {% case decor_pattern %}
+      {% when 'pair' %}
+        <svg width="28" height="14" viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">{{ decor_path }}{{ decor_path_h }}</svg>
+      {% when 'grid' %}
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">{{ decor_path }}{{ decor_path_h }}{{ decor_path_v }}</svg>
+      {% when 'grid-all' %}
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">{{ decor_path }}{{ decor_path_h }}{{ decor_path_v }}{{ decor_path_hv }}</svg>
+      {% else %}
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">{{ decor_path }}</svg>
+    {% endcase %}
+  </span>
+
   <span class="feature-card__icon">{{ icon_svg }}</span>
   <h3 class="feature-card__title">{{ title }}</h3>
   <p class="feature-card__text">{{ text }}</p>

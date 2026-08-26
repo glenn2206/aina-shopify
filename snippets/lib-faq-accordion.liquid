@@ -1,23 +1,46 @@
 {% comment %}
   [Component Library] FAQ Accordion snippet
-  Params:
-    faqs — array of objects with .question, .category, .answer
-  Usage:
-    {% render 'lib-faq-accordion', faqs: faq_array %}
+  Params — pilih salah satu mode:
+  A) faqs — array of objects dengan .question, .category, .answer
+     {% render 'lib-faq-accordion', faqs: faq_array %}
+  B) questions — array string pertanyaan (required)
+     categories — array string kategori, index sama (optional)
+     answers    — array string jawaban, index sama (required)
+     {% render 'lib-faq-accordion', questions: q_arr, categories: c_arr, answers: a_arr %}
+  Mode B dipakai kalau datanya hardcoded di section (Liquid tidak bisa membuat
+  array of objects), sehingga markup tetap 100% dari komponen ini.
 {% endcomment %}
 <div class="faq-list" data-component="faq">
-  {% for faq in faqs %}
-    <div class="faq-item{% if forloop.first %} is-open{% endif %}" data-faq-item>
-      <button type="button" class="faq-item__toggle" data-faq-toggle aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
-        <span class="faq-item__heading">
-          <span class="faq-item__question">{{ faq.question }}</span>
-          {% if faq.category %}<span class="faq-item__category">{{ faq.category }}</span>{% endif %}
-        </span>
-        <span class="faq-item__icon" aria-hidden="true"></span>
-      </button>
-      <div class="faq-item__answer">
-        <div class="faq-item__answer-inner">{{ faq.answer }}</div>
+  {% if faqs %}
+    {% for faq in faqs %}
+      <div class="faq-item{% if forloop.first %} is-open{% endif %}" data-faq-item>
+        <button type="button" class="faq-item__toggle" data-faq-toggle aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+          <span class="faq-item__heading">
+            <span class="faq-item__question">{{ faq.question }}</span>
+            {% if faq.category %}<span class="faq-item__category">{{ faq.category }}</span>{% endif %}
+          </span>
+          <span class="faq-item__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-item__answer">
+          <div class="faq-item__answer-inner">{{ faq.answer }}</div>
+        </div>
       </div>
-    </div>
-  {% endfor %}
+    {% endfor %}
+  {% else %}
+    {% for question in questions %}
+      {%- assign faq_i = forloop.index0 -%}
+      <div class="faq-item{% if forloop.first %} is-open{% endif %}" data-faq-item>
+        <button type="button" class="faq-item__toggle" data-faq-toggle aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+          <span class="faq-item__heading">
+            <span class="faq-item__question">{{ question }}</span>
+            {% if categories %}<span class="faq-item__category">{{ categories[faq_i] }}</span>{% endif %}
+          </span>
+          <span class="faq-item__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-item__answer">
+          <div class="faq-item__answer-inner">{{ answers[faq_i] }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
 </div>

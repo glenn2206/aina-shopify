@@ -72,8 +72,70 @@
       {% render 'occasion-row', row_id: 'sympathy', eyebrow: row_sympathy_eyebrow, heading: row_sympathy_heading, occasion: 'Sympathy' %}
       {% render 'occasion-row', row_id: 'get-well-soon', eyebrow: row_get_well_eyebrow, heading: row_get_well_heading, occasion: 'Get Well Soon' %}
     </div>
+
+    
+    {% comment %} You may also like {% endcomment %}
+    <section class="mt-20 lg:mt-28">
+      <h2 class="text-center font-['Crimson_Text'] text-3xl text-[#3D3B2F]">{{ 'Add On Cute Extras to Your Bouquet!' }}</h2>
+      <div class="mt-10 grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+        {% assign addon_count = 0 %}
+        {% for product in collections['all'].products %}
+          {% if product.category.name contains 'Add-on' or product.category.name contains 'Customization' %}
+          {% if addon_count < 4 %}
+            <div
+              style="display: flex; flex-direction: column; justify-content: space-between; padding: 15px; border: 1px solid {{ card_border_color | default: '#E0E0E0' }}; border-radius: 8px; min-height: 382px; background: transparent; box-sizing: border-box;"
+              {{ block.shopify_attributes }}>
+              {%- comment -%} Gambar Produk {%- endcomment -%}
+              <div
+                style="width: 100%; aspect-ratio: 1/1; border-radius: 8px; overflow: hidden; background-color: #EBE8D8; margin-bottom: 16px;">
+                {%- assign featured_img = product.featured_image | default: product.images.first -%}
+                {% if featured_img != blank %}
+                <img src="{{ featured_img | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy"
+                  style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                <div
+                  style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #8C886B; font-family: sans-serif;">
+                  {{ product.title | default: 'Add-on' }}
+                </div>
+                {% endif %}
+              </div>
+      
+              {%- comment -%} Detail Produk & Tombol {%- endcomment -%}
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%;">
+                <div>
+                  <h3
+                    style="color: {{ title_font_color | default: '#1E2934' }}; font-family: 'Crimson Text', serif; font-size: 20px; font-weight: 400; margin: 0 0 4px 0;">
+                    {{ product.title }}
+                  </h3>
+                  <span style="color: #1E2934; font-family: 'Open Sans', sans-serif; font-size: 16px;">
+                    {{ product.price | money }}
+                  </span>
+                </div>
+      
+                {%- comment -%} Tombol Add to Cart / Select Variant {%- endcomment -%}
+                {% assign current_variant = product.selected_or_first_available_variant %}
+                <button type="button" class="js-add-addon-btn" data-variant-id="{{ current_variant.id }}" {% unless
+                  product.available %}disabled{% endunless %}
+                  style="width: 24px; height: 24px; border-radius: 50%; background-color: {% if product.available %}#CCC8A8{% else %}#E0E0E0{% endif %}; border: none; color: white; display: flex; align-items: center; justify-content: center; cursor: {% if product.available %}pointer{% else %}not-allowed{% endif %}; opacity: {% if product.available %}1{% else %}0.5{% endif %}; padding: 0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 5v14m-7-7h14" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          {% assign addon_count = addon_count | plus: 1 %}
+          {% else %}
+            {% break %} {% comment %} Hentikan loop jika sudah mencapai 3 produk {% endcomment %}
+          {% endif %}
+  
+  
+        {% endif %}
+        {% endfor %}
+      </div>
+    </section>
   </div>
 </section>
+
 
 {% comment %} 3. Who Are You Sending Flowers To? {% endcomment %}
 <section class="bg-[#FAFAF2] pb-[60px] lg:pb-[90px]">

@@ -304,7 +304,9 @@
     "flowers": "Bunga",
     "grid_label": "Grid produk",
     "whatsapp_label": "Chat WhatsApp",
-    "showing_html": "Menampilkan {shown} dari {total} produk"
+    "showing_html": "Menampilkan {shown} dari {total} produk",
+    "pagination_prev": "Halaman sebelumnya",
+    "pagination_next": "Halaman berikutnya"
   },
   "product_details": {
     "description": "Deskripsi",
@@ -352,6 +354,22 @@
     "sale": "Diskon",
     "sold_out": "Habis",
     "flowers": "Bunga"
+  },
+  "home_faq": {
+    "heading": "Pertanyaan yang Sering Diajukan",
+    "subheading": "Semua yang perlu Anda tahu sebelum memesan bunga di ANIA.",
+    "q1_question": "Berapa Lama Waktu Pengiriman, dan Berapa Biayanya?",
+    "q1_category": "Pengiriman",
+    "q1_answer": "Pengiriman kami mulai pukul 10.00–22.00 WIB untuk layanan Same-Day Delivery. Jika bunga dibutuhkan sebelum jam 10 pagi, selesaikan pembelian minimal H-1.",
+    "q2_question": "Bisakah saya request custom bouquet?",
+    "q2_category": "Custom Order",
+    "q2_answer": "Tentu! Hubungi tim kami lewat halaman Custom Order untuk konsultasi gratis mengenai bouquet impian Anda.",
+    "q3_question": "Apakah bunga dijamin segar sampai tujuan?",
+    "q3_category": "Jaminan Kesegaran",
+    "q3_answer": "Ya — setiap pesanan dipilih dan dirangkai dengan bunga segar pilihan pada hari pengiriman. Kalau ada masalah, kami ganti gratis.",
+    "q4_question": "Metode pembayaran apa saja yang tersedia?",
+    "q4_category": "Pembayaran",
+    "q4_answer": "Kami menerima kartu kredit/debit, transfer bank, QRIS, dan e-wallet populer melalui checkout Shopify."
   },
   "about_page": {
     "hero_subheading": "Siapa Kami?",

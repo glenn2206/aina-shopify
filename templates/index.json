@@ -21,16 +21,16 @@
       "type": "main-occasions",
       "settings": {}
     },
+    "main-personalize": {
+      "type": "main-personalize",
+      "settings": {}
+    },
     "main-why-ania": {
       "type": "main-why-ania",
       "settings": {}
     },
     "main-testimonials": {
       "type": "main-testimonials",
-      "settings": {}
-    },
-    "main-faq": {
-      "type": "main-faq",
       "settings": {}
     },
     "main-custom-order": {
@@ -42,10 +42,10 @@
     "main-hero",
     "main-most-popular",
     "main-occasions",
+    "main-personalize",
     "main-why-ania",
     "main-testimonials",
-    "main-faq",
-    "main-custom-order"
+    "main-custom-order",
   ]
 }
 
